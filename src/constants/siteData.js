@@ -3,6 +3,7 @@ export const navItems = [
  { label: 'Courses', path: '/courses' },
  { label: 'Programs', path: '/programs' },
  { label: 'About', path: '/about' },
+ { label: 'Blog', path: '/blog' },
  { label: 'Contact', path: '/contact' },
 ]
 

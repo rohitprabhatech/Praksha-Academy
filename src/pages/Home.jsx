@@ -1,7 +1,8 @@
 import { Button, Grid, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
-import { heroHighlights, courseCategories, programHighlights, testimonialData } from '../constants/siteData'
+import { courseCategories, programHighlights, testimonialData } from '../constants/siteData'
 import SectionHeader from '../components/common/SectionHeader'
 import FeatureCard from '../components/common/FeatureCard'
 
@@ -20,6 +21,17 @@ function Home() {
        </Typography>
        <Button variant="contained" color="primary" size="large" endIcon={<FiArrowRight />}>
         Explore Courses
+       </Button>
+       <Button
+        variant="outlined"
+        color="primary"
+        size="large"
+        component={Link}
+        to="/blog"
+        endIcon={<FiArrowRight />}
+        sx={{ ml: { xs: 0, sm: 2 }, mt: { xs: 2, sm: 0 } }}
+       >
+        Read Blog
        </Button>
       </Grid>
       <Grid item xs={12} lg={6}>

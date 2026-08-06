@@ -4,6 +4,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import Navbar from '../components/navigation/Navbar'
 import Footer from '../components/navigation/Footer'
+import ScrollTop from '../components/common/ScrollTop'
 
 function MainLayout() {
  useEffect(() => {
@@ -16,6 +17,7 @@ function MainLayout() {
    <main className="main-content">
     <Outlet />
    </main>
+   <ScrollTop />
    <Footer />
   </div>
  )

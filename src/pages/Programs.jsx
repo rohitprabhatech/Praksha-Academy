@@ -1,4 +1,4 @@
-import { Typography, List, ListItem, ListItemText } from '@mui/material'
+import { Typography } from '@mui/material'
 import SectionHeader from '../components/common/SectionHeader'
 
 const programs = [

@@ -39,8 +39,9 @@ const theme = createTheme({
    lineHeight: 1.7,
   },
   button: {
+   fontSize: '1rem',
    textTransform: 'none',
-   fontWeight: 700,
+   fontWeight: 800,
   },
  },
  shape: {
@@ -52,7 +53,9 @@ const theme = createTheme({
    styleOverrides: {
     root: {
      borderRadius: 999,
-     padding: '0.9rem 1.8rem',
+     fontWeight: 800,
+     padding: '1rem 2rem',
+     minHeight: 46,
     },
    },
   },

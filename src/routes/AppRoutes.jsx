@@ -1,3 +1,5 @@
+import Blog from "../pages/Blog";
+import BlogDetails from "../pages/BlogDetails";
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
@@ -10,12 +12,14 @@ import NotFound from '../pages/NotFound'
 function AppRoutes() {
  return (
   <Routes>
-   <Route element={<MainLayout />}>
-    <Route path="/" element={<Home />} />
-    <Route path="/courses" element={<Courses />} />
-    <Route path="/programs" element={<Programs />} />
-    <Route path="/about" element={<About />} />
-    <Route path="/contact" element={<Contact />} />
+    <Route element={<MainLayout />}>
+     <Route path="/" element={<Home />} />
+     <Route path="/courses" element={<Courses />} />
+     <Route path="/programs" element={<Programs />} />
+     <Route path="/about" element={<About />} />
+     <Route path="/contact" element={<Contact />} />
+     <Route path="/blog" element={<Blog />} />
+     <Route path="/blog/:id" element={<BlogDetails />} />
    </Route>
    <Route path="*" element={<NotFound />} />
   </Routes>
