@@ -2,7 +2,7 @@ import { Box, Stack, Typography, Link as MuiLink } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';
 import { FiBookOpen, FiShield, FiClock, FiLock, FiHelpCircle } from 'react-icons/fi';
-import ForgotPasswordForm from '../../components/auth/ForgotPasswordForm';
+import ForgotPasswordForm from "../../components/auth/ForgotPasswordForm";
 
 const RECOVERY_POINTS = [
   { title: 'Secure password reset', description: 'Encrypted, one-time reset link', icon: FiShield },

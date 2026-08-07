@@ -2,7 +2,7 @@ import { Box, Stack, Typography, Link as MuiLink } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';
 import { FiBookOpen, FiShield, FiClock, FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
-import VerifyOtpForm from '../../components/auth/VerifyOtpForm';
+import VerifyOtpForm from "../../components/auth/VerifyOtpForm";
 
 const VERIFY_POINTS = [
   { title: 'One-time code', description: 'Sent only to your registered email', icon: FiShield },

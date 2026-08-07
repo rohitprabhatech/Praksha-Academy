@@ -2,7 +2,7 @@ import { Box, Stack, Typography, Link as MuiLink } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';
 import { FiBookOpen, FiCheck, FiTrendingUp } from 'react-icons/fi';
-import RegisterForm from '../../components/auth/RegisterForm';
+import RegisterForm from "../../components/auth/RegisterForm";
 
 const FEATURE_CARDS = [
   { title: 'Live Classes', description: 'Interactive mentor-led sessions' },
