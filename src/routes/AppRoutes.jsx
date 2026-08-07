@@ -7,6 +7,11 @@ import About from '../pages/About'
 import Contact from '../pages/Contact'
 import NotFound from '../pages/NotFound'
 
+import Login from "../pages/auth/Login";
+import Signup from "../pages/auth/Register";
+import ForgotPassword from '../pages/auth/ForgotPassword'
+import VerifyOtp from '../pages/auth/VerifyOtp'
+
 function AppRoutes() {
  return (
   <Routes>
@@ -17,6 +22,12 @@ function AppRoutes() {
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
    </Route>
+
+   <Route path="/login" element={<Login />} />
+   <Route path="/register" element={<Signup />} />
+   <Route path="/forgot-password" element={<ForgotPassword />} />
+   <Route path="/verify-otp" element={<VerifyOtp />} />
+
    <Route path="*" element={<NotFound />} />
   </Routes>
  )
