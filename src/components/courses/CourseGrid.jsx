@@ -1,8 +1,21 @@
 import { FiRotateCcw, FiSearch } from 'react-icons/fi'
 import CourseCard from './CourseCard'
+import CourseCardSkeleton from './CourseCardSkeleton'
 import './CourseGrid.css'
 
-function CourseGrid({ courses, searchTerm, selectedCategory, onClearFilters }) {
+function CourseGrid({ courses, searchTerm, selectedCategory, onClearFilters, isLoading = false, skeletonCount = 6 }) {
+ if (isLoading) {
+  return (
+   <div className="row g-4">
+    {Array.from({ length: skeletonCount }, (_, index) => (
+     <div className="col-12 col-md-6 col-lg-4" key={index}>
+      <CourseCardSkeleton />
+     </div>
+    ))}
+   </div>
+  )
+ }
+
  if (courses.length === 0) {
   const searchText = searchTerm.trim()
   const categoryText = selectedCategory !== 'All Categories' ? selectedCategory : ''
@@ -36,7 +49,7 @@ function CourseGrid({ courses, searchTerm, selectedCategory, onClearFilters }) {
 
     <button type="button" className="course-empty-reset" onClick={onClearFilters}>
      <FiRotateCcw aria-hidden="true" />
-     Reset filters
+     {searchText && !categoryText ? 'Clear Search' : 'Reset Filters'}
     </button>
    </div>
   )

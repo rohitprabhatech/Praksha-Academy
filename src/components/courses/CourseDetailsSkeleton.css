@@ -1,0 +1,27 @@
+.course-details-skeleton-page .MuiSkeleton-root {
+ background-color: rgba(203, 213, 225, 0.45);
+}
+
+.course-details-skeleton-line {
+ margin-bottom: 32px;
+}
+
+.course-details-skeleton-stats {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 12px;
+ margin-top: 22px;
+}
+
+.course-details-skeleton-image {
+ aspect-ratio: 16 / 9;
+ background: #f1f5f9;
+}
+
+.course-details-skeleton-centered {
+ margin: 14px auto 0;
+}
+
+.course-details-skeleton-section + .course-details-skeleton-section {
+ margin-top: 24px;
+}

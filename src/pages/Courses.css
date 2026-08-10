@@ -202,6 +202,15 @@
  font-weight: 600;
 }
 
+.recently-viewed-section {
+ padding: 48px 0 72px;
+ background: #f1f5f9;
+}
+
+.recently-viewed-section .course-section-header {
+ margin-bottom: 24px;
+}
+
 @media (max-width: 767.98px) {
  .courses-hero {
   padding: 60px 0 64px;
@@ -232,6 +241,10 @@
 
  .courses-summary {
   justify-content: flex-start;
+ }
+
+ .recently-viewed-section {
+  padding: 40px 0 56px;
  }
 
  .courses-clear-button {

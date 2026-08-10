@@ -5,6 +5,7 @@ import CourseGrid from '../components/courses/CourseGrid'
 import CoursePagination from '../components/courses/CoursePagination'
 import SortSelect from '../components/courses/SortSelect'
 import courses from '../data/courses'
+import useRecentlyViewedCourses from '../hooks/useRecentlyViewedCourses'
 import './Courses.css'
 
 const coursesPerPage = 6
@@ -62,7 +63,9 @@ function Courses() {
  const [selectedCategory, setSelectedCategory] = useState('All Categories')
  const [selectedSort, setSelectedSort] = useState('popular')
  const [currentPage, setCurrentPage] = useState(1)
+ const [isLoading] = useState(false)
  const resultsRef = useRef(null)
+ const { recentlyViewedIds } = useRecentlyViewedCourses()
 
  const visibleCourses = useMemo(() => {
   const searchedCourses = getSearchedCourses(courses, searchTerm)
@@ -77,6 +80,13 @@ function Courses() {
  const showingStart = visibleCourses.length === 0 ? 0 : pageStartIndex + 1
  const showingEnd = Math.min(pageStartIndex + paginatedCourses.length, visibleCourses.length)
  const hasActiveFilters = Boolean(searchTerm.trim() || selectedCategory !== 'All Categories')
+ const recentlyViewedCourses = useMemo(
+  () =>
+   recentlyViewedIds
+    .map((courseId) => courses.find((course) => (course.slug || String(course.id)) === courseId))
+    .filter(Boolean),
+  [recentlyViewedIds],
+ )
 
  useEffect(() => {
   if (currentPage > Math.max(totalPages, 1)) {
@@ -190,11 +200,30 @@ function Courses() {
       searchTerm={searchTerm}
       selectedCategory={selectedCategory}
       onClearFilters={clearFilters}
-     />
+      isLoading={isLoading}
+      />
 
-     <CoursePagination page={currentPage} count={totalPages} onChange={handlePageChange} />
+     {!isLoading && <CoursePagination page={currentPage} count={totalPages} onChange={handlePageChange} />}
     </div>
    </section>
+
+   {recentlyViewedCourses.length > 0 && (
+    <section className="recently-viewed-section" aria-labelledby="recently-viewed-title">
+     <div className="container">
+      <div className="course-section-header">
+       <span>Recent Activity</span>
+       <h2 id="recently-viewed-title">Recently Viewed</h2>
+      </div>
+
+      <CourseGrid
+       courses={recentlyViewedCourses}
+       searchTerm=""
+       selectedCategory="All Categories"
+       onClearFilters={clearFilters}
+      />
+     </div>
+    </section>
+   )}
   </div>
  )
 }

@@ -1,13 +1,16 @@
 import { Button } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
  FiBookOpen,
  FiClock,
+ FiHeart,
  FiStar,
  FiTrendingUp,
  FiUsers,
 } from 'react-icons/fi'
 import CourseFAQ from '../components/courses/CourseFAQ'
+import CourseDetailsSkeleton from '../components/courses/CourseDetailsSkeleton'
 import CourseOverview from '../components/courses/CourseOverview'
 import Curriculum from '../components/courses/Curriculum'
 import InstructorSection from '../components/courses/InstructorSection'
@@ -15,6 +18,8 @@ import LearningOutcomes from '../components/courses/LearningOutcomes'
 import RelatedCourses from '../components/courses/RelatedCourses'
 import ReviewsSection from '../components/courses/ReviewsSection'
 import courses from '../data/courses'
+import useRecentlyViewedCourses from '../hooks/useRecentlyViewedCourses'
+import useWishlist from '../hooks/useWishlist'
 import './CourseDetails.css'
 
 function formatPrice(price) {
@@ -23,7 +28,20 @@ function formatPrice(price) {
 
 function CourseDetails() {
  const { slug } = useParams()
+ const [isLoading] = useState(false)
  const course = courses.find((courseItem) => courseItem.slug === slug || courseItem.aliases?.includes(slug))
+ const { addRecentlyViewedCourse } = useRecentlyViewedCourses()
+ const { isWishlisted, toggleWishlist } = useWishlist()
+
+ useEffect(() => {
+  if (course) {
+   addRecentlyViewedCourse(course.slug || String(course.id))
+  }
+ }, [addRecentlyViewedCourse, course])
+
+ if (isLoading) {
+  return <CourseDetailsSkeleton />
+ }
 
  if (!course) {
   return (
@@ -44,6 +62,8 @@ function CourseDetails() {
 
  const savings = course.originalPrice - course.price
  const discountPercent = Math.round((savings / course.originalPrice) * 100)
+ const courseIdentifier = course.slug || String(course.id)
+ const isSaved = isWishlisted(courseIdentifier)
 
  return (
   <div className="course-details-page">
@@ -116,6 +136,18 @@ function CourseDetails() {
 
          <Button component={Link} to="/contact" variant="contained" fullWidth className="course-primary-cta">
           Start Learning
+         </Button>
+
+         <Button
+          type="button"
+          variant="outlined"
+          fullWidth
+          className={`course-save-cta${isSaved ? ' is-saved' : ''}`}
+          onClick={() => toggleWishlist(courseIdentifier)}
+          startIcon={<FiHeart aria-hidden="true" />}
+          aria-pressed={isSaved}
+         >
+          {isSaved ? 'Saved to Wishlist' : 'Save Course'}
          </Button>
 
          <p className="course-supporting-text">Includes guided lessons, practice activities and learner support.</p>
