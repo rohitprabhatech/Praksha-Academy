@@ -1,69 +1,104 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import AboutHero from "../components/about/AboutHero";
-import FounderMessage from "../components/about/FounderMessage";
+import TrustStrip from "../components/about/TrustStrip";
+import WhoWeAre from "../components/about/WhoWeAre";
+import Differentiators from "../components/about/Differentiators";
+import LearningPhilosophy from "../components/about/LearningPhilosophy";
+import StudentJourney from "../components/about/StudentJourney";
+import LearningEnvironment from "../components/about/LearningEnvironment";
 import Mission from "../components/about/Mission";
 import Vision from "../components/about/Vision";
 import Values from "../components/about/Values";
-import Timeline from "../components/about/Timeline";
-import Statistics from "../components/about/Statistics";
-import Team from "../components/about/Team";
+import Faculty from "../components/about/Faculty";
+import AcademyTimeline from "../components/about/AcademyTimeline";
 import Recognition from "../components/about/Recognition";
+import AboutFAQ from "../components/about/AboutFAQ";
 import CTASection from "../components/about/CTASection";
 import FloatingContact from "../components/common/FloatingContact";
+import SectionHeading from "../components/common/SectionHeading";
+import aboutData from "../data/aboutData";
 import { colors } from "../theme/theme";
 import "../styles/about-contact.css";
 
-const SectionHeading = ({ eyebrow, title, subtitle }) => (
-  <div className="row justify-content-center text-center mb-5">
-    <div className="col-lg-7">
-      <Typography
-        variant="overline"
-        sx={{ color: colors.primaryBlue, fontWeight: 600, letterSpacing: 1.5 }}
-      >
-        {eyebrow}
-      </Typography>
-      <Typography variant="h3" sx={{ color: colors.textPrimary, mt: 1, mb: 2, fontSize: { xs: "1.75rem", md: "2.25rem" } }}>
-        {title}
-      </Typography>
-      {subtitle && (
-        <Typography variant="body1" sx={{ color: colors.textSecondary }}>
-          {subtitle}
-        </Typography>
-      )}
-    </div>
-  </div>
-);
-
+/**
+ * About page. Sections that depend on unconfirmed data (Statistics,
+ * AcademyTimeline, Recognition) hide themselves automatically when their
+ * backing data in aboutData.js is empty — no placeholder/fake content
+ * ever reaches the page.
+ */
 const About = () => {
+  const hasTimeline = aboutData.timeline.length > 0;
+  const hasRecognition = aboutData.recognition.length > 0;
+
   return (
+    // TODO(SEO): set document title/meta description for this route.
+    // React 19 supports rendering <title>/<meta> directly in JSX; on older
+    // React versions use the project's existing helmet/head solution
+    // instead — check how Home/Courses currently set their <title> and
+    // match that pattern here rather than introducing a new one.
     <Box sx={{ backgroundColor: colors.pageBackground, position: "relative" }}>
       <AboutHero />
+      <TrustStrip />
 
-      {/* Achievements — placed high, right after hero, PW/Udemy-style scale signal */}
-      <Statistics />
-
-      {/* Founder's Note */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 } }}>
+      {/* Who We Are */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
         <div className="container">
-          <SectionHeading
-            eyebrow="From The Founder"
-            title="Why We Started Praksha Academy"
-          />
+          <WhoWeAre />
+        </div>
+      </Box>
+
+      {/* What Makes Us Different */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 }, backgroundColor: colors.sectionBackground }}>
+        <div className="container">
+          <SectionHeading eyebrow="How We Work" title="What Makes Praksha Academy Different" />
           <div className="row justify-content-center">
-            <div className="col-lg-10">
-              <FounderMessage />
+            <div className="col-lg-9">
+              <Differentiators />
             </div>
           </div>
         </div>
       </Box>
 
-      {/* Mission & Vision */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 }, backgroundColor: colors.sectionBackground }}>
+      {/* Learning Philosophy */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
         <div className="container">
           <SectionHeading
-            eyebrow="What Drives Us"
-            title="Mission & Vision"
+            eyebrow="Our Teaching Model"
+            title="How Students Learn Here"
+            subtitle="The same loop runs through every course, from Class 8 fundamentals to career tracks."
           />
+          <LearningPhilosophy />
+        </div>
+      </Box>
+
+      {/* Student Journey */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 }, backgroundColor: colors.sectionBackground }}>
+        <div className="container">
+          <SectionHeading eyebrow="From Sign-Up to Progress" title="The Student Journey" />
+          <div className="row justify-content-center">
+            <div className="col-lg-7">
+              <StudentJourney />
+            </div>
+          </div>
+        </div>
+      </Box>
+
+      {/* Learning Environment — what taking a course here actually looks like */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
+        <div className="container">
+          <SectionHeading
+            eyebrow="Inside a Course"
+            title="What Learning Feels Like Here"
+            subtitle="Four concrete parts of every course — not just a features list."
+          />
+          <LearningEnvironment />
+        </div>
+      </Box>
+
+      {/* Mission & Vision */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
+        <div className="container">
+          <SectionHeading eyebrow="What Drives Us" title="Mission & Vision" />
           <div className="row g-4">
             <div className="col-md-6">
               <Mission />
@@ -76,58 +111,63 @@ const About = () => {
       </Box>
 
       {/* Core Values */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 } }}>
+      <Box component="section" sx={{ py: { xs: 7, md: 10 }, backgroundColor: colors.sectionBackground }}>
         <div className="container">
           <SectionHeading
-            eyebrow="How We Work"
-            title="Our Core Values"
-            subtitle="The principles that guide every course we build and every class we teach."
+            eyebrow="Our Principles"
+            title="Core Values"
+            subtitle="What guides how courses are built and how classes are taught."
           />
           <Values />
         </div>
       </Box>
 
-      {/* Our Journey */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 }, backgroundColor: colors.sectionBackground }}>
+      {/* Faculty */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
         <div className="container">
-          <SectionHeading
-            eyebrow="Since 2019"
-            title="Our Journey"
-            subtitle="A few of the milestones that shaped Praksha Academy into what it is today."
-          />
+          <SectionHeading eyebrow="Meet the Team" title="Faculty" />
+          <Faculty />
+        </div>
+      </Box>
+
+      {/* Academy Timeline — only rendered if real milestones exist */}
+      {hasTimeline && (
+        <Box component="section" sx={{ py: { xs: 7, md: 10 }, backgroundColor: colors.sectionBackground }}>
+          <div className="container">
+            <SectionHeading eyebrow="Our Journey" title="Academy Timeline" />
+            <div className="row justify-content-center">
+              <div className="col-lg-8">
+                <AcademyTimeline />
+              </div>
+            </div>
+          </div>
+        </Box>
+      )}
+
+      {/* Recognition — only rendered if real, verified entries exist */}
+      {hasRecognition && (
+        <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
+          <div className="container">
+            <SectionHeading eyebrow="Recognition" title="Awards & Certifications" />
+            <Recognition />
+          </div>
+        </Box>
+      )}
+
+      {/* FAQ */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 }, backgroundColor: colors.sectionBackground }}>
+        <div className="container">
+          <SectionHeading eyebrow="Questions" title="Frequently Asked Questions" />
           <div className="row justify-content-center">
             <div className="col-lg-8">
-              <Timeline />
+              <AboutFAQ />
             </div>
           </div>
         </div>
       </Box>
 
-      {/* Team */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 } }}>
-        <div className="container">
-          <SectionHeading
-            eyebrow="Meet The Team"
-            title="The People Behind Praksha Academy"
-            subtitle="Educators and mentors dedicated to helping every student succeed."
-          />
-          <Team />
-        </div>
-      </Box>
-
-      {/* Recognition / Press */}
-      <Box component="section" sx={{ py: { xs: 6, md: 9 }, backgroundColor: colors.sectionBackground }}>
-        <div className="container">
-          <SectionHeading
-            eyebrow="Trusted & Recognized"
-            title="Awards & Recognition"
-          />
-          <Recognition />
-        </div>
-      </Box>
-
-      {/* CTA */}
-      <Box component="section" sx={{ pb: { xs: 6, md: 9 } }}>
+      {/* Final CTA */}
+      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
         <div className="container">
           <CTASection />
         </div>

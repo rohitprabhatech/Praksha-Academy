@@ -1,18 +1,14 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { FaBullseye } from "react-icons/fa";
 import { colors } from "../../theme/theme";
+import aboutData from "../../data/aboutData";
 
 const Mission = () => {
   return (
     <Paper
       elevation={0}
       className="pa-hover-card"
-      sx={{
-        p: 4,
-        height: "100%",
-        border: `1px solid ${colors.borderColor}`,
-        backgroundColor: colors.cardBackground,
-      }}
+      sx={{ p: 4, height: "100%", border: `1px solid ${colors.borderColor}`, backgroundColor: colors.cardBackground }}
     >
       <Box
         sx={{
@@ -27,17 +23,15 @@ const Mission = () => {
           mb: 3,
           fontSize: 24,
         }}
+        aria-hidden="true"
       >
         <FaBullseye />
       </Box>
-      <Typography variant="h5" sx={{ mb: 2, color: colors.textPrimary }}>
+      <Typography variant="h5" component="h3" sx={{ mb: 2, color: colors.textPrimary }}>
         Our Mission
       </Typography>
       <Typography variant="body1" sx={{ color: colors.textSecondary, lineHeight: 1.8 }}>
-        To make quality education accessible and personal — combining
-        structured curriculum, dedicated mentorship, and technology so every
-        student, from Class 8 through career-ready programming and data
-        science tracks, can learn at a pace that actually works for them.
+        {aboutData.mission}
       </Typography>
     </Paper>
   );

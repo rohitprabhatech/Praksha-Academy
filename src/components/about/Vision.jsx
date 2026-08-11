@@ -1,18 +1,14 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { FaLightbulb } from "react-icons/fa";
 import { colors } from "../../theme/theme";
+import aboutData from "../../data/aboutData";
 
 const Vision = () => {
   return (
     <Paper
       elevation={0}
       className="pa-hover-card"
-      sx={{
-        p: 4,
-        height: "100%",
-        border: `1px solid ${colors.borderColor}`,
-        backgroundColor: colors.cardBackground,
-      }}
+      sx={{ p: 4, height: "100%", border: `1px solid ${colors.borderColor}`, backgroundColor: colors.cardBackground }}
     >
       <Box
         sx={{
@@ -27,17 +23,15 @@ const Vision = () => {
           mb: 3,
           fontSize: 24,
         }}
+        aria-hidden="true"
       >
         <FaLightbulb />
       </Box>
-      <Typography variant="h5" sx={{ mb: 2, color: colors.textPrimary }}>
+      <Typography variant="h5" component="h3" sx={{ mb: 2, color: colors.textPrimary }}>
         Our Vision
       </Typography>
       <Typography variant="body1" sx={{ color: colors.textSecondary, lineHeight: 1.8 }}>
-        To become the learning platform Indian students turn to first — one
-        that closes the gap between school fundamentals and future-ready
-        skills like programming, AI, and data science, without losing the
-        personal guidance of a great teacher.
+        {aboutData.vision}
       </Typography>
     </Paper>
   );

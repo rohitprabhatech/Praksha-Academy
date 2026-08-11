@@ -4,9 +4,11 @@ import { FaPhoneVolume } from "react-icons/fa";
 import { colors } from "../../theme/theme";
 
 /**
- * Short 2-field lead-capture widget for people who don't want to fill the
- * full contact form — just leave a name + number and get called back.
- * Common on Indian coaching-site contact pages (quick admissions leads).
+ * Short 2-field lead-capture widget for people who'd rather leave a
+ * number than fill the full contact form.
+ *
+ * TODO: replace with a real API call once a backend endpoint exists, e.g.:
+ *   await fetch("/api/callback-request", { method: "POST", body: JSON.stringify({ name, phone }) });
  */
 const RequestCallback = () => {
   const [name, setName] = useState("");
@@ -50,19 +52,19 @@ const RequestCallback = () => {
         </Typography>
       </Stack>
       <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.9)", mb: 2.5 }}>
-        Leave your number — our counselor will call within the hour.
+        Leave your number and we'll call you back — no need to fill the full form.
       </Typography>
 
       {submitted ? (
         <Alert severity="success" sx={{ backgroundColor: "rgba(255,255,255,0.95)" }}>
-          Got it! We'll call you shortly.
+          Got it — we'll be in touch.
         </Alert>
       ) : (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} noValidate>
           <Stack spacing={1.5}>
             <TextField
               size="small"
-              placeholder="Your name"
+              label="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               sx={{
@@ -73,7 +75,7 @@ const RequestCallback = () => {
             />
             <TextField
               size="small"
-              placeholder="10-digit mobile number"
+              label="10-digit mobile number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               sx={{
@@ -83,7 +85,7 @@ const RequestCallback = () => {
               }}
             />
             {error && (
-              <Typography variant="caption" sx={{ color: colors.textWhite, fontWeight: 600 }}>
+              <Typography variant="caption" role="alert" sx={{ color: colors.textWhite, fontWeight: 600 }}>
                 {error}
               </Typography>
             )}

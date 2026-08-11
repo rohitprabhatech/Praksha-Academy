@@ -1,27 +1,24 @@
 import { useState } from "react";
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import { FaChevronDown } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import aboutData from "../../data/aboutData";
 
-const FAQPreview = () => {
+/**
+ * About-page FAQ accordion. Keyboard accessible via MUI Accordion
+ * (native button semantics + aria-expanded handled by MUI).
+ */
+const AboutFAQ = () => {
   const [expanded, setExpanded] = useState(false);
   const handleChange = (panel) => (_e, isExpanded) => setExpanded(isExpanded ? panel : false);
 
   return (
-    <Box sx={{ backgroundColor: colors.cardBackground, border: `1px solid ${colors.borderColor}`, borderRadius: "12px", p: { xs: 3, md: 4 } }}>
-      <Typography variant="h5" component="h2" sx={{ color: colors.textPrimary, mb: 0.5 }}>
-        Frequently Asked Questions
-      </Typography>
-      <Typography variant="body2" sx={{ color: colors.textSecondary, mb: 3 }}>
-        Quick answers before you reach out.
-      </Typography>
-
-      {contactData.faqs.map((item, index) => (
+    <div>
+      {aboutData.faqs.map((item, index) => (
         <Accordion
           key={item.q}
-          expanded={expanded === `contact-panel${index}`}
-          onChange={handleChange(`contact-panel${index}`)}
+          expanded={expanded === `about-panel${index}`}
+          onChange={handleChange(`about-panel${index}`)}
           disableGutters
           elevation={0}
           sx={{
@@ -34,23 +31,23 @@ const FAQPreview = () => {
         >
           <AccordionSummary
             expandIcon={<FaChevronDown size={14} color={colors.textSecondary} aria-hidden="true" />}
-            aria-controls={`contact-panel${index}-content`}
-            id={`contact-panel${index}-header`}
+            aria-controls={`about-panel${index}-content`}
+            id={`about-panel${index}-header`}
             sx={{ backgroundColor: colors.sectionBackground }}
           >
             <Typography variant="subtitle2" sx={{ color: colors.textPrimary, fontWeight: 600 }}>
               {item.q}
             </Typography>
           </AccordionSummary>
-          <AccordionDetails id={`contact-panel${index}-content`}>
+          <AccordionDetails id={`about-panel${index}-content`}>
             <Typography variant="body2" sx={{ color: colors.textSecondary, lineHeight: 1.7 }}>
               {item.a}
             </Typography>
           </AccordionDetails>
         </Accordion>
       ))}
-    </Box>
+    </div>
   );
 };
 
-export default FAQPreview;
+export default AboutFAQ;

@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import { FiArrowRight } from 'react-icons/fi'
 import { heroHighlights, courseCategories, programHighlights, testimonialData } from '../constants/siteData'
-import SectionHeader from '../components/common/SectionHeader'
+import SectionHeader from '../components/common/SectionHeading'
 import FeatureCard from '../components/common/FeatureCard'
 
 function Home() {
