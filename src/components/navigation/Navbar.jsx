@@ -1,45 +1,128 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { FiMenu, FiX } from 'react-icons/fi'
-import { Button } from '@mui/material'
+import { Button, IconButton, InputBase } from '@mui/material'
+import { FiSearch, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi'
 import { navItems } from '../../constants/siteData'
+import { useThemeMode } from '../../context/ThemeModeContext'
+import logoMark from '../../assets/praksha-mark.png'
 import './Navbar.css'
 
 function Navbar() {
- const [isOpen, setIsOpen] = useState(false)
+ const [scrolled, setScrolled] = useState(false)
+ const [mobileOpen, setMobileOpen] = useState(false)
+ const { mode, toggleMode } = useThemeMode()
+
+ useEffect(() => {
+  const handleScroll = () => setScrolled(window.scrollY > 8)
+  window.addEventListener('scroll', handleScroll)
+  return () => window.removeEventListener('scroll', handleScroll)
+ }, [])
+
+ useEffect(() => {
+  document.body.style.overflow = mobileOpen ? 'hidden' : ''
+  return () => {
+   document.body.style.overflow = ''
+  }
+ }, [mobileOpen])
 
  return (
-  <header className="site-navbar shadow-sm">
-   <div className="navbar-inner section-wrapper">
-    <Link to="/" className="brand-logo">
-     <div className="logo-mark">PA</div>
-     <div>
-      <h1>Praksha Academy</h1>
-      <p>Advance learning for every learner.</p>
-     </div>
+  <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
+   <div className="section-wrapper navbar-inner">
+    <Link to="/" className="navbar-brand" onClick={() => setMobileOpen(false)}>
+     <img src={logoMark} alt="Praksha Academy" className="navbar-logo" />
+     <span>Praksha Academy</span>
     </Link>
 
-    <button className="menu-toggle" onClick={() => setIsOpen((prev) => !prev)}>
-     {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-    </button>
-
-    <nav className={isOpen ? 'site-nav open' : 'site-nav'}>
+    <nav className="navbar-menu" aria-label="Primary navigation">
      {navItems.map((item) => (
       <NavLink
        key={item.path}
        to={item.path}
-       className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
-       onClick={() => setIsOpen(false)}
+       className={({ isActive }) => `navbar-link${isActive ? ' navbar-link--active' : ''}`}
       >
        {item.label}
       </NavLink>
      ))}
     </nav>
 
-    <div className="nav-actions">
-     <Button variant="contained" color="secondary" size="large" component={Link} to="/contact">
-      Enroll Now
+    <div className="navbar-search">
+     <FiSearch size={16} aria-hidden="true" />
+     <InputBase placeholder="Search courses..." aria-label="Search courses" fullWidth />
+    </div>
+
+    <div className="navbar-actions">
+     <IconButton
+      onClick={toggleMode}
+      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      sx={{ color: 'text.secondary' }}
+     >
+      {mode === 'dark' ? <FiSun size={19} /> : <FiMoon size={19} />}
+     </IconButton>
+     <Button variant="outlined" color="primary" component={Link} to="/login">
+      Login
      </Button>
+     <Button variant="contained" color="primary" component={Link} to="/register">
+      Register
+     </Button>
+    </div>
+
+    <IconButton
+     className="navbar-toggle"
+     onClick={() => setMobileOpen((prev) => !prev)}
+     aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+     aria-expanded={mobileOpen}
+    >
+     {mobileOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+    </IconButton>
+   </div>
+
+   <div className={`navbar-mobile${mobileOpen ? ' navbar-mobile--open' : ''}`}>
+    <div className="navbar-search navbar-search--mobile">
+     <FiSearch size={16} aria-hidden="true" />
+     <InputBase placeholder="Search courses..." aria-label="Search courses" fullWidth />
+    </div>
+
+    <nav className="navbar-mobile-menu" aria-label="Mobile navigation">
+     {navItems.map((item) => (
+      <NavLink
+       key={item.path}
+       to={item.path}
+       onClick={() => setMobileOpen(false)}
+       className={({ isActive }) => `navbar-link${isActive ? ' navbar-link--active' : ''}`}
+      >
+       {item.label}
+      </NavLink>
+     ))}
+    </nav>
+
+    <div className="navbar-mobile-actions">
+     <Button
+      variant="outlined"
+      color="primary"
+      fullWidth
+      component={Link}
+      to="/login"
+      onClick={() => setMobileOpen(false)}
+     >
+      Login
+     </Button>
+     <Button
+      variant="contained"
+      color="primary"
+      fullWidth
+      component={Link}
+      to="/register"
+      onClick={() => setMobileOpen(false)}
+     >
+      Register
+     </Button>
+     <IconButton
+      onClick={toggleMode}
+      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      sx={{ color: 'text.secondary', alignSelf: 'center' }}
+     >
+      {mode === 'dark' ? <FiSun size={19} /> : <FiMoon size={19} />}
+     </IconButton>
     </div>
    </div>
   </header>
