@@ -5,6 +5,7 @@ import Courses from '../pages/Courses'
 import CourseDetails from '../pages/CourseDetails'
 import Programs from '../pages/Programs'
 import About from '../pages/About'
+import Blog from '../pages/Blog'
 import Contact from '../pages/Contact'
 import NotFound from '../pages/NotFound'
 
@@ -29,6 +30,7 @@ function AppRoutes() {
     <Route path="/courses" element={<Courses />} />
     <Route path="/courses/:slug" element={<CourseDetails />} />
     <Route path="/programs" element={<Programs />} />
+    <Route path="/blog" element={<Blog />} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
    </Route>
