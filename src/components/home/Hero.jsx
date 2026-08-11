@@ -1,41 +1,37 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { FiArrowRight, FiCheckCircle, FiPlayCircle, FiAward, FiStar } from 'react-icons/fi'
-import { heroHighlights } from '../../constants/siteData'
-import './Hero.css'
+import { FiArrowRight, FiBookOpen, FiCheckCircle, FiUsers } from 'react-icons/fi'
+import SearchBar from '../common/SearchBar'
+import './hero.css'
 
 const HERO_STATS = [
- { value: '500+', label: 'Courses' },
- { value: '50,000+', label: 'Students' },
- { value: '200+', label: 'Mentors' },
- { value: '95%', label: 'Satisfaction' },
+ { value: '10K+', label: 'Learners' },
+ { value: '50+', label: 'Courses' },
+ { value: '20+', label: 'Expert Mentors' },
+ { value: '95%', label: 'Learning Satisfaction' },
+]
+
+const learningPath = [
+ { title: 'Choose a path', detail: 'Career-focused course tracks' },
+ { title: 'Build projects', detail: 'Practice with mentor feedback' },
+ { title: 'Show outcomes', detail: 'Portfolio-ready learning proof' },
 ]
 
 function Hero() {
  return (
-  <section className="hero-section">
+  <section className="hero-section" aria-labelledby="home-hero-title">
    <div className="section-wrapper hero-inner">
     <div className="hero-content" data-aos="fade-up">
-     <span className="hero-badge">🎓 500+ industry-ready courses</span>
-
-     <h1>Learn skills that get you hired, not just certified.</h1>
-
-     <p>
-      Praksha Academy pairs live mentor-led classes with real projects in
-      Web Development, AI, Cloud Computing, and Cyber Security — so you
-      graduate with a portfolio, not just a certificate.
+     <p className="hero-eyebrow">Project stats shown as replaceable mock data</p>
+     <h1 id="home-hero-title">Learn. Build. Succeed.</h1>
+     <p className="hero-copy">
+      Build practical skills with industry-focused courses, expert mentors, and learning paths designed
+      for your career.
      </p>
 
-     <ul className="hero-highlights">
-      {heroHighlights.map((item) => (
-       <li key={item}>
-        <FiCheckCircle size={18} aria-hidden="true" />
-        <span>{item}</span>
-       </li>
-      ))}
-     </ul>
+     <SearchBar className="hero-search" />
 
-     <div className="hero-actions">
+     <div className="hero-actions" aria-label="Hero actions">
       <Button
        variant="contained"
        color="primary"
@@ -44,56 +40,52 @@ function Hero() {
        to="/courses"
        endIcon={<FiArrowRight size={18} aria-hidden="true" />}
       >
-       Explore courses
+       Explore Courses
       </Button>
-      <Button variant="outlined" color="primary" size="large" component={Link} to="/contact">
-       Talk to a mentor
+      <Button variant="outlined" color="primary" size="large" component={Link} to="/register">
+       Get Started
       </Button>
      </div>
 
-     <div className="hero-stats" data-aos="fade-up" data-aos-delay="200">
+     <dl className="hero-stats" aria-label="Project statistics mock data">
       {HERO_STATS.map((stat) => (
-       <div key={stat.label} className="hero-stat">
-        <strong>{stat.value}</strong>
-        <span>{stat.label}</span>
+       <div className="hero-stat" key={stat.label}>
+        <dt>{stat.value}</dt>
+        <dd>{stat.label}</dd>
        </div>
       ))}
-     </div>
+     </dl>
     </div>
 
-    {/* Decorative — React-built, no stock images or video */}
-    <div className="hero-visual" data-aos="fade-left" data-aos-delay="150">
-     <div className="hero-visual-grid" aria-hidden="true" />
-     <div className="hero-visual-blob hero-visual-blob--primary" aria-hidden="true" />
-     <div className="hero-visual-blob hero-visual-blob--secondary" aria-hidden="true" />
-
-     <div className="hero-float-card hero-float-card--top" data-aos="fade-up" data-aos-delay="300">
-      <span className="hero-float-icon hero-float-icon--blue">
-       <FiPlayCircle size={18} aria-hidden="true" style={{ display: 'block' }} />
-      </span>
+    <div className="hero-visual" data-aos="fade-left" data-aos-delay="120" aria-label="Learning path preview">
+     <div className="hero-visual-header">
       <div>
-       <strong>Live Class Today</strong>
-       <span>Data Structures &middot; 6:00 PM</span>
+       <span>Praksha Academy</span>
+       <strong>Career Learning Path</strong>
       </div>
+      <FiBookOpen size={24} aria-hidden="true" />
      </div>
 
-     <div className="hero-float-card hero-float-card--mid" data-aos="fade-up" data-aos-delay="450">
-      <span className="hero-float-icon hero-float-icon--green">
-       <FiAward size={18} aria-hidden="true" style={{ display: 'block' }} />
-      </span>
-      <div>
-       <strong>Certificate Earned</strong>
-       <span>Web Development</span>
-      </div>
+     <div className="hero-path-list">
+      {learningPath.map((item, index) => (
+       <article className="hero-path-item" key={item.title}>
+        <span className="hero-path-index">{index + 1}</span>
+        <div>
+         <h2>{item.title}</h2>
+         <p>{item.detail}</p>
+        </div>
+        <FiCheckCircle size={20} aria-hidden="true" />
+       </article>
+      ))}
      </div>
 
-     <div className="hero-float-card hero-float-card--bottom" data-aos="fade-up" data-aos-delay="600">
-      <span className="hero-float-icon hero-float-icon--amber">
-       <FiStar size={16} aria-hidden="true" fill="currentColor" style={{ display: 'block' }} />
-      </span>
+     <div className="hero-mentor-panel">
+      <div className="hero-mentor-icon" aria-hidden="true">
+       <FiUsers size={22} />
+      </div>
       <div>
-       <strong>4.9 out of 5</strong>
-       <span>from 12,000+ reviews</span>
+       <span>Mentor support</span>
+       <strong>Weekly guidance, practical reviews, and clear next steps.</strong>
       </div>
      </div>
     </div>

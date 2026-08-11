@@ -2,21 +2,21 @@
  position: sticky;
  top: 0;
  z-index: 100;
- background: #ffffff;
+ background: var(--surface);
  border-bottom: 1px solid var(--border);
  transition: box-shadow 0.2s ease;
 }
 
 .navbar--scrolled {
- box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+ box-shadow: 0 4px 16px rgba(30, 58, 138, 0.08);
 }
 
 .navbar-inner {
  display: flex;
  align-items: center;
- gap: 1.5rem;
- padding-top: 0.85rem;
- padding-bottom: 0.85rem;
+ gap: 1.25rem;
+ padding-top: 0.75rem;
+ padding-bottom: 0.75rem;
 }
 
 .navbar-brand {
@@ -25,62 +25,57 @@
  gap: 0.6rem;
  text-decoration: none;
  flex-shrink: 0;
+ align-self: center;
+ line-height: 0;
 }
 
 .navbar-logo {
- width: 32px;
- height: auto;
+ width: clamp(120px, 10vw, 140px);
+ max-width: 140px;
+ height: 48px;
+ max-height: 48px;
+ object-fit: contain;
  display: block;
-}
-
-.navbar-brand span {
- font-weight: 700;
- font-size: 1.0625rem;
- color: var(--text-primary);
- letter-spacing: -0.01em;
 }
 
 .navbar-menu {
  display: flex;
  align-items: center;
- gap: 1.5rem;
- margin-right: auto;
+ justify-content: center;
+ gap: 1.25rem;
+ flex: 1 1 auto;
 }
 
 .navbar-link {
  font-size: 0.9375rem;
- font-weight: 500;
+ font-weight: 600;
  color: var(--text-secondary);
  text-decoration: none;
- padding: 0.4rem 0;
+ padding: 0.45rem 0.1rem;
  border-bottom: 2px solid transparent;
- transition: color 0.15s ease, border-color 0.15s ease;
+ transition: color 0.15s ease, border-color 0.15s ease, outline-color 0.15s ease;
 }
 
-.navbar-link:hover {
- color: var(--primary);
+.navbar-link:hover,
+.navbar-link:focus-visible {
+ color: #2563eb;
 }
 
 .navbar-link--active {
- color: var(--primary);
- border-bottom-color: var(--primary);
- font-weight: 600;
+ color: #2563eb;
+ border-bottom-color: #2563eb;
 }
 
-.navbar-search {
- display: flex;
- align-items: center;
- gap: 0.5rem;
- width: 220px;
- padding: 0.5rem 0.85rem;
- border-radius: 999px;
- border: 1px solid var(--border);
- background: var(--surface-alt);
- color: var(--text-secondary);
+.navbar-link:focus-visible,
+.navbar-brand:focus-visible {
+ outline: 3px solid rgba(37, 99, 235, 0.28);
+ outline-offset: 4px;
+ border-radius: 8px;
 }
 
-.navbar-search input {
- font-size: 0.875rem;
+.navbar-search-wrap {
+ width: min(28vw, 320px);
+ min-width: 240px;
 }
 
 .navbar-actions {
@@ -90,23 +85,47 @@
  flex-shrink: 0;
 }
 
+.navbar-theme-toggle.MuiIconButton-root {
+ width: 40px;
+ height: 40px;
+ border: 1px solid var(--border);
+ border-radius: 8px;
+ color: var(--text-primary);
+ background: var(--surface);
+ transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.navbar-theme-toggle.MuiIconButton-root:hover,
+.navbar-theme-toggle.MuiIconButton-root:focus-visible {
+ border-color: #2563eb;
+ color: #2563eb;
+ background: var(--surface-alt);
+}
+
 .navbar-toggle {
- display: none !important;
+ display: none;
+ color: var(--text-primary);
 }
 
 .navbar-mobile {
  display: none;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1100px) {
+ .navbar-logo {
+  width: 112px;
+  height: 42px;
+  max-height: 42px;
+ }
+
  .navbar-menu,
- .navbar-search,
+ .navbar-search-wrap,
  .navbar-actions {
   display: none;
  }
 
  .navbar-toggle {
-  display: inline-flex !important;
+  display: inline-flex;
   margin-left: auto;
  }
 
@@ -121,14 +140,19 @@
   transition: max-height 0.25s ease, padding 0.25s ease;
  }
 
+ .navbar-mobile[hidden] {
+  display: none;
+ }
+
  .navbar-mobile--open {
   max-height: 480px;
   padding: 1.25rem 1.5rem 1.5rem;
   border-top-color: var(--border);
  }
 
- .navbar-search--mobile {
-  width: 100%;
+ .navbar-search-mobile {
+  width: min(100%, 520px);
+  align-self: center;
  }
 
  .navbar-mobile-menu {
@@ -146,5 +170,39 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+ }
+
+ .navbar-theme-toggle--mobile.MuiIconButton-root {
+  display: inline-flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+ }
+
+}
+
+@media (max-width: 480px) {
+ .navbar-inner {
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+ }
+
+ .navbar-logo {
+  width: 96px;
+  height: 38px;
+  max-height: 38px;
+ }
+
+ .navbar-mobile {
+  padding-left: 1rem;
+  padding-right: 1rem;
+ }
+
+ .navbar-mobile--open {
+  padding-left: 1rem;
+  padding-right: 1rem;
  }
 }

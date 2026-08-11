@@ -2,6 +2,20 @@
  background: var(--section-bg, #f1f5f9);
 }
 
+.why-choose-section .feature-card {
+ background: var(--surface);
+ border-color: var(--border);
+ color: var(--text-primary);
+}
+
+.why-choose-section .feature-card h3 {
+ color: var(--text-primary);
+}
+
+.why-choose-section .feature-card p {
+ color: var(--text-secondary);
+}
+
 .why-choose-grid {
  display: grid;
  grid-template-columns: repeat(3, minmax(0, 1fr));

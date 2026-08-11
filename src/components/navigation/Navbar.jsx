@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Button, IconButton, InputBase } from '@mui/material'
-import { FiSearch, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi'
-import { navItems } from '../../constants/siteData'
+import { Button, IconButton } from '@mui/material'
+import { FiMenu, FiMoon, FiSun, FiX } from 'react-icons/fi'
 import { useThemeMode } from '../../context/ThemeModeContext'
-import logoMark from '../../assets/praksha-mark.png'
+import SearchBar from '../common/SearchBar'
+import logoDark from '../../assets/praksha-logo-dark.png'
+import logoLight from '../../assets/praksha-logo-light.png'
 import './Navbar.css'
+
+const navItems = [
+  { label: 'Explore', path: '/' },
+  { label: 'Courses', path: '/courses' },
+  { label: 'Programs', path: '/programs' },
+  { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
+];
 
 function Navbar() {
  const [scrolled, setScrolled] = useState(false)
  const [mobileOpen, setMobileOpen] = useState(false)
  const { mode, toggleMode } = useThemeMode()
+ const isDarkMode = mode === 'dark'
 
  useEffect(() => {
   const handleScroll = () => setScrolled(window.scrollY > 8)
@@ -29,15 +39,15 @@ function Navbar() {
   <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
    <div className="section-wrapper navbar-inner">
     <Link to="/" className="navbar-brand" onClick={() => setMobileOpen(false)}>
-     <img src={logoMark} alt="Praksha Academy" className="navbar-logo" />
-     <span>Praksha Academy</span>
+     <img src={isDarkMode ? logoDark : logoLight} alt="Praksha Academy home" className="navbar-logo" />
     </Link>
 
     <nav className="navbar-menu" aria-label="Primary navigation">
      {navItems.map((item) => (
-      <NavLink
-       key={item.path}
+     <NavLink
+       key={item.label}
        to={item.path}
+       end={item.path === '/'}
        className={({ isActive }) => `navbar-link${isActive ? ' navbar-link--active' : ''}`}
       >
        {item.label}
@@ -45,18 +55,18 @@ function Navbar() {
      ))}
     </nav>
 
-    <div className="navbar-search">
-     <FiSearch size={16} aria-hidden="true" />
-     <InputBase placeholder="Search courses..." aria-label="Search courses" fullWidth />
+    <div className="navbar-search-wrap">
+     <SearchBar placeholder="Search courses..." buttonLabel="Search" compact />
     </div>
 
     <div className="navbar-actions">
      <IconButton
+      className="navbar-theme-toggle"
       onClick={toggleMode}
-      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      sx={{ color: 'text.secondary' }}
+      aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
      >
-      {mode === 'dark' ? <FiSun size={19} /> : <FiMoon size={19} />}
+      {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
      </IconButton>
      <Button variant="outlined" color="primary" component={Link} to="/login">
       Login
@@ -76,17 +86,20 @@ function Navbar() {
     </IconButton>
    </div>
 
-   <div className={`navbar-mobile${mobileOpen ? ' navbar-mobile--open' : ''}`}>
-    <div className="navbar-search navbar-search--mobile">
-     <FiSearch size={16} aria-hidden="true" />
-     <InputBase placeholder="Search courses..." aria-label="Search courses" fullWidth />
-    </div>
+   <div className={`navbar-mobile${mobileOpen ? ' navbar-mobile--open' : ''}`} hidden={!mobileOpen}>
+    <SearchBar
+     placeholder="Search courses..."
+     buttonLabel="Search"
+     compact
+     className="navbar-search-mobile"
+    />
 
     <nav className="navbar-mobile-menu" aria-label="Mobile navigation">
      {navItems.map((item) => (
-      <NavLink
-       key={item.path}
+     <NavLink
+       key={item.label}
        to={item.path}
+       end={item.path === '/'}
        onClick={() => setMobileOpen(false)}
        className={({ isActive }) => `navbar-link${isActive ? ' navbar-link--active' : ''}`}
       >
@@ -96,6 +109,14 @@ function Navbar() {
     </nav>
 
     <div className="navbar-mobile-actions">
+     <IconButton
+      className="navbar-theme-toggle navbar-theme-toggle--mobile"
+      onClick={toggleMode}
+      aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+     >
+      {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+      <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+     </IconButton>
      <Button
       variant="outlined"
       color="primary"
@@ -114,15 +135,8 @@ function Navbar() {
       to="/register"
       onClick={() => setMobileOpen(false)}
      >
-      Register
+     Register
      </Button>
-     <IconButton
-      onClick={toggleMode}
-      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      sx={{ color: 'text.secondary', alignSelf: 'center' }}
-     >
-      {mode === 'dark' ? <FiSun size={19} /> : <FiMoon size={19} />}
-     </IconButton>
     </div>
    </div>
   </header>

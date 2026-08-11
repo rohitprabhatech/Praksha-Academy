@@ -1,12 +1,13 @@
 :root {
   --primary: #1d4ed8;
   --secondary: #f97316;
+  --background: #ffffff;
   --surface: #ffffff;
   --surface-alt: #f8fafc;
   --section-bg: #f1f5f9;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --border: rgba(15, 23, 42, 0.08);
+  --text-primary: #172033;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
   --radius: 1.5rem;
   --max-width: 1200px;
 }
@@ -23,7 +24,7 @@ body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--text-primary);
-  background: var(--surface-alt);
+  background: var(--background);
 }
 
 button,
@@ -128,32 +129,14 @@ p {
 
 
 [data-theme='dark'] {
-  --surface: #1E293B;
-  --surface-alt: #0F172A;
-  --section-bg: #0B1120;
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --border: rgba(255, 255, 255, 0.1);
-}
-
-[data-theme='dark'] body {
-  background: var(--surface-alt);
-  color: var(--text-primary);
-}
-
-[data-theme='dark'] .card-surface {
-  background: var(--surface);
-  border-color: var(--border);
-}
-
-[data-theme='dark'] .site-navbar,
-[data-theme='dark'] .navbar {
-  background: rgba(15, 23, 42, 0.92);
-  border-bottom-color: var(--border);
-}
-
-[data-theme='dark'] .navbar-search {
-  background: #0F172A;
+  --background: #0f172a;
+  --surface: #172033;
+  --surface-alt: #1e293b;
+  --section-bg: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --border: #334155;
+  color-scheme: dark;
 }
 
 * {

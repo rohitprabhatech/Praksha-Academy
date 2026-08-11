@@ -3,11 +3,13 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 const ThemeModeContext = createContext(null)
 
 const STORAGE_KEY = 'praksha-theme-mode'
+const THEME_MODES = new Set(['light', 'dark'])
 
 export function ThemeModeProvider({ children }) {
  const [mode, setMode] = useState(() => {
   if (typeof window === 'undefined') return 'light'
-  return localStorage.getItem(STORAGE_KEY) || 'light'
+  const savedMode = localStorage.getItem(STORAGE_KEY)
+  return THEME_MODES.has(savedMode) ? savedMode : 'light'
  })
 
  useEffect(() => {
