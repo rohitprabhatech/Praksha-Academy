@@ -440,6 +440,4 @@ src/
 
 
 
-
-
 Don't create separate designs for every module. Everyone must follow the same Praksha Academy global color, typography, spacing, button, table, form, card, and sidebar design system so the final Admin Dashboard looks like one professional product.
