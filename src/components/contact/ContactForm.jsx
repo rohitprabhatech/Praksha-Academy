@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Box, TextField, Button, Typography, Alert, MenuItem, CircularProgress } from "@mui/material";
-import { FaPaperPlane, FaBook } from "react-icons/fa";
-import { colors } from "../../theme/theme";
+import { Box, TextField, Button, Typography, Alert, MenuItem, CircularProgress, InputAdornment } from "@mui/material";
+import { FaPaperPlane, FaBook, FaUser, FaEnvelope, FaPhone, FaShieldAlt } from "react-icons/fa";
+import { premium } from "../../theme/premiumPalette";
+import GlassCard from "../common/GlassCard";
 import contactData from "../../data/contactData";
+import InquiryCards from "./InquiryCards";
 
 const initialForm = { name: "", email: "", phone: "", program: "", message: "" };
 
@@ -34,8 +36,20 @@ const submitContactForm = async (values) => {
   return { ok: true };
 };
 
+// Dark-glass styling for MUI inputs — kept in one place so every field matches.
+const darkFieldSx = {
+  "& .MuiInputBase-root": { color: premium.white },
+  "& .MuiInputLabel-root": { color: premium.gray },
+  "& .MuiInputLabel-root.Mui-focused": { color: premium.cyan },
+  "& .MuiOutlinedInput-notchedOutline": { borderColor: premium.glassBorder },
+  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(34,211,238,0.5)" },
+  "& .Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: premium.cyan },
+  "& .MuiFormHelperText-root": { color: "#F87171" },
+};
+
 const ContactForm = () => {
   const [values, setValues] = useState(initialForm);
+  const [inquiryType, setInquiryType] = useState("general");
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
@@ -62,7 +76,7 @@ const ContactForm = () => {
 
     setStatus("submitting");
     try {
-      await submitContactForm(values);
+      await submitContactForm({ ...values, inquiryType });
       setSubmittedName(values.name.trim());
       setStatus("success");
       setValues(initialForm);
@@ -74,46 +88,39 @@ const ContactForm = () => {
 
   if (status === "success") {
     return (
-      <Box
-        id="contact-form"
-        sx={{ backgroundColor: colors.cardBackground, border: `1px solid ${colors.borderColor}`, borderRadius: "12px", p: { xs: 3, md: 4 } }}
-      >
+      <GlassCard tone="dark" hoverLift={false} sx={{ p: { xs: 3, md: 4 } }}>
         <Alert severity="success" sx={{ mb: 3 }}>
           Thanks, {submittedName || "there"}. We've received your message.
         </Alert>
-        <Typography variant="body2" sx={{ color: colors.textSecondary, mb: 2 }}>
+        <Typography variant="body2" sx={{ color: premium.grayLight, mb: 2 }}>
           A team member will review it and get back to you. In the meantime,
           you're welcome to keep browsing.
         </Typography>
-        <Button
-          variant="outlined"
-          startIcon={<FaBook />}
-          href="/courses"
-          sx={{ color: colors.primaryBlue, borderColor: colors.primaryBlue }}
-        >
+        <Button variant="outlined" startIcon={<FaBook />} href="/courses" sx={{ color: premium.cyan, borderColor: premium.cyan }}>
           Browse Courses
         </Button>
-        <Button variant="text" onClick={() => setStatus("idle")} sx={{ ml: 2, color: colors.textSecondary }}>
+        <Button variant="text" onClick={() => setStatus("idle")} sx={{ ml: 2, color: premium.grayLight }}>
           Send another message
         </Button>
-      </Box>
+      </GlassCard>
     );
   }
 
   return (
-    <Box
-      id="contact-form"
-      component="form"
-      onSubmit={handleSubmit}
-      noValidate
-      sx={{ backgroundColor: colors.cardBackground, border: `1px solid ${colors.borderColor}`, borderRadius: "12px", p: { xs: 3, md: 4 } }}
-    >
-      <Typography variant="h5" component="h2" sx={{ color: colors.textPrimary, mb: 1 }}>
-        Send Us a Message
+    <GlassCard tone="dark" hoverLift={false} sx={{ p: { xs: 3, md: 4.5 } }}>
+      <Typography variant="h5" component="h2" sx={{ color: premium.white, fontWeight: 700, mb: 1 }}>
+        Tell us what you're looking for.
       </Typography>
-      <Typography variant="body2" sx={{ color: colors.textSecondary, mb: 3 }}>
-        Tell us what you need — a team member will follow up.
+      <Typography variant="body2" sx={{ color: premium.grayLight, mb: 3 }}>
+        Our team will get back to you as soon as possible.
       </Typography>
+
+      <Typography variant="caption" sx={{ color: premium.gray, fontWeight: 700, letterSpacing: 1, display: "block", mb: 1.5 }}>
+        WHAT'S THIS ABOUT?
+      </Typography>
+      <Box sx={{ mb: 3.5 }}>
+        <InquiryCards selected={inquiryType} onSelect={setInquiryType} />
+      </Box>
 
       {status === "error" && (
         <Alert severity="error" sx={{ mb: 3 }}>
@@ -121,97 +128,118 @@ const ContactForm = () => {
         </Alert>
       )}
 
-      <div className="row g-3">
-        <div className="col-md-6">
-          <TextField
-            fullWidth
-            required
-            label="Full Name"
-            name="name"
-            value={values.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.name && Boolean(errors.name)}
-            helperText={touched.name && errors.name}
-            disabled={status === "submitting"}
-          />
+      <Box component="form" onSubmit={handleSubmit} noValidate>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <TextField
+              fullWidth
+              required
+              label="Full Name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+              disabled={status === "submitting"}
+              sx={darkFieldSx}
+              InputProps={{ startAdornment: <InputAdornment position="start"><FaUser size={14} color={premium.gray} /></InputAdornment> }}
+            />
+          </div>
+          <div className="col-md-6">
+            <TextField
+              fullWidth
+              required
+              label="Email Address"
+              name="email"
+              type="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+              disabled={status === "submitting"}
+              sx={darkFieldSx}
+              InputProps={{ startAdornment: <InputAdornment position="start"><FaEnvelope size={14} color={premium.gray} /></InputAdornment> }}
+            />
+          </div>
+          <div className="col-md-6">
+            <TextField
+              fullWidth
+              label="Phone Number (optional)"
+              name="phone"
+              value={values.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.phone && Boolean(errors.phone)}
+              helperText={touched.phone && errors.phone}
+              disabled={status === "submitting"}
+              sx={darkFieldSx}
+              InputProps={{ startAdornment: <InputAdornment position="start"><FaPhone size={14} color={premium.gray} /></InputAdornment> }}
+            />
+          </div>
+          <div className="col-md-6">
+            <TextField
+              select
+              fullWidth
+              label="Interested Program (optional)"
+              name="program"
+              value={values.program}
+              onChange={handleChange}
+              disabled={status === "submitting"}
+              sx={darkFieldSx}
+            >
+              {contactData.programInterests.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+          <div className="col-12">
+            <TextField
+              fullWidth
+              required
+              multiline
+              rows={5}
+              label="Message"
+              name="message"
+              value={values.message}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.message && Boolean(errors.message)}
+              helperText={touched.message && errors.message}
+              disabled={status === "submitting"}
+              sx={darkFieldSx}
+            />
+          </div>
+          <div className="col-12">
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={status === "submitting"}
+              startIcon={status === "submitting" ? <CircularProgress size={16} color="inherit" /> : <FaPaperPlane />}
+              sx={{
+                px: 4,
+                py: 1.5,
+                background: `linear-gradient(90deg, ${premium.blue}, ${premium.purple})`,
+                boxShadow: `0 8px 24px ${premium.blue}55`,
+              }}
+            >
+              {status === "submitting" ? "Sending..." : "Send Enquiry →"}
+            </Button>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
+              <FaShieldAlt size={12} color={premium.gray} />
+              <Typography variant="caption" sx={{ color: premium.gray }}>
+                Your information is safe with us. We never share your details.
+              </Typography>
+            </Box>
+          </div>
         </div>
-        <div className="col-md-6">
-          <TextField
-            fullWidth
-            required
-            label="Email Address"
-            name="email"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.email && Boolean(errors.email)}
-            helperText={touched.email && errors.email}
-            disabled={status === "submitting"}
-          />
-        </div>
-        <div className="col-md-6">
-          <TextField
-            fullWidth
-            label="Phone Number (optional)"
-            name="phone"
-            value={values.phone}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.phone && Boolean(errors.phone)}
-            helperText={touched.phone && errors.phone}
-            disabled={status === "submitting"}
-          />
-        </div>
-        <div className="col-md-6">
-          <TextField
-            select
-            fullWidth
-            label="Interested Program (optional)"
-            name="program"
-            value={values.program}
-            onChange={handleChange}
-            disabled={status === "submitting"}
-          >
-            {contactData.programInterests.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
-        <div className="col-12">
-          <TextField
-            fullWidth
-            required
-            multiline
-            rows={5}
-            label="Message"
-            name="message"
-            value={values.message}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.message && Boolean(errors.message)}
-            helperText={touched.message && errors.message}
-            disabled={status === "submitting"}
-          />
-        </div>
-        <div className="col-12">
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            disabled={status === "submitting"}
-            startIcon={status === "submitting" ? <CircularProgress size={16} color="inherit" /> : <FaPaperPlane />}
-            sx={{ px: 4, py: 1.5 }}
-          >
-            {status === "submitting" ? "Sending..." : "Send Message"}
-          </Button>
-        </div>
-      </div>
-    </Box>
+      </Box>
+    </GlassCard>
   );
 };
 

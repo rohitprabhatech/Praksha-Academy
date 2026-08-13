@@ -1,22 +1,22 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { FaImage } from "react-icons/fa";
 import { colors } from "../../theme/theme";
 
 /**
- * Renders a real <img> when `src` is provided, otherwise renders a clean,
- * intentional placeholder instead of a broken image or a fake stock photo.
+ * Graceful image slot. Renders the real image when `src` is provided;
+ * otherwise renders a clean, intentional placeholder (never an invented
+ * stock photo standing in as a "real" Praksha Academy photo).
  *
- * This is the single place that decides what "no image yet" looks like on
- * the About/Contact pages — change the placeholder style here once rather
- * than in every section that needs an image.
+ * Usage:
+ *   <ImagePlaceholder src={mediaData.aboutHero.mainImage} alt="..." aspectRatio="4/3" />
  */
 const ImagePlaceholder = ({
   src,
   alt = "",
-  label = "Image coming soon",
-  aspectRatio = "4 / 3",
+  aspectRatio = "4/3",
   borderRadius = "16px",
-  icon,
+  label = "Image coming soon",
+  lazy = true,
   sx = {},
 }) => {
   if (src) {
@@ -25,8 +25,7 @@ const ImagePlaceholder = ({
         component="img"
         src={src}
         alt={alt}
-        loading="lazy"
-        className="pa-image-hover"
+        loading={lazy ? "lazy" : undefined}
         sx={{
           width: "100%",
           aspectRatio,
@@ -47,21 +46,21 @@ const ImagePlaceholder = ({
         width: "100%",
         aspectRatio,
         borderRadius,
+        backgroundColor: colors.sectionBackground,
+        border: `1px dashed ${colors.dividerColor}`,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         gap: 1,
-        backgroundColor: colors.sectionBackground,
-        border: `1px dashed ${colors.dividerColor}`,
         color: colors.textLight,
         ...sx,
       }}
     >
-      <Box sx={{ fontSize: 28, color: colors.textLight }}>{icon || <FaImage />}</Box>
-      <Typography variant="caption" sx={{ color: colors.textLight, textAlign: "center", px: 2 }}>
+      <FaImage size={28} aria-hidden="true" />
+      <Box component="span" sx={{ fontSize: "0.75rem", fontWeight: 600, letterSpacing: 0.5 }}>
         {label}
-      </Typography>
+      </Box>
     </Box>
   );
 };

@@ -1,20 +1,20 @@
 import { Box, Typography } from "@mui/material";
 import { FaChalkboardTeacher, FaTasks, FaHeadset, FaLayerGroup, FaBriefcase } from "react-icons/fa";
 import { colors } from "../../theme/theme";
+import AnimatedReveal from "../common/AnimatedReveal";
 
 /**
  * Restrained credibility strip — describes HOW Praksha Academy teaches,
- * not unverified numbers. No claim here is a quantitative statistic;
- * if you want to add real numbers later (e.g. actual enrollment), do it
- * in aboutData.js and render them through a proper Statistics component
+ * not unverified numbers. If you later want real quantitative stats, add
+ * them to aboutData.stats and use the (data-gated) Statistics component
  * instead of adding fake figures here.
  */
 const points = [
-  { icon: <FaChalkboardTeacher />, label: "Experienced Faculty" },
-  { icon: <FaTasks />, label: "Practical, Exercise-Led Learning" },
-  { icon: <FaHeadset />, label: "Direct Student Support" },
-  { icon: <FaLayerGroup />, label: "Structured Programs" },
-  { icon: <FaBriefcase />, label: "Career-Focused Tracks" },
+  { icon: <FaChalkboardTeacher />, label: "Structured Learning" },
+  { icon: <FaTasks />, label: "Practice-Based Classes" },
+  { icon: <FaHeadset />, label: "Student Support" },
+  { icon: <FaLayerGroup />, label: "Experienced Faculty" },
+  { icon: <FaBriefcase />, label: "Career-Focused Programs" },
 ];
 
 const TrustStrip = () => {
@@ -25,18 +25,44 @@ const TrustStrip = () => {
       sx={{ backgroundColor: colors.cardBackground, borderBottom: `1px solid ${colors.borderColor}`, py: { xs: 3.5, md: 4.5 } }}
     >
       <div className="container">
-        <div className="row justify-content-center g-3">
-          {points.map((point) => (
-            <div className="col-6 col-md-auto text-center" key={point.label}>
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1, px: { md: 2 } }}>
-                <Box sx={{ color: colors.primaryBlue, fontSize: 22 }}>{point.icon}</Box>
-                <Typography variant="body2" sx={{ color: colors.textSecondary, fontWeight: 600, fontSize: "0.85rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: { xs: 3, md: 5 },
+            overflowX: { xs: "auto", md: "visible" },
+            justifyContent: { md: "center" },
+            flexWrap: { md: "wrap" },
+            pb: { xs: 1, md: 0 },
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
+          {points.map((point, index) => (
+            <AnimatedReveal key={point.label} delay={index * 80}>
+              <Box
+                className="pa-trust-item"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 1,
+                  minWidth: { xs: 96, md: "auto" },
+                  px: { md: 2 },
+                  cursor: "default",
+                }}
+              >
+                <Box sx={{ color: colors.primaryBlue, fontSize: 22, transition: "transform 0.25s ease" }} aria-hidden="true">
+                  {point.icon}
+                </Box>
+                <Typography
+                  variant="body2"
+                  sx={{ color: colors.textSecondary, fontWeight: 600, fontSize: "0.85rem", textAlign: "center" }}
+                >
                   {point.label}
                 </Typography>
               </Box>
-            </div>
+            </AnimatedReveal>
           ))}
-        </div>
+        </Box>
       </div>
     </Box>
   );

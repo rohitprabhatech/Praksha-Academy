@@ -1,28 +1,40 @@
 import { Typography } from "@mui/material";
 import { colors } from "../../theme/theme";
+import { premium } from "../../theme/premiumPalette";
 
 /**
- * Shared section heading — was previously defined inline and duplicated in
- * both pages/About.jsx and pages/Contact.jsx. Centralized here so both
- * pages (and any future section) stay visually identical automatically.
+ * Shared section heading used across About + Contact. Centered by
+ * default; pass align="left" for editorial sections that sit next to an
+ * image or list. Pass dark to use light text/cyan eyebrow for sections
+ * on the navy canvas (About/Contact premium redesign).
  */
-const SectionHeading = ({ eyebrow, title, subtitle, align = "center" }) => (
+const SectionHeading = ({ eyebrow, title, subtitle, align = "center", component = "h2", dark = false }) => (
   <div className={`row ${align === "center" ? "justify-content-center text-center" : ""} mb-5`}>
     <div className={align === "center" ? "col-lg-7" : "col-12"}>
       {eyebrow && (
-        <Typography variant="overline" sx={{ color: colors.primaryBlue, fontWeight: 600, letterSpacing: 1.5 }}>
+        <Typography
+          variant="overline"
+          sx={{ color: dark ? premium.cyan : colors.primaryBlue, fontWeight: 700, letterSpacing: 1.5, fontSize: "0.8rem" }}
+        >
           {eyebrow}
         </Typography>
       )}
       <Typography
         variant="h2"
-        component="h2"
-        sx={{ color: colors.textPrimary, mt: eyebrow ? 1 : 0, mb: 2, fontSize: { xs: "1.75rem", md: "2.25rem" } }}
+        component={component}
+        sx={{
+          color: dark ? premium.white : colors.textPrimary,
+          mt: 1,
+          mb: subtitle ? 2 : 0,
+          fontSize: { xs: "1.75rem", md: "2.5rem" },
+          lineHeight: 1.2,
+          fontWeight: 700,
+        }}
       >
         {title}
       </Typography>
       {subtitle && (
-        <Typography variant="body1" sx={{ color: colors.textSecondary }}>
+        <Typography variant="body1" sx={{ color: dark ? premium.grayLight : colors.textSecondary, fontSize: "1.05rem" }}>
           {subtitle}
         </Typography>
       )}

@@ -40,7 +40,7 @@ const Faculty = () => {
 
   return (
     <div className="row g-4">
-      {faculty.map((member) => (
+      {faculty.map((member, index) => (
         <div className="col-sm-6 col-lg-3" key={member.name}>
           <Box
             className="pa-hover-card"
@@ -53,13 +53,15 @@ const Faculty = () => {
               height: "100%",
             }}
           >
-            <Avatar
-              src={member.photo || undefined}
-              alt={member.name}
-              sx={{ width: 84, height: 84, mx: "auto", mb: 2, border: `3px solid ${colors.sectionBackground}` }}
-            >
-              {!member.photo && member.name?.[0]}
-            </Avatar>
+            <Box className="pa-image-hover" sx={{ borderRadius: "50%", width: 84, height: 84, mx: "auto", mb: 2, overflow: "hidden" }}>
+              <Avatar
+                src={member.photo || undefined}
+                alt={member.name}
+                sx={{ width: 84, height: 84, border: `3px solid ${colors.sectionBackground}` }}
+              >
+                {!member.photo && member.name?.[0]}
+              </Avatar>
+            </Box>
             <Typography variant="subtitle1" sx={{ color: colors.textPrimary, fontWeight: 600 }}>
               {member.name}
             </Typography>

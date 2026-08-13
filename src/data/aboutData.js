@@ -65,6 +65,20 @@ const aboutData = {
     { step: "Track Progress", description: "See where you stand from your student dashboard." },
   ],
 
+  // "Learning Environment" — what a student actually experiences. Paired
+  // with mediaData.learningEnvironment for images by matching `key`.
+  learningEnvironment: [
+    { key: "live-classes", title: "Live Classes", description: "Scheduled sessions with a teacher, not just pre-recorded video." },
+    { key: "practice", title: "Practice", description: "Exercises tied to each lesson so the concept actually sticks." },
+    { key: "mentorship", title: "Mentorship", description: "Direct feedback from an instructor who knows your progress." },
+    { key: "progress-tracking", title: "Progress Tracking", description: "See what you've completed and what's next from your dashboard." },
+  ],
+
+  // STUDENT STORIES — intentionally empty. Do not invent testimonials.
+  // Add real, verified entries here once available, in this shape:
+  // { quote: "", name: "", program: "", photo: "" }
+  testimonials: [],
+
   mission:
     "To make quality education accessible and personal — combining structured curriculum, teacher feedback, and technology so students from Class 8 through career-focused tracks can learn at a pace that works for them.",
 
@@ -107,18 +121,23 @@ const aboutData = {
   // STATISTICS — intentionally empty. Do not invent enrollment numbers,
   // ratings, or city counts. Add real, confirmed figures here, in this
   // shape: { value: 0, suffix: "", label: "", decimals: 0 }
-  stats: [],
+  // ⚠️ PLACEHOLDER DEMO NUMBERS — NOT VERIFIED, DO NOT PUBLISH AS-IS.
+  // These four values were provided as example content for the animated
+  // counter design (see components/common/AnimatedCounter.jsx) but are
+  // not confirmed real Praksha Academy figures. Replace `value` with
+  // real, verified numbers before this goes live — or clear this array
+  // back to [] to hide the Statistics section entirely, same as before.
+  stats: [
+    { label: "Students", value: 500, suffix: "+" },
+    { label: "Courses", value: 20, suffix: "+" },
+    { label: "Projects", value: 50, suffix: "+" },
+    { label: "Satisfaction", value: 95, suffix: "%" },
+  ],
 
   // RECOGNITION — intentionally empty. Do not invent awards, press mentions,
   // or certifications. Add real, verifiable entries here, in this shape:
   // { title: "", issuer: "", year: "" }
   recognition: [],
-
-  // Hero "Watch Our Story" video. Leave videoUrl null until a real video
-  // exists — the hero hides the button entirely when this is null.
-  storyVideo: {
-    videoUrl: null, // e.g. "https://www.youtube.com/embed/REAL_VIDEO_ID"
-  },
 
   faqs: [
     {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import { FaChevronDown } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { colors } from "../../theme/theme";
 import contactData from "../../data/contactData";
 
@@ -17,38 +17,45 @@ const FAQPreview = () => {
         Quick answers before you reach out.
       </Typography>
 
-      {contactData.faqs.map((item, index) => (
-        <Accordion
-          key={item.q}
-          expanded={expanded === `contact-panel${index}`}
-          onChange={handleChange(`contact-panel${index}`)}
-          disableGutters
-          elevation={0}
-          sx={{
-            border: `1px solid ${colors.borderColor}`,
-            borderRadius: "10px !important",
-            mb: 1.5,
-            "&:before": { display: "none" },
-            overflow: "hidden",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<FaChevronDown size={14} color={colors.textSecondary} aria-hidden="true" />}
-            aria-controls={`contact-panel${index}-content`}
-            id={`contact-panel${index}-header`}
-            sx={{ backgroundColor: colors.sectionBackground }}
+      {contactData.faqs.map((item, index) => {
+        const isOpen = expanded === `contact-panel${index}`;
+        return (
+          <Accordion
+            key={item.q}
+            expanded={isOpen}
+            onChange={handleChange(`contact-panel${index}`)}
+            disableGutters
+            elevation={0}
+            sx={{
+              border: `1px solid ${colors.borderColor}`,
+              borderRadius: "10px !important",
+              mb: 1.5,
+              "&:before": { display: "none" },
+              overflow: "hidden",
+            }}
           >
-            <Typography variant="subtitle2" sx={{ color: colors.textPrimary, fontWeight: 600 }}>
-              {item.q}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails id={`contact-panel${index}-content`}>
-            <Typography variant="body2" sx={{ color: colors.textSecondary, lineHeight: 1.7 }}>
-              {item.a}
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+            <AccordionSummary
+              expandIcon={
+                <Box sx={{ color: colors.primaryBlue, transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.25s ease" }} aria-hidden="true">
+                  <FaPlus size={14} />
+                </Box>
+              }
+              aria-controls={`contact-panel${index}-content`}
+              id={`contact-panel${index}-header`}
+              sx={{ backgroundColor: colors.sectionBackground }}
+            >
+              <Typography variant="subtitle2" sx={{ color: colors.textPrimary, fontWeight: 600 }}>
+                {item.q}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails id={`contact-panel${index}-content`}>
+              <Typography variant="body2" sx={{ color: colors.textSecondary, lineHeight: 1.7 }}>
+                {item.a}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </Box>
   );
 };

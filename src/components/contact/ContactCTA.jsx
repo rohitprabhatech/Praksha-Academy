@@ -1,78 +1,45 @@
 import { Box, Typography, Button, Stack } from "@mui/material";
-import { FaArrowRight, FaHeadset } from "react-icons/fa";
-import { colors } from "../../theme/theme";
+import { FaArrowRight } from "react-icons/fa";
+import { premium } from "../../theme/premiumPalette";
+import GradientBlobs from "../common/GradientBlobs";
+import AnimatedReveal from "../common/AnimatedReveal";
 
-/**
- * Editorial closing banner for the Contact page — the "what should I do
- * next" moment the design brief calls for, instead of ending on the FAQ
- * accordion with no clear next step.
- */
 const ContactCTA = () => {
   return (
     <Box
-      className="pa-fade-up"
       sx={{
         position: "relative",
         overflow: "hidden",
-        borderRadius: "16px",
-        background: `linear-gradient(135deg, ${colors.primaryBlue} 0%, #1E40AF 100%)`,
-        color: colors.textWhite,
-        px: { xs: 3, md: 6 },
-        py: { xs: 5, md: 7 },
+        borderRadius: "24px",
         textAlign: "center",
+        py: { xs: 6, md: 8 },
+        px: { xs: 3, md: 6 },
+        background: `linear-gradient(135deg, ${premium.navySoft} 0%, ${premium.navy} 100%)`,
+        border: `1px solid ${premium.glassBorder}`,
       }}
     >
-      {/* Subtle decorative accent — restrained, on-brand, no stray gradients */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: -60,
-          right: -60,
-          width: 200,
-          height: 200,
-          borderRadius: "50%",
-          backgroundColor: "rgba(245,158,11,0.12)",
-        }}
-      />
-
-      <Typography variant="h3" sx={{ fontSize: { xs: "1.6rem", md: "2.1rem" }, mb: 1.5, position: "relative" }}>
-        Have a question? Start here.
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ color: "rgba(255,255,255,0.85)", maxWidth: 480, mx: "auto", mb: 4, position: "relative" }}
-      >
-        Whether you're comparing courses or ready to enroll, there's a fast
-        path to an answer.
-      </Typography>
-
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center" sx={{ position: "relative" }}>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          endIcon={<FaArrowRight />}
-          href="/courses"
-          sx={{ px: 4, py: 1.5 }}
-        >
-          Explore Courses
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          startIcon={<FaHeadset />}
-          href="#top"
-          sx={{
-            px: 4,
-            py: 1.5,
-            color: colors.textWhite,
-            borderColor: "rgba(255,255,255,0.5)",
-            "&:hover": { borderColor: colors.textWhite, backgroundColor: "rgba(255,255,255,0.08)" },
-          }}
-        >
-          Contact Support
-        </Button>
-      </Stack>
+      <GradientBlobs variant="cta" />
+      <Box sx={{ position: "relative", zIndex: 1 }}>
+        <AnimatedReveal>
+          <Typography variant="h3" sx={{ fontWeight: 700, fontSize: { xs: "1.8rem", md: "2.4rem" }, color: premium.white, mb: 2 }}>
+            Still have questions?
+          </Typography>
+          <Typography variant="body1" sx={{ color: premium.grayLight, maxWidth: 480, mx: "auto", mb: 4 }}>
+            We're here to help you choose the right path.
+          </Typography>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center">
+            <Button
+              variant="contained"
+              size="large"
+              endIcon={<FaArrowRight />}
+              href="#contact-form"
+              sx={{ px: 4.5, py: 1.6, background: `linear-gradient(90deg, ${premium.blue}, ${premium.purple})`, boxShadow: `0 8px 24px ${premium.blue}55` }}
+            >
+              Talk to Praksha Academy
+            </Button>
+          </Stack>
+        </AnimatedReveal>
+      </Box>
     </Box>
   );
 };

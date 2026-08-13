@@ -1,59 +1,68 @@
 import { Box, Typography } from "@mui/material";
-import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
-import mediaData from "../../data/mediaData";
+import { premium } from "../../theme/premiumPalette";
+import AnimatedReveal from "../common/AnimatedReveal";
 import ImagePlaceholder from "../common/ImagePlaceholder";
+import mediaData from "../../data/mediaData";
 
-/**
- * Editorial "Who We Are" section — replaces the previous fabricated
- * founder-quote block. Copy comes from aboutData.whoWeAre and is clearly
- * marked as placeholder text to be replaced with the real story. A large
- * image now anchors the left column per the design brief's "editorial
- * image + text" layout — degrades to a placeholder until a real photo is
- * set in mediaData.js.
- */
 const WhoWeAre = () => {
-  const { story, belief, approach } = aboutData.whoWeAre;
+  const media = mediaData.whoWeAre;
 
   return (
-    <div className="row g-5 align-items-center">
-      <div className="col-lg-5">
-        <ImagePlaceholder
-          src={mediaData.whoWeAre}
-          alt="Inside a Praksha Academy classroom"
-          label="Photo coming soon"
-          aspectRatio="4 / 5"
-          borderRadius="18px"
-        />
+    <div className="row align-items-center g-5">
+      <div className="col-lg-6">
+        <AnimatedReveal direction="left">
+          <Box sx={{ position: "relative" }}>
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: "absolute",
+                top: -20,
+                left: -20,
+                right: 20,
+                bottom: 20,
+                borderRadius: "20px",
+                background: `linear-gradient(135deg, ${premium.blue}33, ${premium.purple}22)`,
+                zIndex: 0,
+              }}
+            />
+            <Box className="pa-image-hover" sx={{ position: "relative", zIndex: 1 }}>
+              <ImagePlaceholder
+                src={media?.image}
+                alt={media?.imageAlt || "Students learning together"}
+                aspectRatio="4/3.4"
+                borderRadius="18px"
+                sx={{ border: `1px solid ${premium.glassBorder}` }}
+              />
+            </Box>
+          </Box>
+        </AnimatedReveal>
       </div>
-      <div className="col-lg-7">
-        <Typography variant="h4" sx={{ color: colors.textPrimary, fontSize: { xs: "1.6rem", md: "2rem" }, lineHeight: 1.25, mb: 3 }}>
-          Who We Are
-        </Typography>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="subtitle2" sx={{ color: colors.primaryBlue, fontWeight: 700, mb: 1, textTransform: "uppercase", letterSpacing: 0.5, fontSize: "0.8rem" }}>
-            Our Story
+
+      <div className="col-lg-6">
+        <AnimatedReveal direction="right" delay={100}>
+          <Typography variant="overline" sx={{ color: premium.cyan, fontWeight: 700, letterSpacing: 2 }}>
+            WHO WE ARE
           </Typography>
-          <Typography variant="body1" sx={{ color: colors.textSecondary, lineHeight: 1.8 }}>
-            {story}
+          <Typography
+            variant="h3"
+            sx={{ color: premium.white, fontWeight: 700, fontSize: { xs: "1.9rem", md: "2.4rem" }, mt: 1, mb: 3 }}
+          >
+            An academy built around how students actually learn
           </Typography>
-        </Box>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="subtitle2" sx={{ color: colors.primaryBlue, fontWeight: 700, mb: 1, textTransform: "uppercase", letterSpacing: 0.5, fontSize: "0.8rem" }}>
-            What We Believe
+          <Typography variant="body1" sx={{ color: premium.grayLight, lineHeight: 1.85, mb: 2, fontSize: "1.05rem" }}>
+            Praksha Academy exists to make structured, mentored learning
+            available to every student — not just those who can afford
+            premium private tutoring. Our teachers combine subject depth
+            with the patience to actually explain a concept until it makes
+            sense.
           </Typography>
-          <Typography variant="body1" sx={{ color: colors.textSecondary, lineHeight: 1.8 }}>
-            {belief}
+          <Typography variant="body1" sx={{ color: premium.grayLight, lineHeight: 1.85, fontSize: "1.05rem" }}>
+            From school-board fundamentals to industry-ready technical
+            skills, every course is built around real practice, honest
+            feedback, and a pace that fits the student — not a fixed
+            syllabus that leaves anyone behind.
           </Typography>
-        </Box>
-        <Box>
-          <Typography variant="subtitle2" sx={{ color: colors.primaryBlue, fontWeight: 700, mb: 1, textTransform: "uppercase", letterSpacing: 0.5, fontSize: "0.8rem" }}>
-            How We Teach
-          </Typography>
-          <Typography variant="body1" sx={{ color: colors.textSecondary, lineHeight: 1.8 }}>
-            {approach}
-          </Typography>
-        </Box>
+        </AnimatedReveal>
       </div>
     </div>
   );
