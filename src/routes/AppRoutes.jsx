@@ -22,6 +22,12 @@ import Certificates from '../pages/student/Certificates'
 import Notifications from '../pages/student/Notifications'
 import Profile from '../pages/student/Profile'
 
+import AdminLayout from '../layouts/AdminLayout'
+import AdminLogin from '../pages/admin/Login/AdminLogin'
+import AdminDashboard from '../pages/admin/Dashboard/Dashboard'
+import AdminProfile from '../pages/admin/Profile/AdminProfile'
+import AdminSettings from '../pages/admin/Settings/AdminSettings'
+
 function AppRoutes() {
  return (
   <Routes>
@@ -47,6 +53,13 @@ function AppRoutes() {
     <Route path="/student/certificates" element={<Certificates />} />
     <Route path="/student/notifications" element={<Notifications />} />
     <Route path="/student/profile" element={<Profile />} />
+   </Route>
+
+   <Route path="/admin/login" element={<AdminLogin />} />
+   <Route path="/admin" element={<AdminLayout />}>
+    <Route path="dashboard" element={<AdminDashboard />} />
+    <Route path="profile" element={<AdminProfile />} />
+    <Route path="settings" element={<AdminSettings />} />
    </Route>
 
    <Route path="*" element={<NotFound />} />
