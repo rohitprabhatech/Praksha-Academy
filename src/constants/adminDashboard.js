@@ -19,8 +19,8 @@ export const adminTokens = {
  colors: {
   primary: '#2563EB',
   primaryDark: '#1D4ED8',
-  sidebarLight: '#B7D1F2',
-  sidebarDark: '#172B46',
+  sidebarLight: '#FFFFFF',
+  sidebarDark: '#0F172A',
   sidebarText: '#10233F',
   sidebarMuted: '#43627F',
   sidebarBorder: 'rgba(37, 99, 235, 0.16)',
@@ -124,6 +124,7 @@ export const dashboardStats = [
   change: '+12.4%',
   detail: 'Compared with last month',
   trend: 'up',
+  icon: FiUsers,
  },
  {
   title: 'Total Teachers',
@@ -131,6 +132,7 @@ export const dashboardStats = [
   change: '+8 new',
   detail: 'vs last month',
   trend: 'up',
+  icon: FiUser,
  },
  {
   title: 'Total Courses',
@@ -138,6 +140,7 @@ export const dashboardStats = [
   change: '+18.2%',
   detail: 'vs last month',
   trend: 'up',
+  icon: FiBookOpen,
  },
  {
   title: 'Total Revenue',
@@ -145,6 +148,7 @@ export const dashboardStats = [
   change: '+15.8%',
   detail: 'vs last quarter',
   trend: 'up',
+  icon: FiCreditCard,
  },
  {
   title: 'New Enrollments',
@@ -152,6 +156,7 @@ export const dashboardStats = [
   change: '+42 today',
   detail: 'New students in 30 days',
   trend: 'up',
+  icon: FiUserPlus,
  },
  {
   title: 'Active Students',
@@ -159,6 +164,7 @@ export const dashboardStats = [
   change: '82.2%',
   detail: 'Learning this week',
   trend: 'neutral',
+  icon: FiActivity,
  },
 ]
 

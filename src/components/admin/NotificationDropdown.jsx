@@ -9,6 +9,7 @@ import {
  Tooltip,
  Typography,
 } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import { useState } from 'react'
 import { FiBell } from 'react-icons/fi'
 import { notifications } from '../../constants/adminDashboard'
@@ -26,7 +27,19 @@ function NotificationDropdown() {
      aria-controls={open ? 'admin-notifications-menu' : undefined}
      aria-haspopup="menu"
      aria-expanded={open ? 'true' : undefined}
-     sx={{ color: 'text.secondary' }}
+     sx={{
+      width: 40,
+      height: 40,
+      color: 'text.primary',
+      border: '1px solid',
+      borderColor: (theme) =>
+       theme.palette.mode === 'dark' ? 'rgba(148, 163, 184, 0.18)' : 'rgba(226, 232, 240, 0.95)',
+      borderRadius: 1.5,
+      bgcolor: 'background.paper',
+      '&:hover': {
+       bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.06),
+      },
+     }}
     >
      <Badge badgeContent={notifications.length} color="secondary">
       <FiBell size={19} />

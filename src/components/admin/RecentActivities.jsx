@@ -11,8 +11,8 @@ const activityStyle = {
 
 function RecentActivities() {
  return (
-  <AdminSurface sx={{ p: 2.25, height: '100%' }}>
-   <Typography variant="h3" sx={{ fontSize: '1rem', mb: 1.5 }}>
+  <AdminSurface sx={{ p: { xs: 2, md: 2.5 }, height: '100%' }}>
+   <Typography variant="h3" sx={{ fontSize: '1rem', fontWeight: 850, mb: 1.5 }}>
     Recent Activities
    </Typography>
    <Stack>

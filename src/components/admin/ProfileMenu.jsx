@@ -7,6 +7,7 @@ import {
  Stack,
  Typography,
 } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiLogOut, FiSettings, FiUser } from 'react-icons/fi'
@@ -36,13 +37,19 @@ function ProfileMenu() {
     aria-expanded={open ? 'true' : undefined}
     sx={{
      border: '1px solid',
-     borderColor: 'divider',
+     borderColor: (theme) =>
+      theme.palette.mode === 'dark' ? 'rgba(148, 163, 184, 0.18)' : 'rgba(226, 232, 240, 0.95)',
      bgcolor: 'background.paper',
-     borderRadius: 999,
+     borderRadius: 1.5,
      p: 0.5,
      pr: { xs: 0.5, sm: 1.25 },
      cursor: 'pointer',
      alignItems: 'center',
+     transition: 'background-color 160ms ease, border-color 160ms ease',
+     '&:hover': {
+      borderColor: (theme) => alpha(theme.palette.primary.main, 0.28),
+      bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.06),
+     },
     }}
    >
     <Avatar sx={{ width: 34, height: 34, bgcolor: 'primary.main' }}>

@@ -4,9 +4,9 @@ import AdminSurface from './common/AdminSurface'
 
 function UpcomingClasses() {
  return (
-  <AdminSurface sx={{ p: 2.25, height: '100%' }}>
+  <AdminSurface sx={{ p: { xs: 2, md: 2.5 }, height: '100%' }}>
    <Stack direction="row" spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-    <Typography variant="h3" sx={{ fontSize: '1rem' }}>
+    <Typography variant="h3" sx={{ fontSize: '1rem', fontWeight: 850 }}>
      Upcoming Classes
     </Typography>
    </Stack>
