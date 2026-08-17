@@ -23,6 +23,44 @@ import Certificates from '../pages/student/Certificates'
 import Notifications from '../pages/student/Notifications'
 import Profile from '../pages/student/Profile'
 
+// Admin Layout
+import AdminLayout from '../layouts/AdminLayout'
+
+// Admin — Blog
+import BlogList from '../pages/admin/Blog/BlogList'
+import CreateBlog from '../pages/admin/Blog/CreateBlog'
+import EditBlog from '../pages/admin/Blog/EditBlog'
+import BlogDetails from '../pages/admin/Blog/BlogDetails'
+
+// Admin — Gallery
+import GalleryList from '../pages/admin/Gallery/GalleryList'
+import AddImage from '../pages/admin/Gallery/AddImage'
+import AddVideo from '../pages/admin/Gallery/AddVideo'
+
+// Admin — FAQ
+import FAQList from '../pages/admin/FAQ/FAQList'
+import AddFAQ from '../pages/admin/FAQ/AddFAQ'
+import EditFAQ from '../pages/admin/FAQ/EditFAQ'
+
+// Admin — Testimonials
+import TestimonialsList from '../pages/admin/Testimonials/TestimonialsList'
+import AddTestimonial from '../pages/admin/Testimonials/AddTestimonial'
+import EditTestimonial from '../pages/admin/Testimonials/EditTestimonial'
+
+// Admin — Notifications
+import NotificationList from '../pages/admin/Notifications/NotificationList'
+import CreateNotification from '../pages/admin/Notifications/CreateNotification'
+
+// Admin — Contact Messages
+import ContactMessagesList from '../pages/admin/ContactMessages/ContactMessagesList'
+import MessageDetails from '../pages/admin/ContactMessages/MessageDetails'
+
+// Admin — Reports
+import StudentReports from '../pages/admin/Reports/StudentReports'
+import CourseReports from '../pages/admin/Reports/CourseReports'
+import RevenueReports from '../pages/admin/Reports/RevenueReports'
+import PerformanceReports from '../pages/admin/Reports/PerformanceReports'
+
 function AppRoutes() {
  return (
   <Routes>
@@ -50,6 +88,44 @@ function AppRoutes() {
     <Route path="/student/certificates" element={<Certificates />} />
     <Route path="/student/notifications" element={<Notifications />} />
     <Route path="/student/profile" element={<Profile />} />
+   </Route>
+
+   {/* ── Admin Routes ────────────────────────────────────────────── */}
+   <Route element={<AdminLayout />}>
+    {/* Blog */}
+    <Route path="/admin/blog" element={<BlogList />} />
+    <Route path="/admin/blog/create" element={<CreateBlog />} />
+    <Route path="/admin/blog/:id/edit" element={<EditBlog />} />
+    <Route path="/admin/blog/:id" element={<BlogDetails />} />
+
+    {/* Gallery */}
+    <Route path="/admin/gallery" element={<GalleryList />} />
+    <Route path="/admin/gallery/add-image" element={<AddImage />} />
+    <Route path="/admin/gallery/add-video" element={<AddVideo />} />
+
+    {/* FAQ */}
+    <Route path="/admin/faq" element={<FAQList />} />
+    <Route path="/admin/faq/add" element={<AddFAQ />} />
+    <Route path="/admin/faq/:id/edit" element={<EditFAQ />} />
+
+    {/* Testimonials */}
+    <Route path="/admin/testimonials" element={<TestimonialsList />} />
+    <Route path="/admin/testimonials/add" element={<AddTestimonial />} />
+    <Route path="/admin/testimonials/:id/edit" element={<EditTestimonial />} />
+
+    {/* Notifications */}
+    <Route path="/admin/notifications" element={<NotificationList />} />
+    <Route path="/admin/notifications/create" element={<CreateNotification />} />
+
+    {/* Contact Messages */}
+    <Route path="/admin/contact-messages" element={<ContactMessagesList />} />
+    <Route path="/admin/contact-messages/:id" element={<MessageDetails />} />
+
+    {/* Reports */}
+    <Route path="/admin/reports/students" element={<StudentReports />} />
+    <Route path="/admin/reports/courses" element={<CourseReports />} />
+    <Route path="/admin/reports/revenue" element={<RevenueReports />} />
+    <Route path="/admin/reports/performance" element={<PerformanceReports />} />
    </Route>
 
    <Route path="*" element={<NotFound />} />

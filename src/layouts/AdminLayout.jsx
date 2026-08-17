@@ -1,50 +1,85 @@
-import { Box } from '@mui/material'
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import Sidebar from '../components/admin/Sidebar'
-import TopNavbar from '../components/admin/TopNavbar'
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { FiMenu } from 'react-icons/fi';
+import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar';
 
-function AdminLayout() {
- const [mobileOpen, setMobileOpen] = useState(false)
+const focusRingSx = {
+  '&:focus-visible': {
+    outline: '2px solid #2563EB',
+    outlineOffset: '2px',
+    borderRadius: '6px',
+  },
+};
 
- return (
-  <Box
-   sx={{
-    display: 'flex',
-    height: '100vh',
-    overflow: 'hidden',
-    bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#162231' : '#F4F7FB'),
-   }}
-  >
-   <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
-   <Box
-    sx={{
-     flex: 1,
-     minWidth: 0,
-     display: 'flex',
-     flexDirection: 'column',
-     height: '100vh',
-    }}
-   >
-    <TopNavbar onOpenSidebar={() => setMobileOpen(true)} />
-    <Box
-     component="main"
-     sx={{
-      flex: 1,
-      width: '100%',
-      overflowY: 'auto',
-      px: { xs: 2, sm: 2.5, lg: 3.25 },
-      py: { xs: 2, md: 3 },
-      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#162231' : '#F4F7FB'),
-     }}
-    >
-     <Box sx={{ width: '100%', maxWidth: 1480, mx: 'auto' }}>
-      <Outlet />
-     </Box>
+const AdminLayout = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F8FAFC' }}>
+      <AdminSidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Mobile top bar */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1.5}
+          sx={{
+            display: { xs: 'flex', md: 'none' },
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
+            bgcolor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid #E2E8F0',
+            px: 2,
+            py: 1.5,
+          }}
+        >
+          <IconButton
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open admin menu"
+            sx={{ color: '#1E293B', ...focusRingSx }}
+          >
+            <FiMenu size={22} />
+          </IconButton>
+          <Typography
+            sx={{
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '1rem',
+              color: '#1E293B',
+            }}
+          >
+            Praksha Academy — Admin
+          </Typography>
+        </Stack>
+
+        {/* Page content */}
+        <Box
+          sx={{
+            flex: 1,
+            width: '100%',
+            maxWidth: `calc(1280px + ${ADMIN_SIDEBAR_WIDTH}px)`,
+            mx: 'auto',
+            px: { xs: 2, sm: 3, md: 4 },
+            py: { xs: 3, md: 4 },
+          }}
+        >
+          <Outlet />
+        </Box>
+      </Box>
     </Box>
-   </Box>
-  </Box>
- )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;
