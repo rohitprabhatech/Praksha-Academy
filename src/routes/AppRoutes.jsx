@@ -8,6 +8,7 @@ import About from '../pages/About'
 import Blog from '../pages/Blog'
 import Contact from '../pages/Contact'
 import NotFound from '../pages/NotFound'
+import AdminRoutes from './AdminRoutes'
 
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Register";
@@ -39,6 +40,8 @@ function AppRoutes() {
    <Route path="/register" element={<Signup />} />
    <Route path="/forgot-password" element={<ForgotPassword />} />
    <Route path="/verify-otp" element={<VerifyOtp />} />
+
+   <Route path="/admin/*" element={<AdminRoutes />} />
 
    <Route element={<StudentLayout />}>
     <Route path="/student/dashboard" element={<Dashboard />} />
