@@ -26,9 +26,28 @@ const contactData = {
   whatsapp: null, // e.g. "91XXXXXXXXXX"
 
   // TODO: set to true only once Praksha Academy has a confirmed physical office
-  hasPhysicalAddress: false,
-  address: null, // e.g. "Full address, City, State, PIN"
-  mapUrl: null, // e.g. a Google Maps share link for the real address
+  hasPhysicalAddress: true,
+
+  address: "REAL OFFICIAL PRABHA ACADEMY ADDRESS",
+
+  mapUrl: "REAL GOOGLE MAPS URL",
+
+  mapEmbedUrl: "REAL GOOGLE MAPS EMBED URL",
+
+  workingHours: [
+    {
+      day: "Monday – Friday",
+      time: "9:00 AM – 7:00 PM",
+    },
+    {
+      day: "Saturday",
+      time: "10:00 AM – 5:00 PM",
+    },
+    {
+      day: "Sunday",
+      time: "Closed",
+    },
+  ],
 
   // TODO: confirm real working hours before publishing
   workingHours: null,

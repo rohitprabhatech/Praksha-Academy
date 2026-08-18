@@ -24,7 +24,7 @@ const LearningJourney = () => {
           left: "10%",
           right: "10%",
           height: 2,
-          background: `linear-gradient(90deg, ${premium.blue}, ${premium.cyan}, ${premium.purple})`,
+          background: `linear-gradient(90deg, ${premium.blue}, ${premium.orange})`,
           opacity: 0.4,
         }}
       />
@@ -46,25 +46,25 @@ const LearningJourney = () => {
                     mb: 2,
                     position: "relative",
                     zIndex: 1,
-                    background: `linear-gradient(135deg, ${premium.blue}, ${premium.purple})`,
+                    background: `linear-gradient(135deg, ${premium.blue}, ${premium.blueLight})`,
                     color: premium.white,
                     fontSize: 24,
-                    border: `3px solid ${premium.navy}`,
-                    boxShadow: `0 0 0 2px rgba(34,211,238,0.4)`,
+                    border: `3px solid ${premium.background}`,
+                    boxShadow: `0 0 0 2px rgba(37,99,235,0.25)`,
                   }}
                 >
                   {step.icon}
                 </Box>
                 <Typography
                   variant="caption"
-                  sx={{ color: premium.cyan, fontWeight: 700, letterSpacing: 1, display: "block", mb: 0.5 }}
+                  sx={{ color: premium.blue, fontWeight: 700, letterSpacing: 1, display: "block", mb: 0.5 }}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: premium.white, fontWeight: 600, mb: 1 }}>
+                <Typography variant="subtitle1" sx={{ color: premium.textPrimary, fontWeight: 600, mb: 1 }}>
                   {step.title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: premium.gray, lineHeight: 1.6, maxWidth: 180, mx: "auto" }}>
+                <Typography variant="body2" sx={{ color: premium.textSecondary, lineHeight: 1.6, maxWidth: 180, mx: "auto" }}>
                   {step.description}
                 </Typography>
               </Box>

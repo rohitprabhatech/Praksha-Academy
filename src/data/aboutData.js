@@ -21,6 +21,18 @@ const aboutData = {
       "Courses are built around live instruction, practice, and progress tracking, so students know exactly where they stand. // TODO: confirm this matches how classes are actually run.",
   },
 
+  // "Our Pedagogy" — three core teaching pillars. Philosophy/approach
+  // statement, not a quantitative claim, so safe to state directly.
+  pedagogy: {
+    description:
+      "Praksha Academy is built around three core pillars that shape how every course is taught.",
+    pillars: [
+      { title: "Student-Centric Learning", description: "Tailored learning paths suited for individual growth." },
+      { title: "Hands-on Projects", description: "Real-world project building with live guidance." },
+      { title: "Mentorship & Legacy", description: "Direct interaction with expert mentors throughout the course." },
+    ],
+  },
+
   // "What Makes Us Different" — educational principles, not quantitative claims.
   differentiators: [
     {
@@ -128,10 +140,10 @@ const aboutData = {
   // real, verified numbers before this goes live — or clear this array
   // back to [] to hide the Statistics section entirely, same as before.
   stats: [
-    { label: "Students", value: 500, suffix: "+" },
-    { label: "Courses", value: 20, suffix: "+" },
-    { label: "Projects", value: 50, suffix: "+" },
-    { label: "Satisfaction", value: 95, suffix: "%" },
+    { label: "Students Enrolled", value: 500, suffix: "+", icon: "students" },
+    { label: "Expert Mentors", value: 30, suffix: "+", icon: "mentors" },
+    { label: "Courses Offered", value: 25, suffix: "+", icon: "courses" },
+    { label: "Placement Support", value: 95, suffix: "%", icon: "placement" },
   ],
 
   // RECOGNITION — intentionally empty. Do not invent awards, press mentions,

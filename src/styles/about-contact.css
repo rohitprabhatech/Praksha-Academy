@@ -1,13 +1,71 @@
-/* Praksha Academy — About & Contact shared animations
-   Import once, e.g. in About.jsx / Contact.jsx */
+/* ==========================================================================
+   PRAKSHA ACADEMY
+   About & Contact — Shared Design System
+   ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
+/* Use ONE font throughout the project.
+   If the rest of the application already uses Poppins globally,
+   keep Poppins instead of introducing another font here. */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  --pa-primary: #2563eb;
+  --pa-primary-hover: #1d4ed8;
+
+  --pa-secondary: #f59e0b;
+  --pa-secondary-hover: #d97706;
+
+  --pa-success: #22c55e;
+  --pa-error: #ef4444;
+
+  --pa-page-bg: #f8fafc;
+  --pa-section-bg: #f1f5f9;
+  --pa-card-bg: #ffffff;
+
+  --pa-border: #e2e8f0;
+  --pa-divider: #cbd5e1;
+
+  --pa-text-primary: #1e293b;
+  --pa-text-secondary: #64748b;
+  --pa-text-light: #94a3b8;
+  --pa-white: #ffffff;
+
+  --pa-radius: 10px;
+  --pa-radius-lg: 12px;
+
+  --pa-transition: 0.3s ease;
+}
+
+/* ==========================================================================
+   BASE TYPOGRAPHY
+   ========================================================================== */
+
+.pa-page {
+  font-family: "Poppins", sans-serif;
+  color: var(--pa-text-primary);
+  background-color: var(--pa-page-bg);
+}
+
+.pa-page *,
+.pa-page *::before,
+.pa-page *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   FADE ANIMATIONS
+   ========================================================================== */
 
 @keyframes pa-fade-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -15,8 +73,13 @@
 }
 
 @keyframes pa-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .pa-fade-up {
@@ -27,28 +90,63 @@
   animation: pa-fade-in 0.6s ease forwards;
 }
 
-.pa-delay-1 { animation-delay: 0.1s; opacity: 0; }
-.pa-delay-2 { animation-delay: 0.2s; opacity: 0; }
-.pa-delay-3 { animation-delay: 0.3s; opacity: 0; }
-.pa-delay-4 { animation-delay: 0.4s; opacity: 0; }
+.pa-delay-1 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
 
-/* Card hover lift — used across About/Contact cards */
+.pa-delay-2 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.pa-delay-3 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.pa-delay-4 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* ==========================================================================
+   CARD HOVER
+   ========================================================================== */
+
 .pa-hover-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.pa-hover-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(30, 41, 59, 0.08);
+  transition:
+    transform var(--pa-transition),
+    box-shadow var(--pa-transition),
+    border-color var(--pa-transition);
 }
 
-/* Timeline connector line */
+.pa-hover-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(30, 41, 59, 0.08);
+}
+
+/* ==========================================================================
+   STANDARD CARD
+   ========================================================================== */
+
+.pa-card {
+  background-color: var(--pa-card-bg);
+  border: 1px solid var(--pa-border);
+  border-radius: var(--pa-radius-lg);
+}
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
+
 .pa-timeline-line {
   position: absolute;
   left: 19px;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #E2E8F0;
+  background-color: var(--pa-border);
 }
 
 @media (max-width: 767px) {
@@ -57,138 +155,196 @@
   }
 }
 
-/* Trust strip item hover */
+/* ==========================================================================
+   TRUST STRIP
+   ========================================================================== */
+
+.pa-trust-item {
+  transition: transform var(--pa-transition);
+}
+
 .pa-trust-item:hover {
   transform: translateY(-3px);
 }
-.pa-trust-item {
-  transition: transform 0.25s ease;
-}
 
-/* Image scale-on-hover utility */
+/* ==========================================================================
+   IMAGE HOVER
+   ========================================================================== */
+
 .pa-image-hover {
   overflow: hidden;
-}
-.pa-image-hover img {
-  transition: transform 0.4s ease;
-}
-.pa-image-hover:hover img {
-  transform: scale(1.03);
+  border-radius: var(--pa-radius-lg);
 }
 
-/* Animated underline link */
+.pa-image-hover img {
+  display: block;
+  width: 100%;
+  transition: transform var(--pa-transition);
+}
+
+.pa-image-hover:hover img {
+  transform: scale(1.025);
+}
+
+/* ==========================================================================
+   LINKS
+   ========================================================================== */
+
 .pa-link-underline {
   position: relative;
   text-decoration: none;
 }
+
 .pa-link-underline::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
+  bottom: -3px;
   width: 0;
   height: 2px;
-  background: currentColor;
-  transition: width 0.25s ease;
+  background-color: currentColor;
+  transition: width var(--pa-transition);
 }
+
 .pa-link-underline:hover::after {
   width: 100%;
 }
 
+/* ==========================================================================
+   VALUE CARDS
+   ========================================================================== */
+
+.pa-value-card {
+  transition:
+    transform var(--pa-transition),
+    border-color var(--pa-transition),
+    box-shadow var(--pa-transition);
+}
+
 .pa-value-card:hover {
-  border-color: #2563EB !important;
+  border-color: var(--pa-primary) !important;
   transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(30, 41, 59, 0.08);
 }
+
+.pa-value-icon {
+  transition: transform var(--pa-transition);
+}
+
 .pa-value-card:hover .pa-value-icon {
-  transform: translateY(-2px) scale(1.05);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pa-trust-item:hover,
-  .pa-image-hover:hover img,
-  .pa-value-card:hover,
-  .pa-value-card:hover .pa-value-icon {
-    transform: none !important;
-  }
-
-  .pa-fade-up,
-  .pa-fade-in,
-  .pa-delay-1,
-  .pa-delay-2,
-  .pa-delay-3,
-  .pa-delay-4 {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .pa-hover-card {
-    transition: none !important;
-  }
-
-  .pa-hover-card:hover {
-    transform: none !important;
-  }
+  transform: translateY(-2px) scale(1.04);
 }
 
 /* ==========================================================================
-   Contact Hub redesign — additional classes
+   CONTACT HERO
    ========================================================================== */
 
-/* Subtle dot-grid texture for the hero background */
-.pa-grid-texture {
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
+/*
+   Do NOT use the previous dark grid texture here.
+   The Contact Hero now follows the company's light theme.
+*/
+
+.pa-contact-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--pa-page-bg);
 }
 
-/* Soft radial glow accents */
-.pa-glow {
+/* Very subtle decorative circle */
+
+.pa-contact-hero-decoration {
   position: absolute;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
-  filter: blur(40px);
+  background-color: rgba(37, 99, 235, 0.04);
   pointer-events: none;
 }
 
-/* Floating badge cards in the hero visual */
-.pa-float-card {
-  animation: pa-float-kf 4s ease-in-out infinite;
-}
-.pa-float-card.pa-float-delay {
-  animation-delay: 1.2s;
-}
-@keyframes pa-float-kf {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* ==========================================================================
+   CONTACT IMAGE
+   ========================================================================== */
+
+.pa-contact-hero-image {
+  overflow: hidden;
+  border: 1px solid var(--pa-border);
+  border-radius: var(--pa-radius-lg);
+  background-color: var(--pa-card-bg);
 }
 
-/* Contact rail item */
-.pa-rail-item {
-  transition: background-color 0.25s ease, transform 0.25s ease;
-  border-radius: 12px;
+.pa-contact-hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
+
+.pa-contact-hero-image:hover img {
+  transform: scale(1.025);
+}
+
+/* ==========================================================================
+   CONTACT RAIL
+   ========================================================================== */
+
+.pa-rail-item {
+  border-radius: var(--pa-radius);
+  transition:
+    background-color var(--pa-transition),
+    transform var(--pa-transition);
+}
+
 .pa-rail-item:hover {
   background-color: rgba(37, 99, 235, 0.06);
   transform: translateY(-2px);
 }
 
-/* Inquiry category selector */
+/* ==========================================================================
+   INQUIRY CATEGORY
+   ========================================================================== */
+
 .pa-category-item {
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   cursor: pointer;
-}
-.pa-category-item:hover {
-  transform: translateX(2px);
+  border: 1px solid var(--pa-border);
+  border-radius: var(--pa-radius);
+
+  transition:
+    background-color var(--pa-transition),
+    border-color var(--pa-transition),
+    transform var(--pa-transition);
 }
 
-/* Oversized editorial "reach us" blocks */
-.pa-reach-block {
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.pa-category-item:hover {
+  background-color: rgba(37, 99, 235, 0.04);
+  border-color: var(--pa-primary);
+  transform: translateY(-2px);
 }
+
+/* ==========================================================================
+   REACH US BLOCKS
+   ========================================================================== */
+
+.pa-reach-block {
+  transition:
+    background-color var(--pa-transition),
+    transform var(--pa-transition),
+    box-shadow var(--pa-transition);
+}
+
 .pa-reach-block:hover {
   transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(30, 41, 59, 0.07);
 }
 
-/* Location marker gentle pulse (single ring, not continuous strobe) */
+/* ==========================================================================
+   LOCATION MARKER
+   ========================================================================== */
+
+.pa-marker-pulse {
+  position: relative;
+}
+
 .pa-marker-pulse::after {
   content: "";
   position: absolute;
@@ -198,17 +354,79 @@
   opacity: 0;
   animation: pa-pulse-kf 2.4s ease-out infinite;
 }
+
 @keyframes pa-pulse-kf {
-  0% { transform: scale(1); opacity: 0.5; }
-  100% { transform: scale(2.2); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
+/* ==========================================================================
+   BUTTON HELPERS
+   ========================================================================== */
+
+.pa-primary-button {
+  background-color: var(--pa-primary);
+  color: var(--pa-white);
+  border-radius: var(--pa-radius);
+  transition:
+    background-color var(--pa-transition),
+    transform var(--pa-transition),
+    box-shadow var(--pa-transition);
+}
+
+.pa-primary-button:hover {
+  background-color: var(--pa-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
-  .pa-float-card { animation: none !important; }
-  .pa-marker-pulse::after { animation: none !important; display: none; }
-  .pa-rail-item:hover,
-  .pa-reach-block:hover,
-  .pa-category-item:hover {
+  .pa-fade-up,
+  .pa-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
     transform: none !important;
+  }
+
+  .pa-hover-card,
+  .pa-trust-item,
+  .pa-image-hover img,
+  .pa-value-card,
+  .pa-value-icon,
+  .pa-rail-item,
+  .pa-category-item,
+  .pa-reach-block,
+  .pa-primary-button {
+    transition: none !important;
+  }
+
+  .pa-hover-card:hover,
+  .pa-trust-item:hover,
+  .pa-value-card:hover,
+  .pa-rail-item:hover,
+  .pa-category-item:hover,
+  .pa-reach-block:hover,
+  .pa-primary-button:hover {
+    transform: none !important;
+  }
+
+  .pa-image-hover:hover img {
+    transform: none !important;
+  }
+
+  .pa-marker-pulse::after {
+    animation: none !important;
+    display: none;
   }
 }

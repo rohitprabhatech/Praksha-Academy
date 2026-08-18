@@ -1,71 +1,38 @@
 import { Box, Typography } from "@mui/material";
-import { FaBullseye, FaLightbulb } from "react-icons/fa";
 import { premium } from "../../theme/premiumPalette";
-import GlassCard from "../common/GlassCard";
 import AnimatedReveal from "../common/AnimatedReveal";
+import aboutData from "../../data/aboutData";
 
+/**
+ * Plain two-column statement block — a thin top rule and large numeral
+ * label stand in for a card border, keeping the editorial rhythm rather
+ * than boxing the content.
+ */
 const MissionVision = () => {
   return (
-    <div className="row g-4">
+    <div className="row g-5">
       <div className="col-md-6">
         <AnimatedReveal>
-          <GlassCard tone="dark" sx={{ p: { xs: 3.5, md: 5 }, height: "100%" }}>
-            <Box
-              sx={{
-                width: 54,
-                height: 54,
-                borderRadius: "14px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: `linear-gradient(135deg, ${premium.blue}, ${premium.cyan})`,
-                color: premium.white,
-                fontSize: 22,
-                mb: 3,
-              }}
-            >
-              <FaBullseye />
-            </Box>
-            <Typography variant="h5" sx={{ color: premium.white, fontWeight: 700, mb: 2 }}>
-              Our Mission
+          <Box sx={{ borderTop: `2px solid ${premium.textPrimary}`, pt: 2.5 }}>
+            <Typography variant="overline" sx={{ color: premium.textSecondary, fontWeight: 600, letterSpacing: 1.5, fontSize: "0.8rem" }}>
+              MISSION
             </Typography>
-            <Typography variant="body1" sx={{ color: premium.grayLight, lineHeight: 1.8 }}>
-              To make quality, teacher-led learning genuinely accessible —
-              pairing every student with instruction that adapts to how they
-              actually learn, at a price that doesn't put it out of reach.
+            <Typography variant="body1" sx={{ color: premium.textPrimary, fontSize: "1.2rem", lineHeight: 1.6, fontWeight: 500, mt: 1 }}>
+              {aboutData.mission}
             </Typography>
-          </GlassCard>
+          </Box>
         </AnimatedReveal>
       </div>
-
       <div className="col-md-6">
         <AnimatedReveal delay={100}>
-          <GlassCard tone="dark" sx={{ p: { xs: 3.5, md: 5 }, height: "100%" }}>
-            <Box
-              sx={{
-                width: 54,
-                height: 54,
-                borderRadius: "14px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: `linear-gradient(135deg, ${premium.purple}, ${premium.blue})`,
-                color: premium.white,
-                fontSize: 22,
-                mb: 3,
-              }}
-            >
-              <FaLightbulb />
-            </Box>
-            <Typography variant="h5" sx={{ color: premium.white, fontWeight: 700, mb: 2 }}>
-              Our Vision
+          <Box sx={{ borderTop: `2px solid ${premium.orange}`, pt: 2.5 }}>
+            <Typography variant="overline" sx={{ color: premium.textSecondary, fontWeight: 600, letterSpacing: 1.5, fontSize: "0.8rem" }}>
+              VISION
             </Typography>
-            <Typography variant="body1" sx={{ color: premium.grayLight, lineHeight: 1.8 }}>
-              A future where a student's postcode or family income has
-              nothing to do with the quality of teaching they can reach —
-              where structured, mentored learning is simply the default.
+            <Typography variant="body1" sx={{ color: premium.textPrimary, fontSize: "1.2rem", lineHeight: 1.6, fontWeight: 500, mt: 1 }}>
+              {aboutData.vision}
             </Typography>
-          </GlassCard>
+          </Box>
         </AnimatedReveal>
       </div>
     </div>

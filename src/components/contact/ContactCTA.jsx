@@ -1,45 +1,42 @@
-import { Box, Typography, Button, Stack } from "@mui/material";
-import { FaArrowRight } from "react-icons/fa";
+import { Box, Typography, Button } from "@mui/material";
 import { premium } from "../../theme/premiumPalette";
-import GradientBlobs from "../common/GradientBlobs";
 import AnimatedReveal from "../common/AnimatedReveal";
 
+/**
+ * Light blue-tinted closing band, matching the reference — a softer
+ * treatment than the About page's dark gradient CTA, appropriate for a
+ * "we're still here if you need us" closing note rather than a hard
+ * sales push.
+ */
 const ContactCTA = () => {
   return (
     <Box
       sx={{
-        position: "relative",
-        overflow: "hidden",
-        borderRadius: "24px",
         textAlign: "center",
-        py: { xs: 6, md: 8 },
+        borderRadius: "20px",
+        py: { xs: 5, md: 6 },
         px: { xs: 3, md: 6 },
-        background: `linear-gradient(135deg, ${premium.navySoft} 0%, ${premium.navy} 100%)`,
-        border: `1px solid ${premium.glassBorder}`,
+        backgroundColor: "rgba(37,99,235,0.06)",
+        border: `1px solid ${premium.border}`,
       }}
     >
-      <GradientBlobs variant="cta" />
-      <Box sx={{ position: "relative", zIndex: 1 }}>
-        <AnimatedReveal>
-          <Typography variant="h3" sx={{ fontWeight: 700, fontSize: { xs: "1.8rem", md: "2.4rem" }, color: premium.white, mb: 2 }}>
-            Still have questions?
-          </Typography>
-          <Typography variant="body1" sx={{ color: premium.grayLight, maxWidth: 480, mx: "auto", mb: 4 }}>
-            We're here to help you choose the right path.
-          </Typography>
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center">
-            <Button
-              variant="contained"
-              size="large"
-              endIcon={<FaArrowRight />}
-              href="#contact-form"
-              sx={{ px: 4.5, py: 1.6, background: `linear-gradient(90deg, ${premium.blue}, ${premium.purple})`, boxShadow: `0 8px 24px ${premium.blue}55` }}
-            >
-              Talk to Praksha Academy
-            </Button>
-          </Stack>
-        </AnimatedReveal>
-      </Box>
+      <AnimatedReveal>
+        <Typography variant="h4" sx={{ fontWeight: 700, fontSize: { xs: "1.5rem", md: "1.9rem" }, color: premium.textPrimary, mb: 1.5 }}>
+          Still Have Questions? Chat with an Advisor.
+        </Typography>
+        <Typography variant="body1" sx={{ color: premium.textSecondary, maxWidth: 480, mx: "auto", mb: 3.5 }}>
+          Our academic counselors are available to guide your course
+          choices.
+        </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          href="#contact-form"
+          sx={{ px: 4, py: 1.4, backgroundColor: premium.blue, "&:hover": { backgroundColor: premium.blueHover } }}
+        >
+          Talk to a Praksha Academy Advisor
+        </Button>
+      </AnimatedReveal>
     </Box>
   );
 };

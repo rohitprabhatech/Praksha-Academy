@@ -1,46 +1,26 @@
 import { Box, Typography } from "@mui/material";
-import { colors } from "../../theme/theme";
+import { FaArrowRight } from "react-icons/fa";
+import { premium } from "../../theme/premiumPalette";
+import AnimatedReveal from "../common/AnimatedReveal";
 import aboutData from "../../data/aboutData";
 
-/**
- * Academy history timeline. Reads from aboutData.timeline, which starts
- * empty. Renders nothing until real founding/milestone dates are added —
- * never invents a founding year or history. The parent page (About.jsx)
- * also skips the surrounding section heading when this returns null.
- */
 const AcademyTimeline = () => {
-  const milestones = aboutData.timeline;
-  if (milestones.length === 0) return null;
+  const journey = aboutData.studentJourney || [];
+  if (!journey.length) return null;
 
   return (
-    <Box sx={{ position: "relative", pl: { xs: 5, md: 6 } }}>
-      <span className="pa-timeline-line" aria-hidden="true" />
-      {milestones.map((item, index) => (
-        <Box key={item.year} sx={{ position: "relative", pb: index === milestones.length - 1 ? 0 : 5 }}>
-          <Box
-            aria-hidden="true"
-            sx={{
-              position: "absolute",
-              left: { xs: -33, md: -40 },
-              top: 4,
-              width: 24,
-              height: 24,
-              borderRadius: "50%",
-              backgroundColor: colors.primaryBlue,
-              border: `3px solid ${colors.cardBackground}`,
-              boxShadow: `0 0 0 3px ${colors.primaryBlue}`,
-            }}
-          />
-          <Typography variant="subtitle2" sx={{ color: colors.primaryBlue, fontWeight: 700, mb: 0.5 }}>
-            {item.year}
-          </Typography>
-          <Typography variant="h6" sx={{ color: colors.textPrimary, mb: 1 }}>
-            {item.title}
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textSecondary, lineHeight: 1.7 }}>
-            {item.description}
-          </Typography>
-        </Box>
+    <Box className="pa-journey">
+      {journey.map((item, index) => (
+        <AnimatedReveal key={`${item.step}-${index}`} delay={index * 70}>
+          <Box className="pa-journey-item">
+            <Box className="pa-journey-number">{String(index + 1).padStart(2, "0")}</Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: premium.textPrimary, fontSize: { xs: "1rem", md: "1.12rem" } }}>{item.step}</Typography>
+              <Typography sx={{ color: premium.textSecondary, mt: 0.7, lineHeight: 1.7, maxWidth: 640 }}>{item.description}</Typography>
+            </Box>
+            {index < journey.length - 1 && <FaArrowRight className="pa-journey-arrow" size={13} aria-hidden="true" />}
+          </Box>
+        </AnimatedReveal>
       ))}
     </Box>
   );

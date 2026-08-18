@@ -1,71 +1,71 @@
-import { Box, Typography, Button, Stack } from "@mui/material";
-import { FaComments } from "react-icons/fa";
-import { colors } from "../../theme/theme";
+import { useState } from "react";
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { premium } from "../../theme/premiumPalette";
 import contactData from "../../data/contactData";
-import AnimatedReveal from "../common/AnimatedReveal";
 
-/**
- * Conversion section for students who haven't picked a program yet.
- * Routes to whichever contact channel is actually configured.
- */
-const AcademicAdvisor = () => {
-  const { phone, whatsapp, email } = contactData;
-  const href = phone ? `tel:${phone}` : whatsapp ? `https://wa.me/${whatsapp}` : email ? `mailto:${email}` : "#contact-form";
+const ContactFAQ = () => {
+  const [expanded, setExpanded] = useState(false);
+  const handleChange = (panel) => (_e, isExpanded) => setExpanded(isExpanded ? panel : false);
 
   return (
-    <AnimatedReveal>
-      <Box
-        sx={{
-          border: `1px solid ${colors.borderColor}`,
-          borderRadius: "16px",
-          p: { xs: 3, md: 4 },
-          backgroundColor: colors.sectionBackground,
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          alignItems: { xs: "flex-start", sm: "center" },
-          gap: 3,
-        }}
-      >
-        <Box
-          aria-hidden="true"
-          sx={{
-            width: 64,
-            height: 64,
-            minWidth: 64,
-            borderRadius: "16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(37,99,235,0.1)",
-            color: colors.primaryBlue,
-            fontSize: 26,
-          }}
-        >
-          <FaComments />
-        </Box>
-        <Stack sx={{ flex: 1 }} spacing={0.5}>
-          <Typography variant="h6" sx={{ color: colors.textPrimary }}>
-            Not sure which program is right for you?
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.textSecondary }}>
-            Talk to an academic advisor before you enroll — they can walk you
-            through the options based on your class and goals.
-          </Typography>
-        </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          href={href}
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-          sx={{ px: 3, py: 1.25, whiteSpace: "nowrap" }}
-        >
-          Talk to an Advisor
-        </Button>
-      </Box>
-    </AnimatedReveal>
+    <Box sx={{ maxWidth: 760, mx: "auto" }}>
+      {contactData.faqs.map((item, index) => {
+        const isOpen = expanded === `contact-panel${index}`;
+        return (
+          <Accordion
+            key={item.q}
+            expanded={isOpen}
+            onChange={handleChange(`contact-panel${index}`)}
+            disableGutters
+            elevation={0}
+            sx={{
+              backgroundColor: premium.cardBg,
+              backdropFilter: "blur(16px)",
+              border: `1px solid ${isOpen ? premium.blue : premium.border}`,
+              borderRadius: "14px !important",
+              mb: 1.5,
+              "&:before": { display: "none" },
+              transition: "border-color 0.25s ease",
+            }}
+          >
+            <AccordionSummary
+              expandIcon={
+                <Box
+                  sx={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: isOpen ? premium.blue : premium.sectionBg,
+                    color: isOpen ? premium.white : premium.textSecondary,
+                    transition: "all 0.25s ease",
+                    transform: isOpen ? "rotate(45deg)" : "none",
+                    fontSize: 18,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                  }}
+                >
+                  +
+                </Box>
+              }
+              sx={{ px: 3, py: 0.5 }}
+            >
+              <Typography variant="subtitle1" sx={{ color: premium.textPrimary, fontWeight: 600 }}>
+                {item.q}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ px: 3, pb: 2.5 }}>
+              <Typography variant="body2" sx={{ color: premium.textSecondary, lineHeight: 1.7 }}>
+                {item.a}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+    </Box>
   );
 };
 
-export default AcademicAdvisor;
+export default ContactFAQ;

@@ -1,109 +1,85 @@
 import { motion } from "framer-motion";
-import { Box, Typography, Button, Stack } from "@mui/material";
-import { FaArrowRight, FaPlayCircle } from "react-icons/fa";
+import { Box, Typography, Button } from "@mui/material";
+import { FaArrowRight, FaBookOpen, FaUsers } from "react-icons/fa";
 import { premium } from "../../theme/premiumPalette";
-import GradientBlobs from "../common/GradientBlobs";
+import mediaData from "../../data/mediaData";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: (delay = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.7, delay, ease: "easeOut" } }),
+  hidden: { opacity: 0, y: 22 },
+  show: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+  }),
 };
 
-const AboutHero = () => {
-  return (
-    <Box
-      component="section"
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-        backgroundColor: premium.navy,
-        pt: { xs: 10, md: 14 },
-        pb: { xs: 10, md: 12 },
-        textAlign: "center",
-      }}
-    >
-      <GradientBlobs variant="hero" />
-
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0}>
-          <Typography
-            variant="overline"
-            sx={{ color: premium.cyan, fontWeight: 700, letterSpacing: 3, display: "block", mb: 2 }}
-          >
-            ABOUT PRAKSHA ACADEMY
-          </Typography>
-        </motion.div>
-
-        <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.1}>
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 700,
-              fontSize: { xs: "2.4rem", sm: "3.2rem", md: "4rem" },
-              lineHeight: 1.12,
-              color: premium.white,
-              mb: 3,
-              maxWidth: 820,
-              mx: "auto",
-              background: `linear-gradient(90deg, ${premium.white} 30%, ${premium.cyan} 100%)`,
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Building Skills. Creating Futures.
-          </Typography>
-        </motion.div>
-
-        <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.2}>
-          <Typography
-            variant="body1"
-            sx={{ color: premium.grayLight, fontSize: "1.15rem", lineHeight: 1.8, maxWidth: 620, mx: "auto", mb: 5 }}
-          >
-            Praksha Academy pairs experienced teachers with a curriculum
-            designed to make hard concepts click — from Class 8 foundations
-            to career-ready programming and data science.
-          </Typography>
-        </motion.div>
-
-        <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.3}>
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center">
-            <Button
-              variant="contained"
-              size="large"
-              endIcon={<FaArrowRight />}
-              href="/courses"
+const AboutHero = () => (
+  <Box component="section" className="pa-about-hero" sx={{ backgroundColor: premium.background }}>
+    <div className="container">
+      <div className="row align-items-center g-5">
+        <div className="col-lg-6">
+          <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0}>
+            <Typography className="pa-eyebrow" component="p">ABOUT PRAKSHA ACADEMY</Typography>
+            <Typography
+              component="h1"
               sx={{
-                px: 4.5,
-                py: 1.6,
-                background: `linear-gradient(90deg, ${premium.blue}, ${premium.purple})`,
-                boxShadow: `0 8px 24px ${premium.blue}55`,
-                "&:hover": { boxShadow: `0 10px 30px ${premium.blue}77` },
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 700,
+                fontSize: { xs: "2.65rem", sm: "3.5rem", md: "4.35rem" },
+                lineHeight: 1.02,
+                letterSpacing: "-0.045em",
+                color: premium.textPrimary,
+                mb: 3,
+                maxWidth: 720,
               }}
             >
-              Explore Courses
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              startIcon={<FaPlayCircle />}
-              href="/contact"
-              sx={{
-                px: 4.5,
-                py: 1.6,
-                color: premium.white,
-                borderColor: "rgba(255,255,255,0.25)",
-                "&:hover": { borderColor: premium.cyan, backgroundColor: "rgba(34,211,238,0.06)" },
-              }}
-            >
-              Talk to Us
-            </Button>
-          </Stack>
-        </motion.div>
+              Learning that turns curiosity into <Box component="span" sx={{ color: premium.blue }}>confidence.</Box>
+            </Typography>
+          </motion.div>
+
+          <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.12}>
+            <Typography sx={{ color: premium.textSecondary, fontSize: { xs: "1rem", md: "1.12rem" }, lineHeight: 1.8, maxWidth: 620, mb: 4 }}>
+              Praksha Academy brings academic foundations, communication and future-ready technology skills together through structured, mentor-led learning.
+            </Typography>
+          </motion.div>
+
+          <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.22}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "center" }}>
+              <Button variant="contained" color="primary" href="/courses" endIcon={<FaArrowRight size={12} />}>
+                Explore courses
+              </Button>
+              <Button variant="text" href="/contact" sx={{ color: premium.textPrimary, fontWeight: 600 }}>
+                Talk to us
+              </Button>
+            </Box>
+          </motion.div>
+
+          <motion.div initial="hidden" animate="show" variants={fadeUp} custom={0.32}>
+            <Box className="pa-hero-proof" sx={{ mt: 5 }}>
+              <Box><FaBookOpen color={premium.blue} size={18} /><span>Structured learning</span></Box>
+              <Box><FaUsers color={premium.orange} size={18} /><span>Mentor-led support</span></Box>
+            </Box>
+          </motion.div>
+        </div>
+
+        <div className="col-lg-6">
+          <motion.div initial={{ opacity: 0, scale: 0.97, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+            <Box className="pa-hero-visual">
+              <Box className="pa-hero-image-wrap">
+                <Box component="img" src={mediaData.about.hero} alt={mediaData.about.heroAlt} className="pa-hero-image" loading="eager" />
+              </Box>
+              <Box className="pa-hero-note">
+                <Typography sx={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: 1.2, color: premium.blue }}>OUR APPROACH</Typography>
+                <Typography sx={{ fontWeight: 700, color: premium.textPrimary, mt: 0.4 }}>Understand → Practice → Apply</Typography>
+              </Box>
+              <Box className="pa-hero-accent pa-hero-accent-blue" />
+              <Box className="pa-hero-accent pa-hero-accent-orange" />
+            </Box>
+          </motion.div>
+        </div>
       </div>
-    </Box>
-  );
-};
+    </div>
+  </Box>
+);
 
 export default AboutHero;

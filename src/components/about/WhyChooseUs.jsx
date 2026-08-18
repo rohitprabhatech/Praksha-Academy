@@ -5,30 +5,10 @@ import GlassCard from "../common/GlassCard";
 import AnimatedReveal from "../common/AnimatedReveal";
 
 const reasons = [
-  {
-    icon: <FaTools />,
-    title: "Practical Learning",
-    gradient: [premium.blue, premium.cyan],
-    description: "Every concept is paired with hands-on practice — not passive video watching.",
-  },
-  {
-    icon: <FaChalkboardTeacher />,
-    title: "Expert Guidance",
-    gradient: [premium.purple, premium.blue],
-    description: "Teachers who explain the 'why', not just the answer, and stay available for questions.",
-  },
-  {
-    icon: <FaLaptopCode />,
-    title: "Technology Focus",
-    gradient: [premium.cyan, premium.purple],
-    description: "Modern, in-demand technical skills alongside strong academic fundamentals.",
-  },
-  {
-    icon: <FaSeedling />,
-    title: "Growth Mindset",
-    gradient: [premium.blue, premium.purple],
-    description: "Progress is tracked and celebrated — improvement matters more than a single score.",
-  },
+  { icon: <FaTools />, title: "Practical Learning", gradient: [premium.blue, premium.blueLight], description: "Every concept is paired with hands-on practice — not passive video watching." },
+  { icon: <FaChalkboardTeacher />, title: "Expert Guidance", gradient: [premium.orange, "#FBBF24"], description: "Teachers who explain the 'why', not just the answer, and stay available for questions." },
+  { icon: <FaLaptopCode />, title: "Technology Focus", gradient: [premium.blueLight, premium.blue], description: "Modern, in-demand technical skills alongside strong academic fundamentals." },
+  { icon: <FaSeedling />, title: "Growth Mindset", gradient: [premium.green, "#4ADE80"], description: "Progress is tracked and celebrated — improvement matters more than a single score." },
 ];
 
 const WhyChooseUs = () => {
@@ -37,7 +17,7 @@ const WhyChooseUs = () => {
       {reasons.map((reason, index) => (
         <div className="col-sm-6 col-lg-3" key={reason.title}>
           <AnimatedReveal delay={index * 80}>
-            <GlassCard tone="dark" sx={{ p: 3.5, height: "100%", textAlign: "center" }}>
+            <GlassCard sx={{ p: 3.5, height: "100%", textAlign: "center" }}>
               <Box
                 sx={{
                   width: 52,
@@ -55,10 +35,10 @@ const WhyChooseUs = () => {
               >
                 {reason.icon}
               </Box>
-              <Typography variant="subtitle1" sx={{ color: premium.white, fontWeight: 600, mb: 1.5 }}>
+              <Typography variant="subtitle1" sx={{ color: premium.textPrimary, fontWeight: 600, mb: 1.5 }}>
                 {reason.title}
               </Typography>
-              <Typography variant="body2" sx={{ color: premium.grayLight, lineHeight: 1.7 }}>
+              <Typography variant="body2" sx={{ color: premium.textSecondary, lineHeight: 1.7 }}>
                 {reason.description}
               </Typography>
             </GlassCard>

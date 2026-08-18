@@ -1,61 +1,125 @@
 import { useState } from "react";
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import { FaPlus } from "react-icons/fa";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { premium } from "../../theme/premiumPalette";
 import contactData from "../../data/contactData";
 
 const ContactFAQ = () => {
   const [expanded, setExpanded] = useState(false);
-  const handleChange = (panel) => (_e, isExpanded) => setExpanded(isExpanded ? panel : false);
+
+  const handleChange = (panel) => (_event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   return (
-    <Box sx={{ maxWidth: 760, mx: "auto" }}>
+    <Box sx={{ width: "100%" }}>
       {contactData.faqs.map((item, index) => {
-        const isOpen = expanded === `contact-panel${index}`;
+        const panel = `contact-panel-${index}`;
+        const isOpen = expanded === panel;
+
         return (
           <Accordion
             key={item.q}
             expanded={isOpen}
-            onChange={handleChange(`contact-panel${index}`)}
+            onChange={handleChange(panel)}
             disableGutters
             elevation={0}
             sx={{
-              backgroundColor: premium.glassBg,
-              backdropFilter: "blur(16px)",
-              border: `1px solid ${isOpen ? "rgba(34,211,238,0.4)" : premium.glassBorder}`,
-              borderRadius: "14px !important",
-              mb: 1.5,
-              "&:before": { display: "none" },
-              transition: "border-color 0.25s ease",
+              mb: 1.25,
+              backgroundColor: premium.cardBg,
+              border: `1px solid ${
+                isOpen ? premium.blue : premium.border
+              }`,
+              borderRadius: "10px !important",
+              overflow: "hidden",
+              transition: "border-color 0.3s ease",
+
+              "&:before": {
+                display: "none",
+              },
+
+              "&:hover": {
+                borderColor: isOpen
+                  ? premium.blue
+                  : "rgba(37,99,235,0.35)",
+              },
             }}
           >
             <AccordionSummary
               expandIcon={
                 <Box
                   sx={{
-                    width: 26,
-                    height: 26,
+                    width: 28,
+                    height: 28,
                     borderRadius: "50%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: isOpen ? premium.cyan : "rgba(255,255,255,0.08)",
-                    color: isOpen ? premium.navy : premium.grayLight,
-                    transition: "all 0.25s ease",
-                    transform: isOpen ? "rotate(45deg)" : "none",
+                    backgroundColor: isOpen
+                      ? premium.blue
+                      : premium.sectionBg,
+                    color: isOpen
+                      ? premium.white
+                      : premium.textSecondary,
+                    transition: "all 0.3s ease",
                   }}
                 >
-                  <FaPlus size={11} />
+                  <AddIcon
+                    sx={{
+                      fontSize: 18,
+                      transform: isOpen
+                        ? "rotate(45deg)"
+                        : "rotate(0deg)",
+                      transition: "transform 0.3s ease",
+                    }}
+                  />
                 </Box>
               }
-              sx={{ px: 3, py: 0.5 }}
+              sx={{
+                minHeight: 58,
+                px: { xs: 2, md: 2.5 },
+
+                "& .MuiAccordionSummary-content": {
+                  my: 1.5,
+                },
+              }}
             >
-              <Typography variant="subtitle1" sx={{ color: premium.white, fontWeight: 600 }}>
+              <Typography
+                sx={{
+                  color: premium.textPrimary,
+                  fontSize: {
+                    xs: "0.86rem",
+                    md: "0.9rem",
+                  },
+                  fontWeight: 600,
+                  lineHeight: 1.5,
+                }}
+              >
                 {item.q}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ px: 3, pb: 2.5 }}>
-              <Typography variant="body2" sx={{ color: premium.grayLight, lineHeight: 1.7 }}>
+
+            <AccordionDetails
+              sx={{
+                px: { xs: 2, md: 2.5 },
+                pb: 2.5,
+                pt: 0,
+              }}
+            >
+              <Typography
+                sx={{
+                  color: premium.textSecondary,
+                  fontSize: "0.86rem",
+                  lineHeight: 1.75,
+                  maxWidth: "90%",
+                }}
+              >
                 {item.a}
               </Typography>
             </AccordionDetails>

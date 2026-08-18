@@ -3,34 +3,47 @@ import { Box } from "@mui/material";
 import { premium } from "../../theme/premiumPalette";
 
 /**
- * Reusable glassmorphism surface. `tone="dark"` for use on the navy hero
- * (translucent white glass), `tone="light"` for use on white/gray page
- * sections (higher-opacity white glass with a soft border) so text stays
- * readable in both contexts.
+ * Reusable glassmorphism surface for the light theme — translucent white
+ * with a soft blue-tinted border, readable dark text on top.
+ *
+ * The hover-lift animation lives on a plain motion.div wrapper, kept
+ * separate from the styled MUI <Box>. Rendering Box with
+ * `component={motion.div}` (an earlier version of this file) causes
+ * framer-motion to forward MUI's style-shorthand props straight to the
+ * DOM as raw attributes, triggering React's "does not recognize the
+ * `justifyContent` prop" warning — this structure avoids that entirely.
  */
-const GlassCard = ({ children, tone = "light", hoverLift = true, sx = {}, ...rest }) => {
+const GlassCard = ({ children, hoverLift = true, sx = {}, tone, ...rest }) => {
+  // `tone` is intentionally destructured out and unused — older call
+  // sites still pass tone="dark" from the previous dark-theme version.
+  // Consuming it here (rather than dropping it from this signature)
+  // stops it from ending up in `...rest` and leaking onto the DOM node,
+  // the same class of bug this file was just fixed for.
   const prefersReducedMotion = useReducedMotion();
-  const isDark = tone === "dark";
 
   return (
-    <Box
-      component={motion.div}
+    <motion.div
       whileHover={hoverLift && !prefersReducedMotion ? { y: -6 } : undefined}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      sx={{
-        position: "relative",
-        borderRadius: "18px",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        backgroundColor: isDark ? premium.glassBg : premium.glassBgLight,
-        border: `1px solid ${isDark ? premium.glassBorder : premium.glassBorderLight}`,
-        boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.35)" : "0 8px 28px rgba(15,23,42,0.08)",
-        ...sx,
-      }}
-      {...rest}
+      style={{ height: "100%" }}
     >
-      {children}
-    </Box>
+      <Box
+        sx={{
+          position: "relative",
+          height: "100%",
+          borderRadius: "18px",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          backgroundColor: premium.glassBg,
+          border: `1px solid ${premium.glassBorder}`,
+          boxShadow: "0 8px 28px rgba(15,23,42,0.08)",
+          ...sx,
+        }}
+        {...rest}
+      >
+        {children}
+      </Box>
+    </motion.div>
   );
 };
 

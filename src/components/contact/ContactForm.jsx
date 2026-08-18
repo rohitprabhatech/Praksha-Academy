@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Box, TextField, Button, Typography, Alert, MenuItem, CircularProgress, InputAdornment } from "@mui/material";
-import { FaPaperPlane, FaBook, FaUser, FaEnvelope, FaPhone, FaShieldAlt } from "react-icons/fa";
+import { Box, TextField, Button, Typography, Alert, MenuItem, CircularProgress } from "@mui/material";
+// Text-only form — no adornment icons, per design direction.
 import { premium } from "../../theme/premiumPalette";
-import GlassCard from "../common/GlassCard";
 import contactData from "../../data/contactData";
 import InquiryCards from "./InquiryCards";
 
@@ -37,14 +36,14 @@ const submitContactForm = async (values) => {
 };
 
 // Dark-glass styling for MUI inputs — kept in one place so every field matches.
-const darkFieldSx = {
-  "& .MuiInputBase-root": { color: premium.white },
-  "& .MuiInputLabel-root": { color: premium.gray },
-  "& .MuiInputLabel-root.Mui-focused": { color: premium.cyan },
-  "& .MuiOutlinedInput-notchedOutline": { borderColor: premium.glassBorder },
-  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(34,211,238,0.5)" },
-  "& .Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: premium.cyan },
-  "& .MuiFormHelperText-root": { color: "#F87171" },
+const fieldSx = {
+  "& .MuiInputBase-root": { color: premium.textPrimary },
+  "& .MuiInputLabel-root": { color: premium.textSecondary },
+  "& .MuiInputLabel-root.Mui-focused": { color: premium.blue },
+  "& .MuiOutlinedInput-notchedOutline": { borderColor: premium.border },
+  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(37,99,235,0.4)" },
+  "& .Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: premium.blue },
+  "& .MuiFormHelperText-root": { color: premium.red },
 };
 
 const ContactForm = () => {
@@ -88,34 +87,35 @@ const ContactForm = () => {
 
   if (status === "success") {
     return (
-      <GlassCard tone="dark" hoverLift={false} sx={{ p: { xs: 3, md: 4 } }}>
+      <Box sx={{ p: { xs: 3, md: 4.5 }, backgroundColor: premium.cardBg, borderRadius: "20px", boxShadow: "0 20px 50px rgba(15,23,42,0.15)", border: `1px solid ${premium.border}` }}>
         <Alert severity="success" sx={{ mb: 3 }}>
           Thanks, {submittedName || "there"}. We've received your message.
         </Alert>
-        <Typography variant="body2" sx={{ color: premium.grayLight, mb: 2 }}>
+        <Typography variant="body2" sx={{ color: premium.textSecondary, mb: 2 }}>
           A team member will review it and get back to you. In the meantime,
           you're welcome to keep browsing.
         </Typography>
-        <Button variant="outlined" startIcon={<FaBook />} href="/courses" sx={{ color: premium.cyan, borderColor: premium.cyan }}>
+        <Button variant="outlined" href="/courses" sx={{ color: premium.blue, borderColor: premium.blue }}>
           Browse Courses
         </Button>
-        <Button variant="text" onClick={() => setStatus("idle")} sx={{ ml: 2, color: premium.grayLight }}>
+        <Button variant="text" onClick={() => setStatus("idle")} sx={{ ml: 2, color: premium.textSecondary }}>
           Send another message
         </Button>
-      </GlassCard>
+      </Box>
     );
   }
 
   return (
-    <GlassCard tone="dark" hoverLift={false} sx={{ p: { xs: 3, md: 4.5 } }}>
-      <Typography variant="h5" component="h2" sx={{ color: premium.white, fontWeight: 700, mb: 1 }}>
-        Tell us what you're looking for.
+    <Box sx={{ p: { xs: 3, md: 4.5 }, backgroundColor: premium.cardBg, borderRadius: "20px", boxShadow: "0 20px 50px rgba(15,23,42,0.15)", border: `1px solid ${premium.border}` }}>
+      <Typography variant="h5" component="h2" sx={{ color: premium.textPrimary, fontWeight: 700, mb: 1 }}>
+        Quick Inquiry Form
       </Typography>
-      <Typography variant="body2" sx={{ color: premium.grayLight, mb: 3 }}>
-        Our team will get back to you as soon as possible.
+      <Typography variant="body2" sx={{ color: premium.textSecondary, mb: 3 }}>
+        Your form submission is confidential — we'll respond as soon as
+        possible.
       </Typography>
 
-      <Typography variant="caption" sx={{ color: premium.gray, fontWeight: 700, letterSpacing: 1, display: "block", mb: 1.5 }}>
+      <Typography variant="caption" sx={{ color: premium.textLight, fontWeight: 700, letterSpacing: 1, display: "block", mb: 1.5 }}>
         WHAT'S THIS ABOUT?
       </Typography>
       <Box sx={{ mb: 3.5 }}>
@@ -142,8 +142,7 @@ const ContactForm = () => {
               error={touched.name && Boolean(errors.name)}
               helperText={touched.name && errors.name}
               disabled={status === "submitting"}
-              sx={darkFieldSx}
-              InputProps={{ startAdornment: <InputAdornment position="start"><FaUser size={14} color={premium.gray} /></InputAdornment> }}
+              sx={fieldSx}
             />
           </div>
           <div className="col-md-6">
@@ -159,8 +158,7 @@ const ContactForm = () => {
               error={touched.email && Boolean(errors.email)}
               helperText={touched.email && errors.email}
               disabled={status === "submitting"}
-              sx={darkFieldSx}
-              InputProps={{ startAdornment: <InputAdornment position="start"><FaEnvelope size={14} color={premium.gray} /></InputAdornment> }}
+              sx={fieldSx}
             />
           </div>
           <div className="col-md-6">
@@ -174,8 +172,7 @@ const ContactForm = () => {
               error={touched.phone && Boolean(errors.phone)}
               helperText={touched.phone && errors.phone}
               disabled={status === "submitting"}
-              sx={darkFieldSx}
-              InputProps={{ startAdornment: <InputAdornment position="start"><FaPhone size={14} color={premium.gray} /></InputAdornment> }}
+              sx={fieldSx}
             />
           </div>
           <div className="col-md-6">
@@ -187,7 +184,7 @@ const ContactForm = () => {
               value={values.program}
               onChange={handleChange}
               disabled={status === "submitting"}
-              sx={darkFieldSx}
+              sx={fieldSx}
             >
               {contactData.programInterests.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -210,7 +207,7 @@ const ContactForm = () => {
               error={touched.message && Boolean(errors.message)}
               helperText={touched.message && errors.message}
               disabled={status === "submitting"}
-              sx={darkFieldSx}
+              sx={fieldSx}
             />
           </div>
           <div className="col-12">
@@ -218,28 +215,28 @@ const ContactForm = () => {
               type="submit"
               variant="contained"
               size="large"
+              fullWidth
               disabled={status === "submitting"}
-              startIcon={status === "submitting" ? <CircularProgress size={16} color="inherit" /> : <FaPaperPlane />}
+              startIcon={status === "submitting" ? <CircularProgress size={16} color="inherit" /> : undefined}
               sx={{
-                px: 4,
-                py: 1.5,
-                background: `linear-gradient(90deg, ${premium.blue}, ${premium.purple})`,
-                boxShadow: `0 8px 24px ${premium.blue}55`,
+                py: 1.6,
+                borderRadius: "999px",
+                fontWeight: 700,
+                backgroundColor: premium.blue,
+                boxShadow: `0 8px 20px ${premium.blue}44`,
+                "&:hover": { backgroundColor: premium.blueHover },
               }}
             >
-              {status === "submitting" ? "Sending..." : "Send Enquiry →"}
+              {status === "submitting" ? "Sending..." : "Send Inquiry"}
             </Button>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-              <FaShieldAlt size={12} color={premium.gray} />
-              <Typography variant="caption" sx={{ color: premium.gray }}>
-                Your information is safe with us. We never share your details.
-              </Typography>
-            </Box>
+            <Typography variant="caption" sx={{ color: premium.textLight, display: "block", mt: 2 }}>
+              Your information is safe with us. We never share your details.
+            </Typography>
           </div>
         </div>
       </Box>
-    </GlassCard>
+    </Box>
   );
 };
 

@@ -1,65 +1,119 @@
 import { Box } from "@mui/material";
+
 import ContactHero from "../components/contact/ContactHero";
 import ContactInfoCards from "../components/contact/ContactInfoCards";
 import ContactForm from "../components/contact/ContactForm";
 import LocationSection from "../components/contact/LocationSection";
 import ContactFAQ from "../components/contact/ContactFAQ";
-import ContactCTA from "../components/contact/ContactCTA";
-import FloatingContact from "../components/common/FloatingContact";
 import SectionHeading from "../components/common/SectionHeading";
+
 import { premium } from "../theme/premiumPalette";
+
 import "../styles/about-contact.css";
 
-/**
- * Same dark-navy canvas and component system as the About page (see
- * theme/premiumPalette.js) so both read as one cohesive brand.
- */
 const Contact = () => {
   return (
-    <Box sx={{ backgroundColor: premium.navy, position: "relative", overflowX: "hidden" }}>
+    <Box
+      sx={{
+        backgroundColor: premium.background,
+        minHeight: "100vh",
+        overflowX: "hidden",
+      }}
+    >
+      {/* ============================================================
+          HERO
+      ============================================================ */}
       <ContactHero />
 
-      {/* Contact info cards */}
-      <Box component="section" sx={{ py: { xs: 7, md: 9 } }}>
-        <div className="container">
+      {/* ============================================================
+          MAIN CONTACT CONTENT
+      ============================================================ */}
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 900,
+          mx: "auto",
+          px: {
+            xs: 2,
+            sm: 3,
+          },
+        }}
+      >
+        {/* ==========================================================
+            CONTACT FORM
+        ========================================================== */}
+        <Box
+          id="contact-form"
+          sx={{
+            position: "relative",
+            mt: {
+              xs: "-35px",
+              md: "-70px",
+            },
+            mb: {
+              xs: 5,
+              md: 6,
+            },
+            zIndex: 3,
+          }}
+        >
+          <ContactForm />
+        </Box>
+
+        {/* ==========================================================
+            CONTACT INFORMATION
+        ========================================================== */}
+        <Box
+          component="section"
+          aria-label="Contact Information"
+          sx={{
+            mb: {
+              xs: 5,
+              md: 6,
+            },
+          }}
+        >
           <ContactInfoCards />
-        </div>
-      </Box>
+        </Box>
 
-      {/* Contact form */}
-      <Box component="section" id="contact-form" sx={{ py: { xs: 4, md: 6 } }}>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-9">
-              <ContactForm />
-            </div>
-          </div>
-        </div>
-      </Box>
-
-      {/* Location */}
-      <Box component="section" sx={{ py: { xs: 8, md: 11 } }}>
-        <div className="container">
+        {/* ==========================================================
+            GOOGLE MAP + WORKING HOURS
+        ========================================================== */}
+        <Box
+          component="section"
+          aria-label="Campus Details and Working Hours"
+          sx={{
+            mb: {
+              xs: 6,
+              md: 7,
+            },
+          }}
+        >
           <LocationSection />
-        </div>
-      </Box>
+        </Box>
 
-      {/* FAQ */}
-      <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
-        <div className="container">
-          <SectionHeading eyebrow="Before You Reach Out" title="Frequently Asked Questions" dark />
+        {/* ==========================================================
+            FAQ
+        ========================================================== */}
+        <Box
+          component="section"
+          aria-label="Frequently Asked Questions"
+          sx={{
+            pb: {
+              xs: 7,
+              md: 9,
+            },
+          }}
+        >
+          <SectionHeading
+            title="FAQ Preview"
+            subtitle="Find answers to common questions before reaching out."
+            align="left"
+          />
+
           <ContactFAQ />
-        </div>
+        </Box>
       </Box>
-
-      {/* Final CTA */}
-      <Box component="section" sx={{ py: { xs: 4, md: 6 }, pb: { xs: 10, md: 14 } }}>
-        <div className="container">
-          <ContactCTA />
-        </div>
-      </Box>
-
-      <FloatingContact />
     </Box>
   );
 };

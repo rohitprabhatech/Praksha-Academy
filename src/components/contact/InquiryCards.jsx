@@ -1,18 +1,19 @@
 import { Box, Typography } from "@mui/material";
-import { FaBook, FaUserGraduate, FaBriefcase, FaHandshake, FaCommentDots } from "react-icons/fa";
 import { premium } from "../../theme/premiumPalette";
 
 /**
  * UI taxonomy for routing an enquiry — not a business fact, safe to
  * define statically. Selecting a category sets ContactForm's initial
- * "inquiry type" field.
+ * "inquiry type" field. Text-only pills — the selected state (blue
+ * border + tinted background + bold text) carries the affordance
+ * without needing an icon.
  */
 export const inquiryCategories = [
-  { id: "course", icon: <FaBook />, label: "Course Information" },
-  { id: "admissions", icon: <FaUserGraduate />, label: "Admissions" },
-  { id: "career", icon: <FaBriefcase />, label: "Career Guidance" },
-  { id: "partnership", icon: <FaHandshake />, label: "Partnership" },
-  { id: "general", icon: <FaCommentDots />, label: "General Question" },
+  { id: "course", label: "Course Information" },
+  { id: "admissions", label: "Admissions" },
+  { id: "career", label: "Career Guidance" },
+  { id: "partnership", label: "Partnership" },
+  { id: "general", label: "General Question" },
 ];
 
 const InquiryCards = ({ selected, onSelect }) => {
@@ -28,27 +29,21 @@ const InquiryCards = ({ selected, onSelect }) => {
             onClick={() => onSelect(category.id)}
             aria-pressed={isActive}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              px: 2,
+              px: 2.25,
               py: 1.25,
               borderRadius: "12px",
-              border: `1px solid ${isActive ? premium.cyan : premium.glassBorder}`,
-              backgroundColor: isActive ? "rgba(34,211,238,0.12)" : premium.glassBg,
-              color: isActive ? premium.cyan : premium.grayLight,
+              border: `1px solid ${isActive ? premium.blue : premium.border}`,
+              backgroundColor: isActive ? "rgba(37,99,235,0.08)" : premium.cardBg,
+              color: isActive ? premium.blue : premium.textSecondary,
               fontFamily: "inherit",
               fontSize: "0.9rem",
-              fontWeight: 600,
+              fontWeight: isActive ? 700 : 500,
               cursor: "pointer",
               transition: "all 0.2s ease",
-              "&:hover": { borderColor: premium.cyan, color: premium.cyan },
-              "&:focus-visible": { outline: `2px solid ${premium.cyan}`, outlineOffset: 2 },
+              "&:hover": { borderColor: premium.blue, color: premium.blue },
+              "&:focus-visible": { outline: `2px solid ${premium.blue}`, outlineOffset: 2 },
             }}
           >
-            <Box sx={{ fontSize: 14, display: "flex" }} aria-hidden="true">
-              {category.icon}
-            </Box>
             <Typography component="span" sx={{ fontSize: "inherit", fontWeight: "inherit", color: "inherit" }}>
               {category.label}
             </Typography>

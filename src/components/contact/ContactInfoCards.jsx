@@ -1,62 +1,138 @@
 import { Box, Typography } from "@mui/material";
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock } from "react-icons/fa";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { premium } from "../../theme/premiumPalette";
-import GlassCard from "../common/GlassCard";
 import AnimatedReveal from "../common/AnimatedReveal";
 import contactData from "../../data/contactData";
 
-/**
- * Each card only renders if the matching field is set in contactData.js.
- * Nothing here is invented — an unconfirmed address/phone/hours simply
- * doesn't produce a card, rather than showing a placeholder value.
- */
 const ContactInfoCards = () => {
-  const { address, hasPhysicalAddress, email, phone, workingHours } = contactData;
-
   const cards = [
-    hasPhysicalAddress && address && { icon: <FaMapMarkerAlt />, label: "Location", value: address, gradient: [premium.blue, premium.cyan] },
-    email && { icon: <FaEnvelope />, label: "Email", value: email, gradient: [premium.purple, premium.blue] },
-    phone && { icon: <FaPhoneAlt />, label: "Phone", value: phone, gradient: [premium.cyan, premium.purple] },
-    workingHours && {
-      icon: <FaClock />,
-      label: "Working Hours",
-      value: Array.isArray(workingHours) ? workingHours.map((h) => `${h.day}: ${h.time}`).join(" · ") : workingHours,
-      gradient: [premium.blue, premium.purple],
+    {
+      icon: <PhoneOutlinedIcon />,
+      label: "Call Us",
+      value: contactData.phone || "Contact details coming soon",
+      available: Boolean(contactData.phone),
     },
-  ].filter(Boolean);
-
-  if (cards.length === 0) return null;
+    {
+      icon: <EmailOutlinedIcon />,
+      label: "Email",
+      value: contactData.email || "Email support coming soon",
+      available: Boolean(contactData.email),
+    },
+  ];
 
   return (
-    <div className="row g-4">
+    <div className="row g-3">
       {cards.map((card, index) => (
-        <div className="col-sm-6 col-lg-3" key={card.label}>
-          <AnimatedReveal delay={index * 80}>
-            <GlassCard tone="dark" sx={{ p: 3.5, height: "100%", textAlign: "center" }}>
+        <div className="col-md-6" key={card.label}>
+          <AnimatedReveal delay={index * 100}>
+            <Box
+              className="pa-contact-info-card"
+              sx={{
+                position: "relative",
+                height: "100%",
+                minHeight: 150,
+                p: { xs: 2.5, md: 3 },
+                backgroundColor: premium.cardBg,
+                border: `1px solid ${premium.border}`,
+                borderRadius: "12px",
+                overflow: "hidden",
+                transition: "all 0.3s ease",
+
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "3px",
+                  backgroundColor: premium.blue,
+                  transform: "scaleX(0)",
+                  transformOrigin: "left",
+                  transition: "transform 0.3s ease",
+                },
+
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  borderColor: "rgba(37,99,235,0.3)",
+                  boxShadow: "0 12px 28px rgba(30,41,59,0.08)",
+                },
+
+                "&:hover::before": {
+                  transform: "scaleX(1)",
+                },
+              }}
+            >
+              {/* Icon */}
               <Box
                 sx={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: "14px",
+                  width: 44,
+                  height: 44,
+                  borderRadius: "10px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: `linear-gradient(135deg, ${card.gradient[0]}, ${card.gradient[1]})`,
-                  color: premium.white,
-                  fontSize: 20,
-                  mx: "auto",
+                  backgroundColor: "rgba(37,99,235,0.08)",
+                  color: premium.blue,
                   mb: 2,
+
+                  "& svg": {
+                    fontSize: 21,
+                  },
                 }}
               >
                 {card.icon}
               </Box>
-              <Typography variant="subtitle2" sx={{ color: premium.cyan, fontWeight: 700, letterSpacing: 0.5, mb: 0.75 }}>
+
+              <Typography
+                sx={{
+                  color: premium.textPrimary,
+                  fontSize: "0.9rem",
+                  fontWeight: 700,
+                  mb: 0.5,
+                }}
+              >
                 {card.label}
               </Typography>
-              <Typography variant="body2" sx={{ color: premium.grayLight, lineHeight: 1.6 }}>
+
+              <Typography
+                sx={{
+                  color: card.available
+                    ? premium.textPrimary
+                    : premium.textSecondary,
+                  fontSize: {
+                    xs: "0.9rem",
+                    md: "0.95rem",
+                  },
+                  fontWeight: card.available ? 600 : 400,
+                  lineHeight: 1.5,
+                  wordBreak: "break-word",
+                }}
+              >
                 {card.value}
               </Typography>
-            </GlassCard>
+
+              {card.available && (
+                <ArrowForwardIcon
+                  sx={{
+                    position: "absolute",
+                    right: 20,
+                    bottom: 20,
+                    fontSize: 18,
+                    color: premium.blue,
+                    opacity: 0,
+                    transform: "translateX(-5px)",
+                    transition: "all 0.3s ease",
+
+                    ".pa-contact-info-card:hover &": {
+                      opacity: 1,
+                      transform: "translateX(0)",
+                    },
+                  }}
+                />
+              )}
+            </Box>
           </AnimatedReveal>
         </div>
       ))}
