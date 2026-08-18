@@ -20,23 +20,27 @@ const Statistics = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: { xs: "flex-start", md: "space-between" },
-        gap: { xs: 4, md: 2 },
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr 1fr", md: "repeat(4, minmax(0, 1fr))" },
+        gap: { xs: 3, md: 2.5 },
       }}
     >
       {stats.map((stat, index) => (
         <Box
           key={stat.label}
           sx={{
-            pl: { md: index === 0 ? 0 : 4 },
-            borderLeft: { md: index === 0 ? "none" : `1px solid ${premium.border}` },
+            p: { xs: 2.5, md: 3 },
+            border: `1px solid ${premium.border}`,
+            borderRadius: "14px",
+            backgroundColor: premium.cardBg,
+            textAlign: "center",
+            boxShadow: "0 8px 22px rgba(15, 23, 42, 0.02)",
+            borderLeft: { md: index === 0 ? `1px solid ${premium.border}` : `1px solid ${premium.border}` },
           }}
         >
           <AnimatedReveal delay={index * 80}>
-            <AnimatedCounter value={stat.value} suffix={stat.suffix} sx={{ color: premium.textPrimary, fontSize: { xs: "2.2rem", md: "3rem" } }} />
-            <Typography variant="body2" sx={{ color: premium.textSecondary, fontWeight: 500, mt: 0.5 }}>
+            <AnimatedCounter value={stat.value} suffix={stat.suffix} sx={{ color: premium.textPrimary, fontSize: { xs: "2rem", md: "2.7rem" }, fontWeight: 700, letterSpacing: "-0.04em" }} />
+            <Typography variant="body2" sx={{ color: premium.textSecondary, fontWeight: 600, mt: 1, lineHeight: 1.5 }}>
               {stat.label}
             </Typography>
           </AnimatedReveal>

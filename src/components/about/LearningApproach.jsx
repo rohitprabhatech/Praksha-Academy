@@ -1,38 +1,59 @@
-import { Box, Typography, Button } from "@mui/material";
-import { FaCheckCircle } from "react-icons/fa";
+import { Box, Typography } from "@mui/material";
 import { premium } from "../../theme/premiumPalette";
 import AnimatedReveal from "../common/AnimatedReveal";
 import BrandIllustration from "../common/BrandIllustration";
 
-const points = ["Interactive Classes", "Live Projects", "Regular Assessments", "Mentor Support", "Career Guidance"];
+const steps = [
+  {
+    number: "01",
+    title: "Understand",
+    text: "Build a clear foundation before moving forward.",
+  },
+  {
+    number: "02",
+    title: "Practice",
+    text: "Turn concepts into skill through guided exercises.",
+  },
+  {
+    number: "03",
+    title: "Apply",
+    text: "Use what you learn to solve practical problems.",
+  },
+];
 
 const LearningApproach = () => {
   return (
     <div className="row align-items-center g-5">
       <div className="col-lg-5">
         <AnimatedReveal direction="left">
-          <Box sx={{ position: "relative" }}>
+          <Box
+            sx={{
+              position: "relative",
+              maxWidth: 430,
+              mx: { xs: "auto", lg: 0 },
+            }}
+          >
             <Box
-              aria-hidden="true"
               sx={{
                 position: "absolute",
-                top: -16,
-                left: -16,
-                right: 16,
-                bottom: 16,
-                borderRadius: "18px",
-                background: `linear-gradient(135deg, ${premium.blue}18, ${premium.purple}14)`,
+                inset: "14px -14px -14px 14px",
+                border: `1px solid ${premium.border}`,
+                borderRadius: "20px",
+                background: premium.cardBg,
               }}
             />
+
             <Box
-              className="pa-image-hover"
               sx={{
                 position: "relative",
-                aspectRatio: "4/3.3",
-                borderRadius: "16px",
+                minHeight: 360,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 border: `1px solid ${premium.border}`,
-                backgroundColor: premium.cardBg,
-                p: 3,
+                borderRadius: "20px",
+                background: "#ffffff",
+                p: 4,
               }}
             >
               <BrandIllustration variant="learning" />
@@ -42,34 +63,103 @@ const LearningApproach = () => {
       </div>
 
       <div className="col-lg-7">
-        <AnimatedReveal direction="right" delay={100}>
-          <Typography variant="h4" sx={{ color: premium.textPrimary, fontWeight: 700, fontSize: { xs: "1.7rem", md: "2.1rem" }, mb: 2.5 }}>
-            Our Learning Approach
+        <AnimatedReveal direction="right">
+          <Typography
+            sx={{
+              color: premium.orange,
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              mb: 1.5,
+            }}
+          >
+            HOW WE TEACH
           </Typography>
-          <Typography variant="body1" sx={{ color: premium.textSecondary, lineHeight: 1.8, mb: 3, maxWidth: 500 }}>
-            Every course is built around actually doing the work — not just
-            watching someone else do it. Here's what that looks like day to
-            day.
+
+          <Typography
+            sx={{
+              color: premium.textPrimary,
+              fontWeight: 700,
+              fontSize: { xs: "2rem", md: "2.65rem" },
+              lineHeight: 1.08,
+              letterSpacing: "-0.04em",
+              mb: 2,
+              maxWidth: 600,
+            }}
+          >
+            Learn it.
+            <br />
+            Practice it.
+            <br />
+            <span style={{ color: premium.blue }}>Build with it.</span>
           </Typography>
-          <Box sx={{ mb: 3.5 }}>
-            {points.map((point) => (
-              <Box key={point} sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-                <Box sx={{ color: premium.green, fontSize: 18, display: "flex" }}>
-                  <FaCheckCircle />
-                </Box>
-                <Typography variant="body1" sx={{ color: premium.textPrimary, fontWeight: 500 }}>
-                  {point}
+
+          <Typography
+            sx={{
+              color: premium.textSecondary,
+              fontSize: "1rem",
+              lineHeight: 1.75,
+              maxWidth: 570,
+              mb: 4,
+            }}
+          >
+            Learning should move beyond watching lessons. We help students
+            understand concepts, practice with guidance, and apply their
+            knowledge to meaningful work.
+          </Typography>
+
+          <Box>
+            {steps.map((step, index) => (
+              <Box
+                key={step.number}
+                sx={{
+                  display: "flex",
+                  gap: 2.5,
+                  py: 2.2,
+                  borderTop:
+                    index === 0
+                      ? `1px solid ${premium.border}`
+                      : "none",
+                  borderBottom: `1px solid ${premium.border}`,
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: premium.orange,
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    minWidth: 28,
+                    pt: 0.3,
+                  }}
+                >
+                  {step.number}
                 </Typography>
+
+                <Box>
+                  <Typography
+                    sx={{
+                      color: premium.textPrimary,
+                      fontWeight: 600,
+                      fontSize: "1rem",
+                      mb: 0.4,
+                    }}
+                  >
+                    {step.title}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: premium.textSecondary,
+                      fontSize: "0.9rem",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {step.text}
+                  </Typography>
+                </Box>
               </Box>
             ))}
           </Box>
-          <Button
-            variant="contained"
-            href="/courses"
-            sx={{ px: 3.5, py: 1.3, backgroundColor: premium.blue, "&:hover": { backgroundColor: premium.blueHover } }}
-          >
-            Learn More
-          </Button>
         </AnimatedReveal>
       </div>
     </div>

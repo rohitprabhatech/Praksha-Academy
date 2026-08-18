@@ -13,30 +13,36 @@ const WhoWeAre = () => {
 
   return (
     <div className="row">
-      <div className="col-lg-8">
+      <div className="col-lg-10">
         <AnimatedReveal>
           <Typography
             component="h2"
             sx={{
               fontFamily: "'Poppins', sans-serif",
               fontWeight: 700,
-              fontSize: { xs: "1.9rem", md: "2.6rem" },
-              lineHeight: 1.2,
+              fontSize: { xs: "2rem", md: "2.45rem" },
+              lineHeight: 1.12,
+              letterSpacing: "-0.035em",
               color: premium.textPrimary,
-              mb: 3,
+              mb: 2,
             }}
           >
             Who we are & our vision.
           </Typography>
-          <Typography variant="body1" sx={{ color: premium.textSecondary, fontSize: "1.1rem", lineHeight: 1.8, mb: 2.5 }}>
-            {story}
-          </Typography>
-          <Typography variant="body1" sx={{ color: premium.textSecondary, fontSize: "1.1rem", lineHeight: 1.8 }}>
-            {belief}
-          </Typography>
-        </AnimatedReveal>
-      </div>
+          <Typography variant="body1" sx={{
+            color: premium.textSecondary, fontSize: { xs: "0.95rem", md: "1rem" },
+            lineHeight: 1.75, mb: 2.25 }}>
+          {story}
+        </Typography>
+        <Typography variant="body1" sx={{
+          color: premium.textSecondary, fontSize: { xs: "0.95rem", md: "1rem" },
+          lineHeight: 1.75
+        }}>
+          {belief}
+        </Typography>
+      </AnimatedReveal>
     </div>
+    </div >
   );
 };
 
