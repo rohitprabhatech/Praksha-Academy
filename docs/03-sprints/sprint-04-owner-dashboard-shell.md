@@ -2,10 +2,10 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Ganesh  
 Branch: `feature/sprint-04-owner-dashboard-shell`  
 Status: Not Started  
-Estimated Duration: 3–4 days
+Estimated Duration: 2 days
 
 ---
 

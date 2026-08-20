@@ -16,7 +16,10 @@ import {
   FiLogOut,
   FiX,
 } from 'react-icons/fi';
+
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/AuthContext';
+
 import praksaMark from '../../assets/praksha-mark.png';
 
 export const ADMIN_SIDEBAR_WIDTH = 268;
@@ -116,10 +119,18 @@ const NavItem = ({ label, path, icon: Icon, isActive, onNavigate }) => (
 
 const SidebarContent = ({ pathname, onNavigate, showCloseButton, onClose }) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
+    logout();
+
+    if (onClose) {
+      onClose();
+    }
+
     toast.success('Logged out successfully');
-    navigate('/login');
+
+    navigate('/admin/login', { replace: true });
   };
 
   return (
@@ -270,7 +281,7 @@ const SidebarContent = ({ pathname, onNavigate, showCloseButton, onClose }) => {
  * Admin sidebar navigation.
  * Desktop: permanent sidebar. Mobile: temporary Drawer.
  */
-const AdminSidebar = ({ mobileOpen = false, onClose = () => {} }) => {
+const AdminSidebar = ({ mobileOpen = false, onClose = () => { } }) => {
   const { pathname } = useLocation();
 
   return (

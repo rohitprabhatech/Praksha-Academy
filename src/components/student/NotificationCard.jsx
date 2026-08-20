@@ -1,26 +1,58 @@
-import { Box, Stack, Typography, IconButton } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  IconButton,
+} from '@mui/material';
+
 import { motion } from 'framer-motion';
-import { FiBookOpen, FiAward, FiClock, FiMessageCircle, FiBell, FiX } from 'react-icons/fi';
+
+import {
+  FiBookOpen,
+  FiAward,
+  FiClock,
+  FiMessageCircle,
+  FiBell,
+  FiX,
+} from 'react-icons/fi';
 
 const TYPE_META = {
-  course: { icon: FiBookOpen, color: '#2563EB', bg: 'rgba(37, 99, 235, 0.1)' },
-  achievement: { icon: FiAward, color: '#D97706', bg: 'rgba(245, 158, 11, 0.12)' },
-  reminder: { icon: FiClock, color: '#0EA5E9', bg: 'rgba(14, 165, 233, 0.1)' },
-  message: { icon: FiMessageCircle, color: '#22C55E', bg: 'rgba(34, 197, 94, 0.1)' },
-  system: { icon: FiBell, color: '#64748B', bg: 'rgba(100, 116, 139, 0.1)' },
+  course: {
+    icon: FiBookOpen,
+    color: '#2563EB',
+    bg: '#EFF6FF',
+    label: 'Course',
+  },
+
+  achievement: {
+    icon: FiAward,
+    color: '#D97706',
+    bg: '#FFFBEB',
+    label: 'Achievement',
+  },
+
+  reminder: {
+    icon: FiClock,
+    color: '#0284C7',
+    bg: '#F0F9FF',
+    label: 'Reminder',
+  },
+
+  message: {
+    icon: FiMessageCircle,
+    color: '#16A34A',
+    bg: '#F0FDF4',
+    label: 'Message',
+  },
+
+  system: {
+    icon: FiBell,
+    color: '#64748B',
+    bg: '#F8FAFC',
+    label: 'System',
+  },
 };
 
-/**
- * Single notification row.
- * @param {string} type - course | achievement | reminder | message | system
- * @param {string} title
- * @param {string} message
- * @param {string} time - e.g. "2h ago"
- * @param {boolean} isRead
- * @param {Function} onMarkRead - called when an unread item is clicked
- * @param {Function} onDismiss
- * @param {number} index - for staggered entrance
- */
 const NotificationCard = ({
   type = 'system',
   title,
@@ -31,111 +63,359 @@ const NotificationCard = ({
   onDismiss,
   index = 0,
 }) => {
-  const { icon: Icon, color, bg } = TYPE_META[type] || TYPE_META.system;
+  const {
+    icon: Icon,
+    color,
+    bg,
+    label,
+  } =
+    TYPE_META[type] ||
+    TYPE_META.system;
 
   return (
     <Box
-      component={motion.div}
+      component={motion.article}
       layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.04, ease: 'easeOut' }}
-      onClick={!isRead ? onMarkRead : undefined}
+      initial={{
+        opacity: 0,
+        y: 8,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      exit={{
+        opacity: 0,
+        height: 0,
+        marginBottom: 0,
+      }}
+      transition={{
+        duration: 0.25,
+        delay: index * 0.035,
+        ease: 'easeOut',
+      }}
+      onClick={
+        !isRead
+          ? onMarkRead
+          : undefined
+      }
       sx={{
+        position: 'relative',
+
         display: 'flex',
-        alignItems: 'flex-start',
-        gap: 1.75,
-        p: 2,
-        borderRadius: '14px',
-        bgcolor: isRead ? '#FFFFFF' : 'rgba(37, 99, 235, 0.035)',
-        border: '1px solid',
-        borderColor: isRead ? '#E2E8F0' : 'rgba(37, 99, 235, 0.18)',
-        boxShadow: '0 1px 2px rgba(15, 23, 42, 0.03)',
-        cursor: isRead ? 'default' : 'pointer',
-        transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease',
+
+        alignItems:
+          'flex-start',
+
+        gap: 1.5,
+
+        width: '100%',
+
+        minWidth: 0,
+
+        p: {
+          xs: 1.5,
+          sm: 1.75,
+        },
+
+        bgcolor:
+          isRead
+            ? '#FFFFFF'
+            : '#F8FBFF',
+
+        border:
+          '1px solid',
+
+        borderColor:
+          isRead
+            ? '#E2E8F0'
+            : '#D7E7FF',
+
+        borderRadius: '8px',
+
+        boxShadow:
+          '0 1px 2px rgba(15,23,42,0.03)',
+
+        cursor:
+          isRead
+            ? 'default'
+            : 'pointer',
+
+        transition:
+          'background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease',
+
         '&:hover': {
-          bgcolor: isRead ? '#F8FAFC' : 'rgba(37, 99, 235, 0.06)',
-          boxShadow: '0 4px 14px rgba(15, 23, 42, 0.06)',
-          transform: 'translateY(-1px)',
+          bgcolor:
+            isRead
+              ? '#F8FAFC'
+              : '#F4F8FF',
+
+          borderColor:
+            isRead
+              ? '#CBD5E1'
+              : '#BFDBFE',
+
+          boxShadow:
+            '0 4px 12px rgba(15,23,42,0.05)',
         },
       }}
     >
+      {/* ===================================================
+          TYPE ICON
+      ==================================================== */}
+
       <Box
         sx={{
-          width: 38,
-          height: 38,
-          borderRadius: '10px',
+          position: 'relative',
+
+          width: 40,
+          height: 40,
+
+          borderRadius: '9px',
+
           bgcolor: bg,
+
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+
           flexShrink: 0,
         }}
       >
-        <Icon size={18} color={color} aria-hidden="true" />
+        <Icon
+          size={18}
+          color={color}
+          aria-hidden="true"
+        />
+
+        {!isRead && (
+          <Box
+            sx={{
+              position: 'absolute',
+
+              width: 7,
+              height: 7,
+
+              borderRadius:
+                '50%',
+
+              bgcolor:
+                '#2563EB',
+
+              top: -2,
+              right: -2,
+
+              border:
+                '2px solid #FFFFFF',
+            }}
+          />
+        )}
       </Box>
 
-      <Stack spacing={0.375} sx={{ flex: 1, minWidth: 0 }}>
-        <Stack direction="row" alignItems="center" spacing={1}>
+      {/* ===================================================
+          CONTENT
+      ==================================================== */}
+
+      <Stack
+        spacing={0.35}
+        sx={{
+          flex: 1,
+
+          minWidth: 0,
+        }}
+      >
+        {/* Title row */}
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={0.8}
+          sx={{
+            minWidth: 0,
+          }}
+        >
           <Typography
+            component="h2"
             sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: isRead ? 500 : 700,
-              fontSize: '0.9375rem',
-              color: '#1E293B',
+              minWidth: 0,
+
+              fontFamily:
+                'Inter, sans-serif',
+
+              fontWeight:
+                isRead
+                  ? 600
+                  : 700,
+
+              fontSize:
+                '0.875rem',
+
+              lineHeight: 1.35,
+
+              color:
+                '#0F172A',
+
+              overflow:
+                'hidden',
+
+              textOverflow:
+                'ellipsis',
+
+              whiteSpace:
+                'nowrap',
             }}
           >
             {title}
           </Typography>
+
           {!isRead && (
-            <Box
-              aria-label="Unread"
-              sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#2563EB', flexShrink: 0 }}
-            />
+            <Typography
+              component="span"
+              sx={{
+                flexShrink: 0,
+
+                px: 0.65,
+                py: 0.2,
+
+                borderRadius:
+                  '4px',
+
+                bgcolor:
+                  '#EFF6FF',
+
+                color:
+                  '#2563EB',
+
+                fontSize:
+                  '0.6rem',
+
+                fontWeight: 700,
+
+                lineHeight: 1.2,
+              }}
+            >
+              New
+            </Typography>
           )}
         </Stack>
+
+        {/* Type */}
+
         <Typography
           sx={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.8438rem',
-            color: '#64748B',
-            lineHeight: 1.5,
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize:
+              '0.65rem',
+
+            fontWeight: 600,
+
+            color,
+
+            lineHeight: 1.2,
+          }}
+        >
+          {label}
+        </Typography>
+
+        {/* Message */}
+
+        <Typography
+          sx={{
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize:
+              '0.78rem',
+
+            color:
+              '#64748B',
+
+            lineHeight:
+              1.45,
+
+            display:
+              '-webkit-box',
+
+            WebkitLineClamp: 2,
+
+            WebkitBoxOrient:
+              'vertical',
+
+            overflow:
+              'hidden',
+
+            pr: 1,
           }}
         >
           {message}
         </Typography>
+
+        {/* Time */}
+
         <Typography
           sx={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.75rem',
-            color: '#94A3B8',
-            mt: 0.25,
+            pt: 0.2,
+
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize:
+              '0.67rem',
+
+            color:
+              '#94A3B8',
           }}
         >
           {time}
         </Typography>
       </Stack>
 
+      {/* ===================================================
+          DISMISS
+      ==================================================== */}
+
       <IconButton
         onClick={(event) => {
           event.stopPropagation();
+
           onDismiss?.();
         }}
         aria-label={`Dismiss notification: ${title}`}
         size="small"
         sx={{
-          color: '#94A3B8',
+          width: 28,
+          height: 28,
+
+          mt: -0.25,
+
           flexShrink: 0,
-          transition: 'background-color 0.15s ease, color 0.15s ease',
-          '&:hover': { bgcolor: '#F1F5F9', color: '#64748B' },
+
+          color:
+            '#94A3B8',
+
+          '&:hover': {
+            bgcolor:
+              '#F1F5F9',
+
+            color:
+              '#475569',
+          },
+
           '&:focus-visible': {
-            outline: '2px solid #2563EB',
-            outlineOffset: '2px',
+            outline:
+              '2px solid #2563EB',
+
+            outlineOffset:
+              '2px',
           },
         }}
       >
-        <FiX size={16} aria-hidden="true" />
+        <FiX
+          size={15}
+          aria-hidden="true"
+        />
       </IconButton>
     </Box>
   );
