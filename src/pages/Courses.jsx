@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom' // <-- 1. Imported the hook
 import { FiSearch, FiX } from 'react-icons/fi'
 import CategoryFilter from '../components/courses/CategoryFilter'
 import CourseGrid from '../components/courses/CourseGrid'
@@ -58,11 +59,24 @@ function getSortedCourses(courseList, selectedSort) {
 }
 
 function Courses() {
- const [searchTerm, setSearchTerm] = useState('')
+ // 2. Initialize the search params hook
+ const [searchParams, setSearchParams] = useSearchParams()
+ 
+ // 3. Grab the initial value from the URL (e.g., ?q=python)
+ const initialQuery = searchParams.get('q') || ''
+
+ // 4. Set the state to match the URL instead of starting blank
+ const [searchTerm, setSearchTerm] = useState(initialQuery)
  const [selectedCategory, setSelectedCategory] = useState('All Categories')
  const [selectedSort, setSelectedSort] = useState('popular')
  const [currentPage, setCurrentPage] = useState(1)
  const resultsRef = useRef(null)
+
+ // 5. Listen for URL changes (in case the user searches from the Navbar while already on this page)
+ useEffect(() => {
+  const query = searchParams.get('q') || ''
+  setSearchTerm(query)
+ }, [searchParams])
 
  const visibleCourses = useMemo(() => {
   const searchedCourses = getSearchedCourses(courses, searchTerm)
@@ -85,7 +99,16 @@ function Courses() {
  }, [currentPage, totalPages])
 
  const handleSearchChange = (event) => {
-  setSearchTerm(event.target.value)
+  const newTerm = event.target.value
+  setSearchTerm(newTerm)
+  
+  // Update the URL to match what the user is typing
+  if (newTerm) {
+    setSearchParams({ q: newTerm })
+  } else {
+    setSearchParams({})
+  }
+  
   setCurrentPage(1)
  }
 
@@ -109,12 +132,14 @@ function Courses() {
 
  const clearSearch = () => {
   setSearchTerm('')
+  setSearchParams({}) // Clear the URL parameter too
   setCurrentPage(1)
  }
 
  const clearFilters = () => {
   setSearchTerm('')
   setSelectedCategory('All Categories')
+  setSearchParams({}) // Clear the URL parameter too
   setCurrentPage(1)
  }
 
