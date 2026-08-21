@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate} from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
 import Courses from '../pages/Courses'
@@ -6,7 +6,11 @@ import CourseDetails from '../pages/CourseDetails'
 import Programs from '../pages/Programs'
 import About from '../pages/About'
 import Blog from '../pages/Blog'
+import BlogDetail from '../pages/BlogDetail'
 import Contact from '../pages/Contact'
+import PrivacyPolicy from '../pages/PrivacyPolicy'
+import Terms from '../pages/Terms'
+import RefundPolicy from '../pages/RefundPolicy'
 import NotFound from '../pages/NotFound'
 import AdminRoutes from './AdminRoutes'
 
@@ -70,10 +74,17 @@ function AppRoutes() {
     <Route path="/courses/:slug" element={<CourseDetails />} />
     <Route path="/programs" element={<Programs />} />
     <Route path="/blog" element={<Blog />} />
+    <Route path="/blog/:slug" element={<BlogDetail />} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
-   </Route>
+    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+    <Route path="/terms" element={<Terms />} />
+    <Route path="/refund-policy" element={<RefundPolicy />} />
+  </Route>
 
+   
+    
    <Route path="/login" element={<Login />} />
    <Route path="/register" element={<Signup />} />
    <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -127,6 +138,16 @@ function AppRoutes() {
     <Route path="/admin/reports/revenue" element={<RevenueReports />} />
     <Route path="/admin/reports/performance" element={<PerformanceReports />} />
    </Route>
+   {/* Sprint 03(public-website) Routes */}
+      //<Route path="/programs" element={<Programs />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogDetail />} />
+      
+      {/* Legal Routes */}
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/refund-policy" element={<RefundPolicy />} />
 
    <Route path="*" element={<NotFound />} />
   </Routes>
