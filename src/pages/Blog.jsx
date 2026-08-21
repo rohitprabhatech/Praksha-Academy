@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -10,90 +11,111 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material'
-import { FiArrowRight, FiCalendar, FiClock, FiFilter, FiSearch, FiTrendingUp } from 'react-icons/fi'
-import SectionHeader from '../components/home/SectionHeader'
+} from "@mui/material";
+import {
+  FiArrowRight,
+  FiCalendar,
+  FiClock,
+  FiFilter,
+  FiSearch,
+  FiTrendingUp,
+} from "react-icons/fi";
+import SectionHeader from "../components/home/SectionHeader";
 
 const blogPosts = [
   {
-    title: 'How to Choose the Right Program for Your Goals',
+    title: "How to Choose the Right Program for Your Goals",
     excerpt:
-      'Learn how Praksha Academy combines coaching, coding, and exam readiness so every student can progress with purpose.',
-    category: 'Guides',
-    author: 'Ananya Bhatt',
-    date: 'July 10, 2026',
-    readTime: '6 min',
-    tags: ['Programs', 'Planning'],
+      "Learn how Praksha Academy combines coaching, coding, and exam readiness so every student can progress with purpose.",
+    category: "Guides",
+    author: "Ananya Bhatt",
+    date: "July 10, 2026",
+    readTime: "6 min",
+    tags: ["Programs", "Planning"],
   },
   {
-    title: 'Building Confidence in Spoken English with Daily Practice',
+    title: "Building Confidence in Spoken English with Daily Practice",
     excerpt:
-      'Practical habits, classroom strategies, and communication exercises to help you speak more naturally and clearly.',
-    category: 'English',
-    author: 'Rahul Mehta',
-    date: 'June 28, 2026',
-    readTime: '5 min',
-    tags: ['Fluency', 'Speaking'],
+      "Practical habits, classroom strategies, and communication exercises to help you speak more naturally and clearly.",
+    category: "English",
+    author: "Rahul Mehta",
+    date: "June 28, 2026",
+    readTime: "5 min",
+    tags: ["Fluency", "Speaking"],
   },
   {
-    title: 'Why Project-Based Learning Makes Skills Stick',
+    title: "Why Project-Based Learning Makes Skills Stick",
     excerpt:
-      'Explore how hands-on coding and academic projects help students retain concepts and build confidence faster.',
-    category: 'Programming',
-    author: 'Priya Sharma',
-    date: 'June 12, 2026',
-    readTime: '7 min',
-    tags: ['Coding', 'Projects'],
+      "Explore how hands-on coding and academic projects help students retain concepts and build confidence faster.",
+    category: "Programming",
+    author: "Priya Sharma",
+    date: "June 12, 2026",
+    readTime: "7 min",
+    tags: ["Coding", "Projects"],
   },
   {
-    title: 'Exam Strategy for School and Competitive Tests',
+    title: "Exam Strategy for School and Competitive Tests",
     excerpt:
-      'A concise guide to building revision routines, managing time, and staying calm on test day.',
-    category: 'Exam Prep',
-    author: 'Sneha Gupta',
-    date: 'May 30, 2026',
-    readTime: '4 min',
-    tags: ['Revision', 'Success'],
+      "A concise guide to building revision routines, managing time, and staying calm on test day.",
+    category: "Exam Prep",
+    author: "Sneha Gupta",
+    date: "May 30, 2026",
+    readTime: "4 min",
+    tags: ["Revision", "Success"],
   },
   {
-    title: 'How to Turn Homework into Better Results',
+    title: "How to Turn Homework into Better Results",
     excerpt:
-      'Small changes to daily study habits that can improve retention, understanding, and grades across subjects.',
-    category: 'Study Skills',
-    author: 'Karan Joshi',
-    date: 'May 15, 2026',
-    readTime: '5 min',
-    tags: ['Habits', 'Learning'],
+      "Small changes to daily study habits that can improve retention, understanding, and grades across subjects.",
+    category: "Study Skills",
+    author: "Karan Joshi",
+    date: "May 15, 2026",
+    readTime: "5 min",
+    tags: ["Habits", "Learning"],
   },
-]
+];
 
-const featuredTags = ['Guides', 'English', 'Programming', 'Exam Prep', 'Study Skills']
+const featuredTags = [
+  "Guides",
+  "English",
+  "Programming",
+  "Exam Prep",
+  "Study Skills",
+];
 
 function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [searchTerm, setSearchTerm] = useState('')
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const categories = useMemo(
-    () => ['All', ...new Set(blogPosts.map((post) => post.category))],
-    []
-  )
+    () => ["All", ...new Set(blogPosts.map((post) => post.category))],
+    [],
+  );
 
   const filteredPosts = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase()
+    const normalizedSearch = searchTerm.trim().toLowerCase();
     return blogPosts.filter((post) => {
-      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory
+      const matchesCategory =
+        selectedCategory === "All" || post.category === selectedCategory;
       const matchesSearch =
         !normalizedSearch ||
         post.title.toLowerCase().includes(normalizedSearch) ||
         post.excerpt.toLowerCase().includes(normalizedSearch) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(normalizedSearch))
+        post.tags.some((tag) => tag.toLowerCase().includes(normalizedSearch));
 
-      return matchesCategory && matchesSearch
-    })
-  }, [searchTerm, selectedCategory])
+      return matchesCategory && matchesSearch;
+    });
+  }, [searchTerm, selectedCategory]);
 
   return (
-    <Box sx={{ backgroundColor: '#F8FAFC', minHeight: '100vh', pb: { xs: 8, md: 12 } }}>
+    <Box
+      sx={{
+        backgroundColor: "#F8FAFC",
+        minHeight: "100vh",
+        pb: { xs: 8, md: 12 },
+      }}
+    >
       <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 10 } }}>
         <SectionHeader
           title="Blog"
@@ -103,9 +125,9 @@ function Blog() {
         <Paper
           elevation={0}
           sx={{
-            backgroundColor: '#FFFFFF',
-            border: '1px solid #E2E8F0',
-            borderRadius: '20px',
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E2E8F0",
+            borderRadius: "20px",
             p: { xs: 3, md: 5 },
             mb: 5,
           }}
@@ -115,12 +137,18 @@ function Blog() {
               <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
                 Fresh ideas for students, parents, and lifelong learners.
               </Typography>
-              <Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>
-                Browse thoughtful articles about programming, English fluency, exam strategy, and effective study habits.
+              <Typography sx={{ color: "#64748B", lineHeight: 1.8 }}>
+                Browse thoughtful articles about programming, English fluency,
+                exam strategy, and effective study habits.
               </Typography>
             </Grid>
             <Grid item xs={12} md={5}>
-              <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                flexWrap="wrap"
+                sx={{ gap: 1 }}
+              >
                 {featuredTags.map((tag) => (
                   <Chip key={tag} label={tag} clickable size="small" />
                 ))}
@@ -134,8 +162,8 @@ function Blog() {
             <Paper
               elevation={0}
               sx={{
-                border: '1px solid #E2E8F0',
-                borderRadius: '20px',
+                border: "1px solid #E2E8F0",
+                borderRadius: "20px",
                 p: { xs: 3, md: 4 },
                 mb: 4,
               }}
@@ -153,11 +181,11 @@ function Blog() {
                       ),
                     }}
                     sx={{
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: '14px',
-                        backgroundColor: '#F8FAFC',
-                        '& fieldset': {
-                          borderColor: '#E2E8F0',
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "14px",
+                        backgroundColor: "#F8FAFC",
+                        "& fieldset": {
+                          borderColor: "#E2E8F0",
                         },
                       },
                     }}
@@ -169,18 +197,20 @@ function Blog() {
                     fullWidth
                     label="Filter"
                     value={selectedCategory}
-                    onChange={(event) => setSelectedCategory(event.target.value)}
+                    onChange={(event) =>
+                      setSelectedCategory(event.target.value)
+                    }
                     InputProps={{
                       startAdornment: (
                         <FiFilter color="#94A3B8" style={{ marginRight: 12 }} />
                       ),
                     }}
                     sx={{
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: '14px',
-                        backgroundColor: '#F8FAFC',
-                        '& fieldset': {
-                          borderColor: '#E2E8F0',
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "14px",
+                        backgroundColor: "#F8FAFC",
+                        "& fieldset": {
+                          borderColor: "#E2E8F0",
                         },
                       },
                     }}
@@ -202,36 +232,75 @@ function Blog() {
                     key={post.title}
                     elevation={0}
                     sx={{
-                      border: '1px solid #E2E8F0',
-                      borderRadius: '24px',
+                      border: "1px solid #E2E8F0",
+                      borderRadius: "24px",
                       p: { xs: 3, md: 4 },
-                      transition: 'transform 0.25s ease',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
+                      transition: "transform 0.25s ease",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
                       },
                     }}
                   >
                     <Stack spacing={2}>
-                      <Stack direction="row" alignItems="center" spacing={1.5} flexWrap="wrap">
-                        <Chip label={post.category} color="primary" size="small" />
-                        <Typography sx={{ color: '#64748B' }}>
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={1.5}
+                        flexWrap="wrap"
+                      >
+                        <Chip
+                          label={post.category}
+                          color="primary"
+                          size="small"
+                        />
+                        <Typography sx={{ color: "#64748B" }}>
                           {post.date} • {post.readTime} read
                         </Typography>
                       </Stack>
-                      <Typography variant="h4" component="h2" sx={{ fontWeight: 800 }}>
+                      <Typography
+                        variant="h4"
+                        component="h2"
+                        sx={{ fontWeight: 800 }}
+                      >
                         {post.title}
                       </Typography>
-                      <Typography sx={{ color: '#475569', lineHeight: 1.8 }}>{post.excerpt}</Typography>
-                      <Stack direction="row" alignItems="center" spacing={2} flexWrap="wrap">
-                        <Typography sx={{ color: '#334155', fontWeight: 700 }}>{post.author}</Typography>
-                        <Divider orientation="vertical" flexItem sx={{ borderColor: '#E2E8F0' }} />
+                      <Typography sx={{ color: "#475569", lineHeight: 1.8 }}>
+                        {post.excerpt}
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={2}
+                        flexWrap="wrap"
+                      >
+                        <Typography sx={{ color: "#334155", fontWeight: 700 }}>
+                          {post.author}
+                        </Typography>
+                        <Divider
+                          orientation="vertical"
+                          flexItem
+                          sx={{ borderColor: "#E2E8F0" }}
+                        />
                         <Stack direction="row" spacing={1} flexWrap="wrap">
                           {post.tags.map((tag) => (
                             <Chip key={tag} label={`#${tag}`} size="small" />
                           ))}
                         </Stack>
                       </Stack>
-                      <Button endIcon={<FiArrowRight />} sx={{ alignSelf: 'flex-start' }}>
+                      <Button
+                        endIcon={<FiArrowRight />}
+                        sx={{ alignSelf: "flex-start" }}
+                        onClick={() => {
+                          // Generate a URL-friendly slug from the title
+                          const generatedSlug = post.title
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]+/g, "-");
+                          // Navigate and pass the post data in the state
+                          navigate(`/blog/${generatedSlug}`, {
+                            state: { post },
+                          });
+                        }}
+                      >
                         Read article
                       </Button>
                     </Stack>
@@ -241,17 +310,17 @@ function Blog() {
                 <Paper
                   elevation={0}
                   sx={{
-                    border: '1px solid #E2E8F0',
-                    borderRadius: '20px',
+                    border: "1px solid #E2E8F0",
+                    borderRadius: "20px",
                     p: 6,
-                    textAlign: 'center',
-                    backgroundColor: '#FFFFFF',
+                    textAlign: "center",
+                    backgroundColor: "#FFFFFF",
                   }}
                 >
                   <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>
                     No articles found
                   </Typography>
-                  <Typography sx={{ color: '#64748B' }}>
+                  <Typography sx={{ color: "#64748B" }}>
                     Try another keyword or category to find what you need.
                   </Typography>
                 </Paper>
@@ -264,10 +333,10 @@ function Blog() {
               <Paper
                 elevation={0}
                 sx={{
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
+                  border: "1px solid #E2E8F0",
+                  borderRadius: "20px",
                   p: 4,
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: "#FFFFFF",
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: 800, mb: 2 }}>
@@ -283,10 +352,10 @@ function Blog() {
               <Paper
                 elevation={0}
                 sx={{
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
+                  border: "1px solid #E2E8F0",
+                  borderRadius: "20px",
                   p: 4,
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: "#FFFFFF",
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: 800, mb: 2 }}>
@@ -298,7 +367,11 @@ function Blog() {
                       <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                         {post.title}
                       </Typography>
-                      <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>{post.date}</Typography>
+                      <Typography
+                        sx={{ color: "#64748B", fontSize: "0.95rem" }}
+                      >
+                        {post.date}
+                      </Typography>
                     </Box>
                   ))}
                 </Stack>
@@ -307,20 +380,25 @@ function Blog() {
               <Paper
                 elevation={0}
                 sx={{
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
+                  border: "1px solid #E2E8F0",
+                  borderRadius: "20px",
                   p: 4,
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: "#FFFFFF",
                 }}
               >
                 <Stack spacing={2}>
                   <Typography variant="h6" sx={{ fontWeight: 800 }}>
                     Join the newsletter
                   </Typography>
-                  <Typography sx={{ color: '#64748B', lineHeight: 1.7 }}>
-                    Get new blog posts, learning tips, and program updates delivered to your inbox.
+                  <Typography sx={{ color: "#64748B", lineHeight: 1.7 }}>
+                    Get new blog posts, learning tips, and program updates
+                    delivered to your inbox.
                   </Typography>
-                  <Button variant="contained" color="primary" endIcon={<FiTrendingUp />}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    endIcon={<FiTrendingUp />}
+                  >
                     Subscribe now
                   </Button>
                 </Stack>
@@ -330,7 +408,7 @@ function Blog() {
         </Grid>
       </Container>
     </Box>
-  )
+  );
 }
 
-export default Blog
+export default Blog;
