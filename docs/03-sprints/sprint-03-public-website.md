@@ -4,7 +4,7 @@
 
 Developer: Renuka  
 Branch: `feature/sprint-03-public-website`  
-Status: Not Started  
+Status: Started  
 Estimated Duration: 2 days
 
 ---

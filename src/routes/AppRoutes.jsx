@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
 import Courses from '../pages/Courses'
@@ -65,93 +65,89 @@ import CourseReports from '../pages/admin/Reports/CourseReports'
 import RevenueReports from '../pages/admin/Reports/RevenueReports'
 import PerformanceReports from '../pages/admin/Reports/PerformanceReports'
 
+
+import RequireAuth from '../components/auth/RequireAuth'
+import RequireRole from '../components/auth/RequireRole'
+import AccessDenied from '../pages/auth/AccessDenied'
+
+import ResetPassword from '../pages/auth/ResetPassword'
+
 function AppRoutes() {
- return (
-  <Routes>
-   <Route element={<MainLayout />}>
-    <Route path="/" element={<Home />} />
-    <Route path="/courses" element={<Courses />} />
-    <Route path="/courses/:slug" element={<CourseDetails />} />
-    <Route path="/programs" element={<Programs />} />
-    <Route path="/blog" element={<Blog />} />
-    <Route path="/blog/:slug" element={<BlogDetail />} />
-    <Route path="/about" element={<About />} />
-    <Route path="/contact" element={<Contact />} />
-    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-    <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
-    <Route path="/terms" element={<Terms />} />
-    <Route path="/refund-policy" element={<RefundPolicy />} />
-  </Route>
+    return (
+        <Routes>
+            <Route element={<MainLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:slug" element={<CourseDetails />} />
+                <Route path="/programs" element={<Programs />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+            </Route>
 
-   
-    
-   <Route path="/login" element={<Login />} />
-   <Route path="/register" element={<Signup />} />
-   <Route path="/forgot-password" element={<ForgotPassword />} />
-   <Route path="/verify-otp" element={<VerifyOtp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-otp" element={<VerifyOtp />} />
+            <Route path="/access-denied" element={<AccessDenied />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
-   <Route path="/admin/*" element={<AdminRoutes />} />
+            <Route path="/admin/*" element={<AdminRoutes />} />
 
-   <Route element={<StudentLayout />}>
-    <Route path="/student/dashboard" element={<Dashboard />} />
-    <Route path="/student/courses" element={<MyCourses />} />
-    <Route path="/student/wishlist" element={<Wishlist />} />
-    <Route path="/student/certificates" element={<Certificates />} />
-    <Route path="/student/notifications" element={<Notifications />} />
-    <Route path="/student/profile" element={<Profile />} />
-   </Route>
+            <Route element={<RequireAuth />}>
+                <Route element={<RequireRole allowedRoles="student" />}>
+                    <Route element={<StudentLayout />}>
+                        <Route path="/student/dashboard" element={<Dashboard />} />
+                        <Route path="/student/courses" element={<MyCourses />} />
+                        <Route path="/student/wishlist" element={<Wishlist />} />
+                        <Route path="/student/certificates" element={<Certificates />} />
+                        <Route path="/student/notifications" element={<Notifications />} />
+                        <Route path="/student/profile" element={<Profile />} />
+                    </Route>
+                </Route>
+            </Route>
 
-   {/* ── Admin Routes ────────────────────────────────────────────── */}
-   <Route element={<AdminLayout />}>
-    {/* Blog */}
-    <Route path="/admin/blog" element={<BlogList />} />
-    <Route path="/admin/blog/create" element={<CreateBlog />} />
-    <Route path="/admin/blog/:id/edit" element={<EditBlog />} />
-    <Route path="/admin/blog/:id" element={<BlogDetails />} />
+            {/* ── Admin Routes ────────────────────────────────────────────── */}
+            <Route element={<AdminLayout />}>
+                {/* Blog */}
+                <Route path="/admin/blog" element={<BlogList />} />
+                <Route path="/admin/blog/create" element={<CreateBlog />} />
+                <Route path="/admin/blog/:id/edit" element={<EditBlog />} />
+                <Route path="/admin/blog/:id" element={<BlogDetails />} />
 
-    {/* Gallery */}
-    <Route path="/admin/gallery" element={<GalleryList />} />
-    <Route path="/admin/gallery/add-image" element={<AddImage />} />
-    <Route path="/admin/gallery/add-video" element={<AddVideo />} />
+                {/* Gallery */}
+                <Route path="/admin/gallery" element={<GalleryList />} />
+                <Route path="/admin/gallery/add-image" element={<AddImage />} />
+                <Route path="/admin/gallery/add-video" element={<AddVideo />} />
 
-    {/* FAQ */}
-    <Route path="/admin/faq" element={<FAQList />} />
-    <Route path="/admin/faq/add" element={<AddFAQ />} />
-    <Route path="/admin/faq/:id/edit" element={<EditFAQ />} />
+                {/* FAQ */}
+                <Route path="/admin/faq" element={<FAQList />} />
+                <Route path="/admin/faq/add" element={<AddFAQ />} />
+                <Route path="/admin/faq/:id/edit" element={<EditFAQ />} />
 
-    {/* Testimonials */}
-    <Route path="/admin/testimonials" element={<TestimonialsList />} />
-    <Route path="/admin/testimonials/add" element={<AddTestimonial />} />
-    <Route path="/admin/testimonials/:id/edit" element={<EditTestimonial />} />
+                {/* Testimonials */}
+                <Route path="/admin/testimonials" element={<TestimonialsList />} />
+                <Route path="/admin/testimonials/add" element={<AddTestimonial />} />
+                <Route path="/admin/testimonials/:id/edit" element={<EditTestimonial />} />
 
-    {/* Notifications */}
-    <Route path="/admin/notifications" element={<NotificationList />} />
-    <Route path="/admin/notifications/create" element={<CreateNotification />} />
+                {/* Notifications */}
+                <Route path="/admin/notifications" element={<NotificationList />} />
+                <Route path="/admin/notifications/create" element={<CreateNotification />} />
 
-    {/* Contact Messages */}
-    <Route path="/admin/contact-messages" element={<ContactMessagesList />} />
-    <Route path="/admin/contact-messages/:id" element={<MessageDetails />} />
+                {/* Contact Messages */}
+                <Route path="/admin/contact-messages" element={<ContactMessagesList />} />
+                <Route path="/admin/contact-messages/:id" element={<MessageDetails />} />
 
-    {/* Reports */}
-    <Route path="/admin/reports/students" element={<StudentReports />} />
-    <Route path="/admin/reports/courses" element={<CourseReports />} />
-    <Route path="/admin/reports/revenue" element={<RevenueReports />} />
-    <Route path="/admin/reports/performance" element={<PerformanceReports />} />
-   </Route>
-   {/* Sprint 03(public-website) Routes */}
-      //<Route path="/programs" element={<Programs />} />
-      <Route path="/blog" element={<Blog />} />
-      <Route path="/blog/:slug" element={<BlogDetail />} />
-      
-      {/* Legal Routes */}
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/refund-policy" element={<RefundPolicy />} />
+                {/* Reports */}
+                <Route path="/admin/reports/students" element={<StudentReports />} />
+                <Route path="/admin/reports/courses" element={<CourseReports />} />
+                <Route path="/admin/reports/revenue" element={<RevenueReports />} />
+                <Route path="/admin/reports/performance" element={<PerformanceReports />} />
+            </Route>
 
-   <Route path="*" element={<NotFound />} />
-  </Routes>
- )
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    )
 }
 
 export default AppRoutes
