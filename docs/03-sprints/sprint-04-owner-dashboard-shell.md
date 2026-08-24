@@ -174,3 +174,7 @@ See `definition-of-done.md`.
 
 ### Can Run in Parallel
 Not with 01/02. Not with 05 if same sidebar file conflict — sequential preferred.
+
+
+===============
+Completed

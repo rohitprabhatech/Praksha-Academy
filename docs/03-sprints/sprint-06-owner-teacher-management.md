@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Renuka
 Branch: `feature/sprint-06-owner-teacher-management`  
 Status: Not Started  
 Estimated Duration: 5 days

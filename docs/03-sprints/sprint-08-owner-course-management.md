@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Ganesh
 Branch: `feature/sprint-08-owner-course-management`  
 Status: Not Started  
 Estimated Duration: 5 days
