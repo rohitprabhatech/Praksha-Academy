@@ -45,12 +45,16 @@ function TopNavbar({ onOpenSidebar }) {
      minWidth: 0,
     }}
    >
-    {/* Mobile menu */}
+    {/* Mobile menu — breakpoint matches AdminSidebar's md switch-over
+        (AdminSidebar.jsx uses `md` for permanent-vs-drawer). This used
+        to be `lg` here, which left a "double hamburger" dead zone
+        between md and lg widths: AdminSidebar would already be
+        permanent (visible), but this button would still render too. */}
     <IconButton
      onClick={onOpenSidebar}
      aria-label="Open admin menu"
      sx={{
-      display: { xs: 'inline-flex', lg: 'none' },
+      display: { xs: 'inline-flex', md: 'none' },
       width: 38,
       height: 38,
       color: 'text.primary',
