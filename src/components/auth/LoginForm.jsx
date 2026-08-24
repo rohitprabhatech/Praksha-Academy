@@ -157,7 +157,6 @@ const LoginForm = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            alignItems: 'center',
             mt: -0.5,
             width: '100%',
           }}

@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import { FiMenu } from 'react-icons/fi';
+import { Box } from '@mui/material';
 import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar';
+import TopNavbar from '../components/admin/TopNavbar';
 
-const focusRingSx = {
-  '&:focus-visible': {
-    outline: '2px solid #2563EB',
-    outlineOffset: '2px',
-    borderRadius: '6px',
-  },
-};
-
+/**
+ * Single chrome for every /admin/* page (Sprint 01).
+ *
+ * Previously this hand-rolled its own small "mobile top bar" (a hamburger
+ * + hardcoded title) instead of using the existing TopNavbar component,
+ * which was built (Breadcrumb, search, theme toggle, notifications,
+ * profile menu) but never actually mounted anywhere. This now renders
+ * TopNavbar for every admin page, at every width — TopNavbar handles its
+ * own internal responsiveness (hiding search on small screens, etc.).
+ */
 const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -28,41 +30,7 @@ const AdminLayout = () => {
           flexDirection: 'column',
         }}
       >
-        {/* Mobile top bar */}
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={1.5}
-          sx={{
-            display: { xs: 'flex', md: 'none' },
-            position: 'sticky',
-            top: 0,
-            zIndex: 10,
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(12px)',
-            borderBottom: '1px solid #E2E8F0',
-            px: 2,
-            py: 1.5,
-          }}
-        >
-          <IconButton
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open admin menu"
-            sx={{ color: '#1E293B', ...focusRingSx }}
-          >
-            <FiMenu size={22} />
-          </IconButton>
-          <Typography
-            sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              color: '#1E293B',
-            }}
-          >
-            Praksha Academy — Admin
-          </Typography>
-        </Stack>
+        <TopNavbar onOpenSidebar={() => setMobileOpen(true)} />
 
         {/* Page content */}
         <Box
