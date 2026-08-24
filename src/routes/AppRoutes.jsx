@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Routes, Route, Navigate} from 'react-router-dom'
+=======
+import { Routes, Route, Navigate } from 'react-router-dom'
+>>>>>>> 860170639db5a7566eb092f7a7a04be510df2a4f
 import MainLayout from '../layouts/MainLayout'
 import Home from '../pages/Home'
 import Courses from '../pages/Courses'
@@ -12,60 +16,27 @@ import PrivacyPolicy from '../pages/PrivacyPolicy'
 import Terms from '../pages/Terms'
 import RefundPolicy from '../pages/RefundPolicy'
 import NotFound from '../pages/NotFound'
-import AdminRoutes from './AdminRoutes'
 
-import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Register";
+// Auth
+import Login from '../pages/auth/Login'
+import Signup from '../pages/auth/Register'
 import ForgotPassword from '../pages/auth/ForgotPassword'
 import VerifyOtp from '../pages/auth/VerifyOtp'
 
+// Student
 import StudentLayout from '../layouts/StudentLayout'
-import Dashboard from '../pages/student/Dashboard'
+import StudentDashboard from '../pages/student/Dashboard'
 import MyCourses from '../pages/student/MyCourses'
 import Wishlist from '../pages/student/Wishlist'
 import Certificates from '../pages/student/Certificates'
-import Notifications from '../pages/student/Notifications'
-import Profile from '../pages/student/Profile'
+import StudentNotifications from '../pages/student/Notifications'
+import StudentProfile from '../pages/student/Profile'
 
-// Admin Layout
-import AdminLayout from '../layouts/AdminLayout'
-
-// Admin — Blog
-import BlogList from '../pages/admin/Blog/BlogList'
-import CreateBlog from '../pages/admin/Blog/CreateBlog'
-import EditBlog from '../pages/admin/Blog/EditBlog'
-import BlogDetails from '../pages/admin/Blog/BlogDetails'
-
-// Admin — Gallery
-import GalleryList from '../pages/admin/Gallery/GalleryList'
-import AddImage from '../pages/admin/Gallery/AddImage'
-import AddVideo from '../pages/admin/Gallery/AddVideo'
-
-// Admin — FAQ
-import FAQList from '../pages/admin/FAQ/FAQList'
-import AddFAQ from '../pages/admin/FAQ/AddFAQ'
-import EditFAQ from '../pages/admin/FAQ/EditFAQ'
-
-// Admin — Testimonials
-import TestimonialsList from '../pages/admin/Testimonials/TestimonialsList'
-import AddTestimonial from '../pages/admin/Testimonials/AddTestimonial'
-import EditTestimonial from '../pages/admin/Testimonials/EditTestimonial'
-
-// Admin — Notifications
-import NotificationList from '../pages/admin/Notifications/NotificationList'
-import CreateNotification from '../pages/admin/Notifications/CreateNotification'
-
-// Admin — Contact Messages
-import ContactMessagesList from '../pages/admin/ContactMessages/ContactMessagesList'
-import MessageDetails from '../pages/admin/ContactMessages/MessageDetails'
-
-// Admin — Reports
-import StudentReports from '../pages/admin/Reports/StudentReports'
-import CourseReports from '../pages/admin/Reports/CourseReports'
-import RevenueReports from '../pages/admin/Reports/RevenueReports'
-import PerformanceReports from '../pages/admin/Reports/PerformanceReports'
+// Admin — all /admin/* routes delegated to AdminRoutes
+import AdminRoutes from './AdminRoutes'
 
 function AppRoutes() {
+<<<<<<< HEAD
  return (
   <Routes>
    <Route element={<MainLayout />}>
@@ -89,18 +60,41 @@ function AppRoutes() {
    <Route path="/register" element={<Signup />} />
    <Route path="/forgot-password" element={<ForgotPassword />} />
    <Route path="/verify-otp" element={<VerifyOtp />} />
+=======
+    return (
+        <Routes>
+            {/* ── Public / Marketing ───────────────────────────────── */}
+            <Route element={<MainLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:slug" element={<CourseDetails />} />
+                <Route path="/programs" element={<Programs />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+            </Route>
 
-   <Route path="/admin/*" element={<AdminRoutes />} />
+            {/* ── Auth ─────────────────────────────────────────────── */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-otp" element={<VerifyOtp />} />
+>>>>>>> 860170639db5a7566eb092f7a7a04be510df2a4f
 
-   <Route element={<StudentLayout />}>
-    <Route path="/student/dashboard" element={<Dashboard />} />
-    <Route path="/student/courses" element={<MyCourses />} />
-    <Route path="/student/wishlist" element={<Wishlist />} />
-    <Route path="/student/certificates" element={<Certificates />} />
-    <Route path="/student/notifications" element={<Notifications />} />
-    <Route path="/student/profile" element={<Profile />} />
-   </Route>
+            {/* ── Student ──────────────────────────────────────────── */}
+            <Route element={<StudentLayout />}>
+                <Route path="/student/dashboard" element={<StudentDashboard />} />
+                <Route path="/student/courses" element={<MyCourses />} />
+                <Route path="/student/wishlist" element={<Wishlist />} />
+                <Route path="/student/certificates" element={<Certificates />} />
+                <Route path="/student/notifications" element={<StudentNotifications />} />
+                <Route path="/student/profile" element={<StudentProfile />} />
+            </Route>
 
+            {/* ── Admin — all /admin/* delegated to AdminRoutes ────── */}
+            <Route path="/admin/*" element={<AdminRoutes />} />
+
+<<<<<<< HEAD
    {/* ── Admin Routes ────────────────────────────────────────────── */}
    <Route element={<AdminLayout />}>
     {/* Blog */}
@@ -152,6 +146,12 @@ function AppRoutes() {
    <Route path="*" element={<NotFound />} />
   </Routes>
  )
+=======
+            {/* ── 404 ──────────────────────────────────────────────── */}
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    )
+>>>>>>> 860170639db5a7566eb092f7a7a04be510df2a4f
 }
 
 export default AppRoutes

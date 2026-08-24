@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Aditya Wakchaure
 Branch: `feature/sprint-07-owner-academic-structure`  
 Status: Not Started  
 Estimated Duration: 5 days

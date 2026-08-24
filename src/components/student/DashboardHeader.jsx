@@ -1,226 +1,461 @@
 import { Box, Stack, Typography, Button } from '@mui/material';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiBookOpen, FiCompass } from 'react-icons/fi';
 import { Link as RouterLink } from 'react-router-dom';
+import {
+  FiArrowRight,
+  FiBookOpen,
+  FiCompass,
+} from 'react-icons/fi';
 
 const getGreeting = () => {
   const hour = new Date().getHours();
+
   if (hour < 12) return 'Good morning';
   if (hour < 17) return 'Good afternoon';
+
   return 'Good evening';
 };
 
-const RADIUS = 26;
-const STROKE = 4;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-
 /**
- * Welcome banner for the student dashboard.
- * @param {string} name - Student's first name (falls back to a neutral greeting if omitted)
- * @param {number} continueProgress - 0-100, progress of the most recent in-progress course
- * @param {string} continueCourseTitle - Title of the most recent in-progress course
+ * Student dashboard welcome header.
+ *
+ * @param {string} name
+ * @param {number} continueProgress
+ * @param {string} continueCourseTitle
  */
-const DashboardHeader = ({ name, continueProgress, continueCourseTitle }) => {
+
+const DashboardHeader = ({
+  name,
+  continueProgress = 0,
+  continueCourseTitle,
+}) => {
   const greeting = getGreeting();
+
   const hasActiveCourse = Boolean(continueCourseTitle);
-  const offset = CIRCUMFERENCE - (continueProgress / 100) * CIRCUMFERENCE;
+
+  const safeProgress = Math.min(
+    100,
+    Math.max(0, Number(continueProgress) || 0)
+  );
 
   return (
     <Box
       component={motion.div}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
+      initial={{
+        opacity: 0,
+        y: 8,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.35,
+        ease: 'easeOut',
+      }}
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: '24px',
-        background: 'linear-gradient(135deg, #1E40AF 0%, #2563EB 100%)',
-        px: { xs: 3, sm: 4.5 },
-        py: { xs: 3, sm: 4 },
-        boxShadow: '0 20px 40px -16px rgba(37, 99, 235, 0.35)',
+
+        /*
+         * Shorter hero:
+         * The dashboard content should remain the visual focus.
+         */
+        minHeight: {
+          xs: 250,
+          sm: 270,
+          md: 285,
+        },
+
+        display: 'flex',
+        alignItems: 'center',
+
+        borderRadius: {
+          xs: '18px',
+          sm: '20px',
+          md: '22px',
+        },
+
+        /*
+         * Softer blue.
+         * Less saturated than the previous version.
+         */
+        background:
+          'linear-gradient(120deg, #1E3A8A 0%, #2454C6 52%, #3275E8 100%)',
+
+        px: {
+          xs: 2.5,
+          sm: 3.5,
+          md: 4,
+        },
+
+        py: {
+          xs: 2.75,
+          sm: 3,
+          md: 3.25,
+        },
+
+        boxShadow:
+          '0 12px 30px rgba(37, 99, 235, 0.16)',
       }}
     >
-      {/* Decorative accent circle */}
+      {/* =====================================================
+          VERY SUBTLE GRID
+          ===================================================== */}
+
       <Box
-        sx={{
-          position: 'absolute',
-          top: -70,
-          right: -50,
-          width: 220,
-          height: 220,
-          borderRadius: '50%',
-          bgcolor: 'rgba(245, 158, 11, 0.16)',
-          filter: 'blur(65px)',
-        }}
-      />
-      {/* Subtle grid texture — same pattern language as ProfileCard banner / auth panels */}
-      <Box
+        aria-hidden="true"
         sx={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.05,
-          backgroundImage:
-            'linear-gradient(#FFFFFF 1px, transparent 1px), linear-gradient(90deg, #FFFFFF 1px, transparent 1px)',
+
+          opacity: 0.025,
+
+          backgroundImage: `
+            linear-gradient(
+              rgba(255,255,255,1) 1px,
+              transparent 1px
+            ),
+            linear-gradient(
+              90deg,
+              rgba(255,255,255,1) 1px,
+              transparent 1px
+            )
+          `,
+
           backgroundSize: '32px 32px',
+
+          pointerEvents: 'none',
         }}
       />
 
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        alignItems={{ xs: 'flex-start', sm: 'center' }}
-        justifyContent="space-between"
-        spacing={3}
-        sx={{ position: 'relative', zIndex: 1 }}
-      >
-        <Stack spacing={0.75} sx={{ minWidth: 0 }}>
-          <Typography
-            sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              color: 'rgba(255,255,255,0.88)',
-            }}
-          >
-            {greeting}
-            {name ? `, ${name}` : ''} 👋
-          </Typography>
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: { xs: '1.5rem', sm: '1.75rem' },
-              color: '#FFFFFF',
-              letterSpacing: '-0.015em',
-              lineHeight: 1.2,
-            }}
-          >
-            {hasActiveCourse
-              ? 'Ready to pick up where you left off?'
-              : 'Welcome to your learning space'}
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.9375rem',
-              color: 'rgba(255,255,255,0.85)',
-            }}
-          >
-            {hasActiveCourse
-              ? `${continueCourseTitle}`
-              : 'You haven\u2019t enrolled in a course yet — let\u2019s find your first one.'}
-          </Typography>
-        </Stack>
+      {/* =====================================================
+          VERY SMALL AMBIENT LIGHT
+          No large blur/glow.
+          ===================================================== */}
 
-        {/* Right side: circular progress ring + CTA, in a glass card */}
-        <Stack
-          component={motion.div}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.15, ease: 'easeOut' }}
-          direction="row"
-          alignItems="center"
-          spacing={2.5}
+      <Box
+        aria-hidden="true"
+        sx={{
+          position: 'absolute',
+
+          width: 180,
+          height: 180,
+
+          right: -100,
+          top: -100,
+
+          borderRadius: '50%',
+
+          background:
+            'rgba(255,255,255,0.045)',
+
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* =====================================================
+          CONTENT
+          ===================================================== */}
+
+      <Stack
+        spacing={{
+          xs: 1.35,
+          sm: 1.5,
+        }}
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+
+          width: '100%',
+
+          maxWidth: '760px',
+        }}
+      >
+        {/* Greeting */}
+
+        <Typography
+          component="p"
           sx={{
-            flexShrink: 0,
-            bgcolor: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(14px)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
-            borderRadius: '18px',
-            px: { xs: 2, sm: 2.5 },
-            py: 2,
-            width: { xs: '100%', sm: 'auto' },
+            m: 0,
+
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize: {
+              xs: '0.78rem',
+              sm: '0.82rem',
+            },
+
+            fontWeight: 600,
+
+            letterSpacing:
+              '0.02em',
+
+            color:
+              'rgba(255,255,255,0.82)',
           }}
         >
-          {hasActiveCourse && (
-            <Box sx={{ position: 'relative', width: 60, height: 60, flexShrink: 0 }}>
-              <svg width="60" height="60" viewBox="0 0 60 60">
-                <circle
-                  cx="30"
-                  cy="30"
-                  r={RADIUS}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.2)"
-                  strokeWidth={STROKE}
-                />
-                <motion.circle
-                  cx="30"
-                  cy="30"
-                  r={RADIUS}
-                  fill="none"
-                  stroke="#F59E0B"
-                  strokeWidth={STROKE}
-                  strokeLinecap="round"
-                  strokeDasharray={CIRCUMFERENCE}
-                  initial={{ strokeDashoffset: CIRCUMFERENCE }}
-                  animate={{ strokeDashoffset: offset }}
-                  transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-                  transform="rotate(-90 30 30)"
-                />
-              </svg>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '0.8125rem',
-                    color: '#FFFFFF',
-                  }}
-                >
-                  {continueProgress}%
-                </Typography>
-              </Box>
-            </Box>
-          )}
+          {greeting}
+          {name ? `, ${name}` : ''}
+        </Typography>
 
-          <Button
-            component={RouterLink}
-            to={hasActiveCourse ? '/student/courses' : '/courses'}
-            endIcon={<FiArrowRight size={16} aria-hidden="true" />}
-            startIcon={
-              hasActiveCourse ? (
-                <FiBookOpen size={16} aria-hidden="true" />
-              ) : (
-                <FiCompass size={16} aria-hidden="true" />
-              )
-            }
+        {/* Main heading */}
+
+        <Typography
+          component="h1"
+          sx={{
+            m: 0,
+
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontWeight: 700,
+
+            fontSize: {
+              xs: '1.5rem',
+              sm: '1.8rem',
+              md: '2rem',
+            },
+
+            lineHeight: 1.18,
+
+            letterSpacing:
+              '-0.02em',
+
+            color: '#FFFFFF',
+
+            maxWidth: '700px',
+          }}
+        >
+          {hasActiveCourse
+            ? 'Ready to pick up where you left off?'
+            : 'Welcome to your learning space'}
+        </Typography>
+
+        {/* Current course */}
+
+        <Typography
+          component="p"
+          sx={{
+            m: 0,
+
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize: {
+              xs: '0.88rem',
+              sm: '0.92rem',
+            },
+
+            lineHeight: 1.5,
+
+            color:
+              'rgba(255,255,255,0.78)',
+
+            maxWidth: '620px',
+          }}
+        >
+          {hasActiveCourse
+            ? continueCourseTitle
+            : 'You haven’t enrolled in a course yet — let’s find your first one.'}
+        </Typography>
+
+        {/* ===================================================
+            PROGRESS
+            =================================================== */}
+
+        {hasActiveCourse && (
+          <Stack
+            spacing={0.8}
             sx={{
-              flexShrink: 0,
-              px: 3,
-              py: 1.5,
-              borderRadius: '10px',
-              bgcolor: '#FFFFFF',
-              color: '#1D4ED8',
-              fontWeight: 600,
-              fontSize: '0.875rem',
-              textTransform: 'none',
-              whiteSpace: 'nowrap',
-              transition: 'background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
-              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.18)',
-              '&:hover': {
-                bgcolor: '#F1F5F9',
-                transform: 'translateY(-1px)',
-                boxShadow: '0 8px 20px rgba(15, 23, 42, 0.22)',
+              width: '100%',
+
+              maxWidth: {
+                xs: '100%',
+                sm: '560px',
               },
-              '&:focus-visible': {
-                outline: '2px solid #F59E0B',
-                outlineOffset: '2px',
-              },
+
+              pt: 0.3,
             }}
           >
-            {hasActiveCourse ? 'Continue' : 'Browse courses'}
-          </Button>
-        </Stack>
+            {/* Progress labels */}
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                width: '100%',
+              }}
+            >
+              <Typography
+                component="span"
+                sx={{
+                  fontFamily:
+                    'Inter, sans-serif',
+
+                  fontSize:
+                    '0.72rem',
+
+                  fontWeight: 600,
+
+                  color:
+                    'rgba(255,255,255,0.72)',
+                }}
+              >
+                Course progress
+              </Typography>
+
+              <Typography
+                component="span"
+                sx={{
+                  fontFamily:
+                    'Inter, sans-serif',
+
+                  fontSize:
+                    '0.72rem',
+
+                  fontWeight: 700,
+
+                  color: '#FFFFFF',
+                }}
+              >
+                {safeProgress}%
+              </Typography>
+            </Stack>
+
+            {/* Progress bar */}
+
+            <Box
+              sx={{
+                width: '100%',
+
+                height: 5,
+
+                borderRadius: 999,
+
+                background:
+                  'rgba(255,255,255,0.18)',
+
+                overflow: 'hidden',
+              }}
+            >
+              <Box
+                component={motion.div}
+                initial={{
+                  width: 0,
+                }}
+                animate={{
+                  width: `${safeProgress}%`,
+                }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.15,
+                  ease: 'easeOut',
+                }}
+                sx={{
+                  height: '100%',
+
+                  borderRadius: 999,
+
+                  background:
+                    '#F59E0B',
+                }}
+              />
+            </Box>
+          </Stack>
+        )}
+
+        {/* ===================================================
+            CTA
+            =================================================== */}
+
+        <Button
+          component={RouterLink}
+          to={
+            hasActiveCourse
+              ? '/student/courses'
+              : '/courses'
+          }
+          startIcon={
+            hasActiveCourse ? (
+              <FiBookOpen
+                size={16}
+                aria-hidden="true"
+              />
+            ) : (
+              <FiCompass
+                size={16}
+                aria-hidden="true"
+              />
+            )
+          }
+          endIcon={
+            <FiArrowRight
+              size={15}
+              aria-hidden="true"
+            />
+          }
+          sx={{
+            alignSelf: {
+              xs: 'stretch',
+              sm: 'flex-start',
+            },
+
+            width: {
+              xs: '100%',
+              sm: 'auto',
+            },
+
+            minHeight: 40,
+
+            px: 2,
+
+            borderRadius: '9px',
+
+            bgcolor: '#FFFFFF',
+
+            color: '#1D4ED8',
+
+            fontFamily:
+              'Inter, sans-serif',
+
+            fontSize:
+              '0.84rem',
+
+            fontWeight: 600,
+
+            textTransform: 'none',
+
+            boxShadow:
+              '0 4px 12px rgba(15,23,42,0.14)',
+
+            transition:
+              'transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease',
+
+            '&:hover': {
+              bgcolor: '#F8FAFC',
+
+              transform:
+                'translateY(-1px)',
+
+              boxShadow:
+                '0 7px 16px rgba(15,23,42,0.18)',
+            },
+
+            '&:focus-visible': {
+              outline:
+                '2px solid #FBBF24',
+
+              outlineOffset: '3px',
+            },
+          }}
+        >
+          {hasActiveCourse
+            ? 'Continue learning'
+            : 'Explore courses'}
+        </Button>
       </Stack>
     </Box>
   );

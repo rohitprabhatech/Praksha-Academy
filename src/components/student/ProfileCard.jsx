@@ -1,6 +1,20 @@
-import { Box, Stack, Typography, Avatar, Chip, IconButton } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Avatar,
+  Chip,
+  IconButton,
+} from '@mui/material';
 import { motion } from 'framer-motion';
-import { FiMail, FiCalendar, FiCamera, FiBookOpen, FiAward, FiCheck } from 'react-icons/fi';
+import {
+  FiMail,
+  FiCalendar,
+  FiCamera,
+  FiBookOpen,
+  FiAward,
+  FiCheck,
+} from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
 const STAT_ICONS = {
@@ -8,17 +22,15 @@ const STAT_ICONS = {
   Certificates: FiAward,
 };
 
-/**
- * Reusable student profile summary card.
- * @param {string} name
- * @param {string} email
- * @param {string} avatarUrl - optional; falls back to initials
- * @param {string} role - e.g. "Student"
- * @param {string} joinedDate - e.g. "Jan 2025"
- * @param {Array<{label:string, value:string|number}>} stats - small stat chips (optional)
- * @param {boolean} verified - shows a verified badge on the avatar
- */
-const ProfileCard = ({ name, email, avatarUrl, role = 'Student', joinedDate, stats = [], verified = true }) => {
+const ProfileCard = ({
+  name,
+  email,
+  avatarUrl,
+  role = 'Student',
+  joinedDate,
+  stats = [],
+  verified = true,
+}) => {
   const initials = name
     ? name
         .split(' ')
@@ -29,71 +41,105 @@ const ProfileCard = ({ name, email, avatarUrl, role = 'Student', joinedDate, sta
     : '?';
 
   const handlePhotoChange = () => {
-    // No backend/file-upload integration yet
     toast.info('Photo upload is coming soon');
   };
 
   return (
     <Box
-      component={motion.div}
-      initial={{ opacity: 0, y: 12 }}
+      component={motion.section}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
+      transition={{
+        duration: 0.3,
+        ease: 'easeOut',
+      }}
       sx={{
+        width: '100%',
         bgcolor: '#FFFFFF',
         border: '1px solid #E2E8F0',
-        borderRadius: '20px',
+        borderRadius: '10px',
         overflow: 'hidden',
-        boxShadow: '0 1px 2px rgba(15, 23, 42, 0.03), 0 12px 28px rgba(15, 23, 42, 0.06)',
+        boxShadow:
+          '0 1px 2px rgba(15, 23, 42, 0.03)',
       }}
     >
-      {/* Gradient banner */}
+      {/* PROFILE HEADER */}
+
       <Box
         sx={{
+          height: 64,
           position: 'relative',
-          height: 76,
-          background: 'linear-gradient(135deg, #1E40AF 0%, #2563EB 100%)',
           overflow: 'hidden',
+          bgcolor: '#F8FAFC',
+          borderBottom: '1px solid #E2E8F0',
         }}
       >
         <Box
           sx={{
             position: 'absolute',
-            top: -30,
-            right: -30,
-            width: 120,
-            height: 120,
+            width: 170,
+            height: 170,
+            top: -115,
+            right: -50,
             borderRadius: '50%',
-            bgcolor: 'rgba(245, 158, 11, 0.18)',
-            filter: 'blur(40px)',
+            border:
+              '30px solid rgba(37, 99, 235, 0.05)',
           }}
         />
+
         <Box
           sx={{
             position: 'absolute',
-            inset: 0,
-            opacity: 0.06,
-            backgroundImage:
-              'linear-gradient(#FFFFFF 1px, transparent 1px), linear-gradient(90deg, #FFFFFF 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
+            width: 90,
+            height: 90,
+            bottom: -60,
+            left: 20,
+            borderRadius: '50%',
+            bgcolor:
+              'rgba(37, 99, 235, 0.035)',
           }}
         />
       </Box>
 
-      <Stack spacing={2.25} alignItems="center" sx={{ px: 3, pb: 3, mt: -4.5 }}>
-        <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      {/* CONTENT */}
+
+      <Stack
+        spacing={1.8}
+        sx={{
+          px: {
+            xs: 2,
+            sm: 2.5,
+          },
+          pb: 2.5,
+          mt: -4,
+        }}
+      >
+        {/* AVATAR */}
+
+        <Box
+          sx={{
+            position: 'relative',
+            width: 'fit-content',
+            mx: 'auto',
+          }}
+        >
           <Avatar
             src={avatarUrl || undefined}
-            alt={name ? `${name}'s profile photo` : 'Profile photo'}
+            alt={
+              name
+                ? `${name}'s profile photo`
+                : 'Profile photo'
+            }
             sx={{
-              width: 88,
-              height: 88,
+              width: 76,
+              height: 76,
               bgcolor: '#2563EB',
-              fontSize: '1.75rem',
-              fontWeight: 700,
               fontFamily: 'Inter, sans-serif',
+              fontSize: '1.4rem',
+              fontWeight: 700,
               border: '4px solid #FFFFFF',
-              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.16)',
+              boxShadow:
+                '0 2px 8px rgba(15, 23, 42, 0.12)',
             }}
           >
             {!avatarUrl && initials}
@@ -104,19 +150,24 @@ const ProfileCard = ({ name, email, avatarUrl, role = 'Student', joinedDate, sta
               aria-label="Verified account"
               sx={{
                 position: 'absolute',
-                bottom: 2,
-                left: -2,
-                width: 22,
-                height: 22,
+                bottom: 1,
+                left: -1,
+                width: 21,
+                height: 21,
                 borderRadius: '50%',
-                bgcolor: '#22C55E',
-                border: '2.5px solid #FFFFFF',
+                bgcolor: '#16A34A',
+                border: '2px solid #FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <FiCheck size={11} color="#FFFFFF" strokeWidth={3} aria-hidden="true" />
+              <FiCheck
+                size={10}
+                color="#FFFFFF"
+                strokeWidth={3}
+                aria-hidden="true"
+              />
             </Box>
           )}
 
@@ -126,94 +177,132 @@ const ProfileCard = ({ name, email, avatarUrl, role = 'Student', joinedDate, sta
             size="small"
             sx={{
               position: 'absolute',
-              bottom: -2,
+              bottom: 0,
               right: -2,
-              width: 30,
-              height: 30,
+              width: 27,
+              height: 27,
               bgcolor: '#FFFFFF',
-              border: '1px solid #E2E8F0',
-              boxShadow: '0 2px 6px rgba(15, 23, 42, 0.12)',
+              border: '1px solid #CBD5E1',
               color: '#475569',
-              transition: 'background-color 0.15s ease, color 0.15s ease, transform 0.15s ease',
+              boxShadow:
+                '0 2px 5px rgba(15, 23, 42, 0.1)',
+
               '&:hover': {
                 bgcolor: '#F8FAFC',
                 color: '#2563EB',
-                transform: 'scale(1.06)',
               },
+
               '&:focus-visible': {
-                outline: '2px solid #2563EB',
+                outline:
+                  '2px solid #2563EB',
                 outlineOffset: '2px',
               },
             }}
           >
-            <FiCamera size={14} aria-hidden="true" />
+            <FiCamera
+              size={13}
+              aria-hidden="true"
+            />
           </IconButton>
         </Box>
 
-        <Stack spacing={0.625} alignItems="center">
+        {/* NAME */}
+
+        <Stack
+          spacing={0.6}
+          alignItems="center"
+        >
           <Typography
             component="h2"
             sx={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily:
+                'Inter, sans-serif',
               fontWeight: 700,
-              fontSize: '1.1875rem',
-              color: '#1E293B',
-              lineHeight: 1.2,
+              fontSize: '1.1rem',
+              lineHeight: 1.25,
+              color: '#0F172A',
+              textAlign: 'center',
             }}
           >
             {name || 'Unnamed Student'}
           </Typography>
+
           <Chip
-            icon={
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: '#2563EB',
-                  ml: '10px !important',
-                }}
-              />
-            }
             label={role}
             size="small"
             sx={{
               height: 22,
-              width: 'fit-content',
-              alignSelf: 'center',
-              bgcolor: 'rgba(37, 99, 235, 0.08)',
-              color: '#2563EB',
+              borderRadius: '5px',
+              bgcolor: '#EFF6FF',
+              color: '#1D4ED8',
+              fontFamily:
+                'Inter, sans-serif',
+              fontSize: '0.66rem',
               fontWeight: 700,
-              fontSize: '0.6875rem',
-              fontFamily: 'Inter, sans-serif',
-              '& .MuiChip-label': { px: 1 },
+
+              '& .MuiChip-label': {
+                px: 1,
+              },
             }}
           />
         </Stack>
 
-        <Stack spacing={0.75} sx={{ width: '100%' }}>
+        {/* DETAILS */}
+
+        <Stack
+          spacing={0.8}
+          sx={{ pt: 0.25 }}
+        >
           {email && (
-            <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-              <FiMail size={14} color="#64748B" aria-hidden="true" />
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              sx={{
+                minWidth: 0,
+              }}
+            >
+              <FiMail
+                size={14}
+                color="#94A3B8"
+                aria-hidden="true"
+              />
+
               <Typography
                 sx={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.8125rem',
+                  minWidth: 0,
+                  fontFamily:
+                    'Inter, sans-serif',
+                  fontSize: '0.76rem',
                   color: '#64748B',
-                  wordBreak: 'break-word',
+                  overflow: 'hidden',
+                  textOverflow:
+                    'ellipsis',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {email}
               </Typography>
             </Stack>
           )}
+
           {joinedDate && (
-            <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-              <FiCalendar size={14} color="#64748B" aria-hidden="true" />
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+            >
+              <FiCalendar
+                size={14}
+                color="#94A3B8"
+                aria-hidden="true"
+              />
+
               <Typography
                 sx={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.8125rem',
+                  fontFamily:
+                    'Inter, sans-serif',
+                  fontSize: '0.76rem',
                   color: '#64748B',
                 }}
               >
@@ -223,80 +312,102 @@ const ProfileCard = ({ name, email, avatarUrl, role = 'Student', joinedDate, sta
           )}
         </Stack>
 
-        {stats.length > 0 && (
-          <>
-            <Box sx={{ width: '100%', height: '1px', bgcolor: '#E2E8F0' }} />
+        {/* STATS */}
 
-            <Box sx={{ display: 'flex', width: '100%', gap: 1.25 }}>
-              {stats.map((stat) => {
-                const StatIcon = STAT_ICONS[stat.label] || FiBookOpen;
-                return (
+        {stats.length > 0 && (
+          <Box
+            sx={{
+              pt: 1.4,
+              borderTop:
+                '1px solid #E2E8F0',
+              display: 'grid',
+              gridTemplateColumns:
+                `repeat(${Math.min(
+                  stats.length,
+                  2
+                )}, minmax(0, 1fr))`,
+              gap: 1,
+            }}
+          >
+            {stats.map((stat) => {
+              const StatIcon =
+                STAT_ICONS[
+                  stat.label
+                ] || FiBookOpen;
+
+              return (
+                <Box
+                  key={stat.label}
+                  sx={{
+                    px: 1.15,
+                    py: 1,
+                    bgcolor: '#F8FAFC',
+                    border:
+                      '1px solid #E2E8F0',
+                    borderRadius: '7px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.9,
+                  }}
+                >
                   <Box
-                    key={stat.label}
-                    component={motion.div}
-                    whileHover={{ y: -2 }}
                     sx={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: '7px',
+                      bgcolor: '#EFF6FF',
                       display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
-                      flex: 1,
-                      bgcolor: '#F8FAFC',
-                      border: '1px solid #E2E8F0',
-                      borderRadius: '14px',
-                      py: 1.75,
-                      px: 1,
-                      transition: 'background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
-                      cursor: 'default',
-                      '&:hover': {
-                        bgcolor: '#FFFFFF',
-                        borderColor: 'rgba(37, 99, 235, 0.3)',
-                        boxShadow: '0 6px 16px rgba(15, 23, 42, 0.06)',
-                      },
+                      alignItems:
+                        'center',
+                      justifyContent:
+                        'center',
+                      flexShrink: 0,
                     }}
                   >
-                    <Box
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: '9px',
-                        bgcolor: 'rgba(37, 99, 235, 0.1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        mb: 0.75,
-                      }}
-                    >
-                      <StatIcon size={15} color="#2563EB" aria-hidden="true" />
-                    </Box>
+                    <StatIcon
+                      size={14}
+                      color="#2563EB"
+                      aria-hidden="true"
+                    />
+                  </Box>
+
+                  <Stack
+                    spacing={0.1}
+                    minWidth={0}
+                  >
                     <Typography
                       sx={{
-                        fontFamily: 'Inter, sans-serif',
+                        fontFamily:
+                          'Inter, sans-serif',
                         fontWeight: 700,
-                        fontSize: '1.0625rem',
-                        color: '#1E293B',
-                        lineHeight: 1,
+                        fontSize: '0.88rem',
+                        color: '#0F172A',
+                        lineHeight: 1.1,
                       }}
                     >
                       {stat.value}
                     </Typography>
+
                     <Typography
                       sx={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '0.6875rem',
+                        fontFamily:
+                          'Inter, sans-serif',
+                        fontSize: '0.62rem',
                         color: '#64748B',
-                        mt: 0.25,
+                        whiteSpace:
+                          'nowrap',
+                        overflow: 'hidden',
+                        textOverflow:
+                          'ellipsis',
                       }}
                     >
                       {stat.label}
                     </Typography>
-                  </Box>
-                );
-              })}
-            </Box>
-          </>
+                  </Stack>
+                </Box>
+              );
+            })}
+          </Box>
         )}
       </Stack>
     </Box>

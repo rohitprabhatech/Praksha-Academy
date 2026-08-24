@@ -2,10 +2,10 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Aditya Kshirsagar  
 Branch: `feature/sprint-05-owner-student-management`  
 Status: Not Started  
-Estimated Duration: 5 days
+Estimated Duration: 2 days
 
 ---
 

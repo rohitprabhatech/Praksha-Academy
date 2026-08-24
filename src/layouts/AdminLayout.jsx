@@ -1,24 +1,28 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import { FiMenu } from 'react-icons/fi';
-import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar';
-
-const focusRingSx = {
-  '&:focus-visible': {
-    outline: '2px solid #2563EB',
-    outlineOffset: '2px',
-    borderRadius: '6px',
-  },
-};
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
+import { Box } from '@mui/material'
+import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar'
+import TopNavbar from '../components/admin/TopNavbar'
 
 const AdminLayout = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F8FAFC' }}>
-      <AdminSidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? '#0F1C2E' : '#F4F7FB',
+      }}
+    >
+      {/* Sidebar */}
+      <AdminSidebar
+        mobileOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
 
+      {/* Main area */}
       <Box
         component="main"
         sx={{
@@ -28,41 +32,8 @@ const AdminLayout = () => {
           flexDirection: 'column',
         }}
       >
-        {/* Mobile top bar */}
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={1.5}
-          sx={{
-            display: { xs: 'flex', md: 'none' },
-            position: 'sticky',
-            top: 0,
-            zIndex: 10,
-            bgcolor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(12px)',
-            borderBottom: '1px solid #E2E8F0',
-            px: 2,
-            py: 1.5,
-          }}
-        >
-          <IconButton
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open admin menu"
-            sx={{ color: '#1E293B', ...focusRingSx }}
-          >
-            <FiMenu size={22} />
-          </IconButton>
-          <Typography
-            sx={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              color: '#1E293B',
-            }}
-          >
-            Praksha Academy — Admin
-          </Typography>
-        </Stack>
+        {/* Top navbar — sticky, handles mobile hamburger + breadcrumb + search + dark-mode + notifications + profile */}
+        <TopNavbar onOpenSidebar={() => setMobileOpen(true)} />
 
         {/* Page content */}
         <Box
@@ -79,7 +50,7 @@ const AdminLayout = () => {
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default AdminLayout;
+export default AdminLayout
