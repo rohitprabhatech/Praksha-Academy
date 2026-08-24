@@ -1,26 +1,28 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
-import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar';
-import TopNavbar from '../components/admin/TopNavbar';
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
+import { Box } from '@mui/material'
+import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar'
+import TopNavbar from '../components/admin/TopNavbar'
 
-/**
- * Single chrome for every /admin/* page (Sprint 01).
- *
- * Previously this hand-rolled its own small "mobile top bar" (a hamburger
- * + hardcoded title) instead of using the existing TopNavbar component,
- * which was built (Breadcrumb, search, theme toggle, notifications,
- * profile menu) but never actually mounted anywhere. This now renders
- * TopNavbar for every admin page, at every width — TopNavbar handles its
- * own internal responsiveness (hiding search on small screens, etc.).
- */
 const AdminLayout = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F8FAFC' }}>
-      <AdminSidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? '#0F1C2E' : '#F4F7FB',
+      }}
+    >
+      {/* Sidebar */}
+      <AdminSidebar
+        mobileOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
 
+      {/* Main area */}
       <Box
         component="main"
         sx={{
@@ -30,6 +32,7 @@ const AdminLayout = () => {
           flexDirection: 'column',
         }}
       >
+        {/* Top navbar — sticky, handles mobile hamburger + breadcrumb + search + dark-mode + notifications + profile */}
         <TopNavbar onOpenSidebar={() => setMobileOpen(true)} />
 
         {/* Page content */}
@@ -47,7 +50,7 @@ const AdminLayout = () => {
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default AdminLayout;
+export default AdminLayout

@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Ganesh  
+Developer: Ganesh sudruk  
 Branch: `feature/sprint-04-owner-dashboard-shell`  
 Status: Not Started  
 Estimated Duration: 2 days

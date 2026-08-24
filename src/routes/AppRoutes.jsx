@@ -12,24 +12,29 @@ import PrivacyPolicy from '../pages/PrivacyPolicy'
 import Terms from '../pages/Terms'
 import RefundPolicy from '../pages/RefundPolicy'
 import NotFound from '../pages/NotFound'
-import AdminRoutes from './AdminRoutes'
 
-import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Register";
+// Auth
+import Login from '../pages/auth/Login'
+import Signup from '../pages/auth/Register'
 import ForgotPassword from '../pages/auth/ForgotPassword'
 import VerifyOtp from '../pages/auth/VerifyOtp'
 
+// Student
 import StudentLayout from '../layouts/StudentLayout'
-import Dashboard from '../pages/student/Dashboard'
+import StudentDashboard from '../pages/student/Dashboard'
 import MyCourses from '../pages/student/MyCourses'
 import Wishlist from '../pages/student/Wishlist'
 import Certificates from '../pages/student/Certificates'
-import Notifications from '../pages/student/Notifications'
-import Profile from '../pages/student/Profile'
+import StudentNotifications from '../pages/student/Notifications'
+import StudentProfile from '../pages/student/Profile'
+
+// Admin — all /admin/* routes delegated to AdminRoutes
+import AdminRoutes from './AdminRoutes'
 
 function AppRoutes() {
     return (
         <Routes>
+            {/* ── Public / Marketing ───────────────────────────────── */}
             <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/courses" element={<Courses />} />
@@ -40,36 +45,26 @@ function AppRoutes() {
                 <Route path="/contact" element={<Contact />} />
             </Route>
 
+            {/* ── Auth ─────────────────────────────────────────────── */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/verify-otp" element={<VerifyOtp />} />
-            <Route path="/access-denied" element={<AccessDenied />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
 
-            {/*
-     Sprint 01: ALL /admin/* routes live inside AdminRoutes.jsx now,
-     including Blog/Gallery/FAQ/Testimonials/Notifications/Contact
-     Messages/Reports, which used to be duplicated here in a second,
-     separately-mounted <AdminLayout /> — see the comment at the top of
-     AdminRoutes.jsx for why that was a real bug, not just untidy.
-     Do not add admin pages back here; add them to AdminRoutes.jsx.
-   */}
-            <Route path="/admin/*" element={<AdminRoutes />} />
-
-            <Route element={<RequireAuth />}>
-                <Route element={<RequireRole allowedRoles="student" />}>
-                    <Route element={<StudentLayout />}>
-                        <Route path="/student/dashboard" element={<Dashboard />} />
-                        <Route path="/student/courses" element={<MyCourses />} />
-                        <Route path="/student/wishlist" element={<Wishlist />} />
-                        <Route path="/student/certificates" element={<Certificates />} />
-                        <Route path="/student/notifications" element={<Notifications />} />
-                        <Route path="/student/profile" element={<Profile />} />
-                    </Route>
-                </Route>
+            {/* ── Student ──────────────────────────────────────────── */}
+            <Route element={<StudentLayout />}>
+                <Route path="/student/dashboard" element={<StudentDashboard />} />
+                <Route path="/student/courses" element={<MyCourses />} />
+                <Route path="/student/wishlist" element={<Wishlist />} />
+                <Route path="/student/certificates" element={<Certificates />} />
+                <Route path="/student/notifications" element={<StudentNotifications />} />
+                <Route path="/student/profile" element={<StudentProfile />} />
             </Route>
 
+            {/* ── Admin — all /admin/* delegated to AdminRoutes ────── */}
+            <Route path="/admin/*" element={<AdminRoutes />} />
+
+            {/* ── 404 ──────────────────────────────────────────────── */}
             <Route path="*" element={<NotFound />} />
         </Routes>
     )

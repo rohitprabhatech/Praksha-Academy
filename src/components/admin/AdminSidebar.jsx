@@ -1,235 +1,314 @@
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Stack, Typography, Drawer, IconButton, Divider } from '@mui/material';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom'
 import {
-  FiGrid,
-  FiFileText,
-  FiImage,
-  FiHelpCircle,
-  FiStar,
-  FiBell,
-  FiMessageSquare,
-  FiBarChart2,
-  FiUsers,
-  FiBookOpen,
-  FiDollarSign,
-  FiTrendingUp,
-  FiLogOut,
-  FiX,
-} from 'react-icons/fi';
+  Box,
+  Drawer,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import { FiChevronDown, FiLogOut, FiX } from 'react-icons/fi'
+import { toast } from 'react-toastify'
+import { adminNavGroups } from '../../constants/adminDashboard'
+import praksaMark from '../../assets/praksha-mark.png'
 
-import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
+export const ADMIN_SIDEBAR_WIDTH = 258
 
-import praksaMark from '../../assets/praksha-mark.png';
+// ─── helpers ────────────────────────────────────────────────────────────────
 
-export const ADMIN_SIDEBAR_WIDTH = 268;
+const isActivePath = (pathname, path) =>
+  pathname === path || pathname.startsWith(`${path}/`)
 
-const NAV_GROUPS = [
-  {
-    label: 'Overview',
-    items: [
-      { label: 'Dashboard', path: '/admin/dashboard', icon: FiGrid },
-    ],
-  },
-  {
-    label: 'Content',
-    items: [
-      { label: 'Blog', path: '/admin/blog', icon: FiFileText },
-      { label: 'Gallery', path: '/admin/gallery', icon: FiImage },
-      { label: 'FAQ', path: '/admin/faq', icon: FiHelpCircle },
-      { label: 'Testimonials', path: '/admin/testimonials', icon: FiStar },
-    ],
-  },
-  {
-    label: 'Communication',
-    items: [
-      { label: 'Notifications', path: '/admin/notifications', icon: FiBell },
-      { label: 'Contact Messages', path: '/admin/contact-messages', icon: FiMessageSquare },
-    ],
-  },
-  {
-    label: 'Reports',
-    items: [
-      { label: 'Student Reports', path: '/admin/reports/students', icon: FiUsers },
-      { label: 'Course Reports', path: '/admin/reports/courses', icon: FiBookOpen },
-      { label: 'Revenue Reports', path: '/admin/reports/revenue', icon: FiDollarSign },
-      { label: 'Performance', path: '/admin/reports/performance', icon: FiTrendingUp },
-    ],
-  },
-];
+// ─── sub-components ─────────────────────────────────────────────────────────
 
-const focusRingSx = {
-  '&:focus-visible': {
-    outline: '2px solid #2563EB',
-    outlineOffset: '2px',
-    borderRadius: '6px',
-  },
-};
+function NavItem({ item, pathname, onNavigate }) {
+  const { icon: Icon, label, path, disabled } = item
+  const active = !disabled && isActivePath(pathname, path)
 
-const isPathActive = (pathname, itemPath) =>
-  pathname === itemPath || pathname.startsWith(`${itemPath}/`);
+  const commonSx = {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 1.25,
+    minHeight: 36,
+    px: 1.15,
+    py: 0.7,
+    borderRadius: 1,
+    fontWeight: active ? 800 : 600,
+    textDecoration: 'none',
+    transition: 'background-color 150ms ease, color 150ms ease',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    color: disabled ? 'rgba(255,255,255,0.42)' : '#FFFFFF',
+    bgcolor: active ? 'rgba(255,255,255,0.16)' : 'transparent',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: 8,
+      bottom: 8,
+      width: 3,
+      borderRadius: 999,
+      bgcolor: active ? '#FFFFFF' : 'transparent',
+    },
+    '&:hover': {
+      bgcolor: disabled ? 'transparent' : 'rgba(255,255,255,0.10)',
+    },
+  }
 
-const NavItem = ({ label, path, icon: Icon, isActive, onNavigate }) => (
-  <Box
-    component={RouterLink}
-    to={path}
-    onClick={onNavigate}
-    aria-current={isActive ? 'page' : undefined}
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 1.5,
-      px: 1.75,
-      py: 1.1,
-      borderRadius: '10px',
-      textDecoration: 'none',
-      color: isActive ? '#2563EB' : '#475569',
-      bgcolor: isActive ? 'rgba(37, 99, 235, 0.08)' : 'transparent',
-      fontFamily: 'Inter, sans-serif',
-      fontWeight: isActive ? 600 : 500,
-      fontSize: '0.9rem',
-      transition: 'background-color 0.15s ease, color 0.15s ease',
-      '&:hover': {
-        bgcolor: isActive ? 'rgba(37, 99, 235, 0.1)' : '#F8FAFC',
-        color: '#2563EB',
-      },
-      ...focusRingSx,
-    }}
-  >
+  const inner = (
+    <>
+      <Box
+        sx={{
+          width: 20,
+          display: 'grid',
+          placeItems: 'center',
+          color: 'inherit',
+          flexShrink: 0,
+        }}
+      >
+        <Icon size={15} aria-hidden="true" />
+      </Box>
+
+      <Typography
+        component="span"
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          fontSize: '0.82rem',
+          fontWeight: 'inherit',
+          color: 'inherit',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {label}
+      </Typography>
+
+      {disabled && (
+        <Typography
+          component="span"
+          sx={{
+            px: 0.65,
+            py: 0.15,
+            borderRadius: 999,
+            bgcolor: 'rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.62)',
+            fontSize: '0.58rem',
+            fontWeight: 800,
+            lineHeight: 1.4,
+            flexShrink: 0,
+          }}
+        >
+          Soon
+        </Typography>
+      )}
+    </>
+  )
+
+  if (disabled) {
+    return (
+      <Tooltip title="Coming Soon" placement="right" arrow>
+        <Box
+          role="menuitem"
+          aria-disabled="true"
+          sx={commonSx}
+        >
+          {inner}
+        </Box>
+      </Tooltip>
+    )
+  }
+
+  return (
     <Box
-      sx={{
-        width: 32,
-        height: 32,
-        borderRadius: '8px',
-        bgcolor: isActive ? 'rgba(37, 99, 235, 0.12)' : 'rgba(100, 116, 139, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-        transition: 'background-color 0.15s ease',
-      }}
+      component={RouterLink}
+      to={path}
+      onClick={onNavigate}
+      aria-current={active ? 'page' : undefined}
+      sx={commonSx}
     >
-      <Icon size={16} aria-hidden="true" color={isActive ? '#2563EB' : '#64748B'} />
+      {inner}
     </Box>
-    <Typography component="span" sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}>
-      {label}
-    </Typography>
-  </Box>
-);
+  )
+}
 
-const SidebarContent = ({ pathname, onNavigate, showCloseButton, onClose }) => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+function SidebarContent({ onClose, showCloseButton = false }) {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout();
-
-    if (onClose) {
-      onClose();
-    }
-
-    toast.success('Logged out successfully');
-
-    navigate('/admin/login', { replace: true });
-  };
+    toast.success('Logged out successfully')
+    navigate('/admin/login')
+  }
 
   return (
     <Stack
       sx={{
         width: ADMIN_SIDEBAR_WIDTH,
         height: '100%',
-        bgcolor: '#FFFFFF',
-        borderRight: '1px solid #E2E8F0',
-        py: 3,
-        px: 2,
-        overflowY: 'auto',
-        '&::-webkit-scrollbar': { width: 4 },
-        '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
-        '&::-webkit-scrollbar-thumb': { bgcolor: '#E2E8F0', borderRadius: 999 },
+        bgcolor: '#1D3461',
+        borderRight: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: { xs: '18px 0 38px rgba(15,23,42,0.26)', lg: 'none' },
       }}
     >
-      {/* Brand */}
+      {/* ── Brand header ─────────────────────────────────────── */}
       <Stack
         direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ px: 1, mb: 3.5 }}
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          minHeight: 64,
+          px: 2,
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          flexShrink: 0,
+        }}
       >
         <Stack
           component={RouterLink}
-          to="/"
+          to="/admin/dashboard"
           direction="row"
-          alignItems="center"
-          spacing={1.25}
-          sx={{ textDecoration: 'none' }}
+          spacing={1.15}
+          onClick={onClose}
+          sx={{ alignItems: 'center', minWidth: 0, textDecoration: 'none' }}
         >
           <Box
-            component="img"
-            src={praksaMark}
-            alt="Praksha Academy"
-            sx={{ width: 30, height: 'auto', flexShrink: 0 }}
-          />
-          <Stack spacing={0}>
+            sx={{
+              width: 34,
+              height: 34,
+              display: 'grid',
+              placeItems: 'center',
+              borderRadius: 1.15,
+              bgcolor: '#FFFFFF',
+              boxShadow: '0 6px 16px rgba(0,0,0,0.22)',
+              flexShrink: 0,
+            }}
+          >
+            <Box
+              component="img"
+              src={praksaMark}
+              alt="Praksha Academy"
+              sx={{ width: 26, height: 26, objectFit: 'contain' }}
+            />
+          </Box>
+
+          <Box sx={{ minWidth: 0 }}>
             <Typography
               sx={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 700,
-                fontSize: '0.9375rem',
-                color: '#1E293B',
+                color: '#FFFFFF',
+                fontSize: '0.92rem',
+                fontWeight: 800,
+                lineHeight: 1.1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Praksha
+            </Typography>
+            <Typography
+              sx={{
+                color: 'rgba(255,255,255,0.60)',
+                fontSize: '0.68rem',
+                fontWeight: 600,
                 lineHeight: 1.2,
               }}
             >
-              Praksha Academy
+              Academy Admin
             </Typography>
-            <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
-              Admin Panel
-            </Typography>
-          </Stack>
+          </Box>
         </Stack>
 
         {showCloseButton && (
-          <IconButton onClick={onClose} size="small" aria-label="Close menu" sx={{ color: '#64748B', ...focusRingSx }}>
-            <FiX size={20} />
+          <IconButton
+            onClick={onClose}
+            aria-label="Close admin menu"
+            size="small"
+            sx={{
+              color: '#FFFFFF',
+              borderRadius: 1.25,
+              '&:hover': { bgcolor: 'rgba(255,255,255,0.12)' },
+            }}
+          >
+            <FiX size={18} />
           </IconButton>
         )}
       </Stack>
 
-      {/* Navigation Groups */}
-      <Stack component="nav" aria-label="Admin navigation" spacing={0} sx={{ flex: 1 }}>
-        {NAV_GROUPS.map((group, groupIndex) => (
-          <Box key={group.label} sx={{ mb: 0.5 }}>
-            {groupIndex > 0 && <Divider sx={{ my: 1.5, borderColor: '#F1F5F9' }} />}
-            <Typography
+      {/* ── Navigation ───────────────────────────────────────── */}
+      <Stack
+        component="nav"
+        aria-label="Admin navigation"
+        spacing={1.35}
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+          px: 1.35,
+          py: 2,
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255,255,255,0.24) transparent',
+          '&::-webkit-scrollbar': { width: 5 },
+          '&::-webkit-scrollbar-thumb': {
+            bgcolor: 'rgba(255,255,255,0.22)',
+            borderRadius: 999,
+          },
+        }}
+      >
+        {adminNavGroups.map((group) => (
+          <Stack key={group.title} spacing={0.25}>
+            {/* Group label */}
+            <Stack
+              direction="row"
               sx={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.6875rem',
-                fontWeight: 700,
-                color: '#94A3B8',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                px: 1.75,
-                pb: 0.75,
-                pt: groupIndex === 0 ? 0 : 0.5,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 1.15,
+                pt: 0.4,
+                pb: 0.5,
               }}
             >
-              {group.label}
-            </Typography>
-            <Stack spacing={0.25}>
-              {group.items.map((item) => (
-                <NavItem
-                  key={item.path}
-                  {...item}
-                  isActive={isPathActive(pathname, item.path)}
-                  onNavigate={onNavigate}
+              <Typography
+                sx={{
+                  color: 'rgba(255,255,255,0.50)',
+                  fontSize: '0.635rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.09em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {group.title}
+              </Typography>
+              {group.items.length > 1 && (
+                <FiChevronDown
+                  size={11}
+                  color="rgba(255,255,255,0.40)"
+                  aria-hidden="true"
                 />
-              ))}
+              )}
             </Stack>
-          </Box>
+
+            {/* Items */}
+            {group.items.map((item) => (
+              <NavItem
+                key={item.path}
+                item={item}
+                pathname={pathname}
+                onNavigate={onClose}
+              />
+            ))}
+          </Stack>
         ))}
       </Stack>
 
-      {/* Logout */}
-      <Box sx={{ borderTop: '1px solid #E2E8F0', pt: 2, mt: 2 }}>
+      {/* ── Logout ───────────────────────────────────────────── */}
+      <Box
+        sx={{
+          px: 1.35,
+          py: 1.5,
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          flexShrink: 0,
+        }}
+      >
         <Box
           component="button"
           type="button"
@@ -237,68 +316,64 @@ const SidebarContent = ({ pathname, onNavigate, showCloseButton, onClose }) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 1.5,
+            gap: 1.25,
             width: '100%',
-            px: 1.75,
-            py: 1.1,
+            minHeight: 38,
+            px: 1.15,
+            py: 0.8,
             border: 'none',
-            borderRadius: '10px',
+            borderRadius: 1,
             bgcolor: 'transparent',
-            color: '#EF4444',
+            color: 'rgba(255,255,255,0.80)',
             fontFamily: 'Inter, sans-serif',
-            fontWeight: 500,
-            fontSize: '0.9rem',
+            fontWeight: 700,
+            fontSize: '0.82rem',
             cursor: 'pointer',
-            transition: 'background-color 0.15s ease',
-            '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.08)' },
-            ...focusRingSx,
+            textAlign: 'left',
+            transition: 'background-color 150ms ease, color 150ms ease',
+            '&:hover': {
+              bgcolor: 'rgba(255,255,255,0.10)',
+              color: '#FFFFFF',
+            },
           }}
         >
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '8px',
-              bgcolor: 'rgba(239, 68, 68, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <FiLogOut size={16} aria-hidden="true" color="#EF4444" />
-          </Box>
-          <Typography component="span" sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}>
-            Logout
-          </Typography>
+          <FiLogOut size={16} aria-hidden="true" />
+          <span>Logout</span>
         </Box>
       </Box>
     </Stack>
-  );
-};
+  )
+}
+
+// ─── Main component ──────────────────────────────────────────────────────────
 
 /**
- * Admin sidebar navigation.
- * Desktop: permanent sidebar. Mobile: temporary Drawer.
+ * AdminSidebar
+ * Desktop: permanent sidebar (hidden on mobile).
+ * Mobile: temporary Drawer triggered by TopNavbar hamburger.
  */
+<<<<<<< HEAD
 const AdminSidebar = ({ mobileOpen = false, onClose = () => { } }) => {
   const { pathname } = useLocation();
 
+=======
+function AdminSidebar({ mobileOpen = false, onClose = () => {} }) {
+>>>>>>> origin/feature/sprint-04-owner-dashboard-shell
   return (
     <>
       {/* Desktop permanent sidebar */}
       <Box
         component="aside"
         sx={{
-          display: { xs: 'none', md: 'block' },
+          display: { xs: 'none', lg: 'block' },
           width: ADMIN_SIDEBAR_WIDTH,
           flexShrink: 0,
+          height: '100vh',
           position: 'sticky',
           top: 0,
-          height: '100vh',
         }}
       >
-        <SidebarContent pathname={pathname} showCloseButton={false} />
+        <SidebarContent />
       </Box>
 
       {/* Mobile drawer */}
@@ -308,22 +383,19 @@ const AdminSidebar = ({ mobileOpen = false, onClose = () => { } }) => {
         onClose={onClose}
         ModalProps={{ keepMounted: true }}
         sx={{
-          display: { xs: 'block', md: 'none' },
+          display: { xs: 'block', lg: 'none' },
           '& .MuiDrawer-paper': {
+            border: 0,
+            bgcolor: 'transparent',
             width: ADMIN_SIDEBAR_WIDTH,
             boxSizing: 'border-box',
           },
         }}
       >
-        <SidebarContent
-          pathname={pathname}
-          onNavigate={onClose}
-          showCloseButton
-          onClose={onClose}
-        />
+        <SidebarContent showCloseButton onClose={onClose} />
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default AdminSidebar;
+export default AdminSidebar
