@@ -352,13 +352,7 @@ function SidebarContent({ onClose, showCloseButton = false }) {
  * Desktop: permanent sidebar (hidden on mobile).
  * Mobile: temporary Drawer triggered by TopNavbar hamburger.
  */
-<<<<<<< HEAD
-const AdminSidebar = ({ mobileOpen = false, onClose = () => { } }) => {
-  const { pathname } = useLocation();
-
-=======
-function AdminSidebar({ mobileOpen = false, onClose = () => {} }) {
->>>>>>> origin/feature/sprint-04-owner-dashboard-shell
+function AdminSidebar({ mobileOpen = false, onClose = () => { } }) {
   return (
     <>
       {/* Desktop permanent sidebar */}
