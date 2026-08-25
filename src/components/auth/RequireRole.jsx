@@ -1,22 +1,45 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const RequireRole = ({ allowedRoles }) => {
-  const { isAuthenticated, role } = useAuth();
+  const { user, loading } = useAuth()
+  const location = useLocation()
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return null
   }
 
   const roles = Array.isArray(allowedRoles)
     ? allowedRoles
-    : [allowedRoles];
+    : [allowedRoles]
 
-  if (!roles.includes(role)) {
-    return <Navigate to="/access-denied" replace />;
+  // Not logged in
+  if (!user) {
+    const isAdminRoute =
+      location.pathname.startsWith('/admin')
+
+    return (
+      <Navigate
+        to={isAdminRoute ? '/admin/login' : '/login'}
+        replace
+        state={{
+          from: location.pathname,
+        }}
+      />
+    )
   }
 
-  return <Outlet />;
-};
+  // Logged in but wrong role
+  if (!roles.includes(user.role)) {
+    return (
+      <Navigate
+        to="/access-denied"
+        replace
+      />
+    )
+  }
 
-export default RequireRole;
+  return <Outlet />
+}
+
+export default RequireRole

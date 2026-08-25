@@ -1,4 +1,9 @@
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom'
+import {
+  Link as RouterLink,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom'
+
 import {
   Box,
   Drawer,
@@ -7,83 +12,161 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import { FiChevronDown, FiLogOut, FiX } from 'react-icons/fi'
+
+import {
+  FiChevronDown,
+  FiLogOut,
+  FiX,
+} from 'react-icons/fi'
+
 import { toast } from 'react-toastify'
+
 import { adminNavGroups } from '../../constants/adminDashboard'
 import praksaMark from '../../assets/praksha-mark.png'
+import { useAuth } from '../../context/AuthContext'
+
 
 export const ADMIN_SIDEBAR_WIDTH = 258
 
-// ─── helpers ────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────
 
 const isActivePath = (pathname, path) =>
   pathname === path || pathname.startsWith(`${path}/`)
 
-// ─── sub-components ─────────────────────────────────────────────────────────
 
-function NavItem({ item, pathname, onNavigate }) {
-  const { icon: Icon, label, path, disabled } = item
-  const active = !disabled && isActivePath(pathname, path)
+// ─────────────────────────────────────────────────────────────
+// Navigation Item
+// ─────────────────────────────────────────────────────────────
+
+function NavItem({
+  item,
+  pathname,
+  onNavigate,
+}) {
+  const {
+    icon: Icon,
+    label,
+    path,
+    disabled,
+  } = item
+
+  const active =
+    !disabled &&
+    isActivePath(pathname, path)
 
   const commonSx = {
     position: 'relative',
+
     display: 'flex',
     alignItems: 'center',
+
     gap: 1.25,
+
     minHeight: 36,
+
     px: 1.15,
     py: 0.7,
+
     borderRadius: 1,
+
     fontWeight: active ? 800 : 600,
+
     textDecoration: 'none',
-    transition: 'background-color 150ms ease, color 150ms ease',
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    color: disabled ? 'rgba(255,255,255,0.42)' : '#FFFFFF',
-    bgcolor: active ? 'rgba(255,255,255,0.16)' : 'transparent',
+
+    transition:
+      'background-color 150ms ease, color 150ms ease',
+
+    cursor: disabled
+      ? 'not-allowed'
+      : 'pointer',
+
+    color: disabled
+      ? 'rgba(255,255,255,0.42)'
+      : '#FFFFFF',
+
+    bgcolor: active
+      ? 'rgba(255,255,255,0.16)'
+      : 'transparent',
+
     '&::before': {
       content: '""',
+
       position: 'absolute',
+
       left: 0,
+
       top: 8,
       bottom: 8,
+
       width: 3,
+
       borderRadius: 999,
-      bgcolor: active ? '#FFFFFF' : 'transparent',
+
+      bgcolor: active
+        ? '#FFFFFF'
+        : 'transparent',
     },
+
     '&:hover': {
-      bgcolor: disabled ? 'transparent' : 'rgba(255,255,255,0.10)',
+      bgcolor: disabled
+        ? 'transparent'
+        : 'rgba(255,255,255,0.10)',
+    },
+
+    '&:focus-visible': {
+      outline: '2px solid #FFFFFF',
+      outlineOffset: '2px',
     },
   }
+
 
   const inner = (
     <>
       <Box
         sx={{
           width: 20,
+
           display: 'grid',
           placeItems: 'center',
+
           color: 'inherit',
+
           flexShrink: 0,
         }}
       >
-        <Icon size={15} aria-hidden="true" />
+        <Icon
+          size={15}
+          aria-hidden="true"
+        />
       </Box>
+
 
       <Typography
         component="span"
         sx={{
           flex: 1,
+
           minWidth: 0,
+
           fontSize: '0.82rem',
+
           fontWeight: 'inherit',
+
           color: 'inherit',
+
           overflow: 'hidden',
+
           textOverflow: 'ellipsis',
+
           whiteSpace: 'nowrap',
         }}
       >
         {label}
       </Typography>
+
 
       {disabled && (
         <Typography
@@ -91,12 +174,21 @@ function NavItem({ item, pathname, onNavigate }) {
           sx={{
             px: 0.65,
             py: 0.15,
+
             borderRadius: 999,
-            bgcolor: 'rgba(255,255,255,0.12)',
-            color: 'rgba(255,255,255,0.62)',
+
+            bgcolor:
+              'rgba(255,255,255,0.12)',
+
+            color:
+              'rgba(255,255,255,0.62)',
+
             fontSize: '0.58rem',
+
             fontWeight: 800,
+
             lineHeight: 1.4,
+
             flexShrink: 0,
           }}
         >
@@ -106,9 +198,14 @@ function NavItem({ item, pathname, onNavigate }) {
     </>
   )
 
+
   if (disabled) {
     return (
-      <Tooltip title="Coming Soon" placement="right" arrow>
+      <Tooltip
+        title="Coming Soon"
+        placement="right"
+        arrow
+      >
         <Box
           role="menuitem"
           aria-disabled="true"
@@ -120,12 +217,17 @@ function NavItem({ item, pathname, onNavigate }) {
     )
   }
 
+
   return (
     <Box
       component={RouterLink}
       to={path}
       onClick={onNavigate}
-      aria-current={active ? 'page' : undefined}
+      aria-current={
+        active
+          ? 'page'
+          : undefined
+      }
       sx={commonSx}
     >
       {inner}
@@ -133,263 +235,551 @@ function NavItem({ item, pathname, onNavigate }) {
   )
 }
 
-function SidebarContent({ onClose, showCloseButton = false }) {
+
+// ─────────────────────────────────────────────────────────────
+// Sidebar Content
+// ─────────────────────────────────────────────────────────────
+
+function SidebarContent({
+  onClose,
+  showCloseButton = false,
+}) {
   const { pathname } = useLocation()
+
   const navigate = useNavigate()
 
+  // IMPORTANT:
+  // Get logout from AuthContext so authentication state
+  // is actually cleared.
+  const { logout } = useAuth()
+
+
+  // ───────────────────────────────────────────────────────────
+  // Logout
+  // ───────────────────────────────────────────────────────────
+
   const handleLogout = () => {
-    toast.success('Logged out successfully')
-    navigate('/admin/login')
+    // Clear authentication state.
+    // This clears both localStorage and sessionStorage
+    // according to AuthContext implementation.
+    logout()
+
+
+    // Close mobile sidebar if open.
+    if (onClose) {
+      onClose()
+    }
+
+
+    // Confirmation message.
+    toast.success(
+      'Logged out successfully'
+    )
+
+
+    // Go to admin login.
+    // replace prevents going back to the protected page
+    // using the browser back button.
+    navigate(
+      '/admin/login',
+      {
+        replace: true,
+      }
+    )
   }
+
 
   return (
     <Stack
       sx={{
         width: ADMIN_SIDEBAR_WIDTH,
+
         height: '100%',
+
         bgcolor: '#1D3461',
-        borderRight: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: { xs: '18px 0 38px rgba(15,23,42,0.26)', lg: 'none' },
+
+        borderRight:
+          '1px solid rgba(255,255,255,0.08)',
+
+        boxShadow: {
+          xs:
+            '18px 0 38px rgba(15,23,42,0.26)',
+
+          lg: 'none',
+        },
       }}
     >
-      {/* ── Brand header ─────────────────────────────────────── */}
+
+      {/* ─────────────────────────────────────────────────────
+          Brand Header
+      ───────────────────────────────────────────────────── */}
+
       <Stack
         direction="row"
         sx={{
           alignItems: 'center',
-          justifyContent: 'space-between',
+
+          justifyContent:
+            'space-between',
+
           minHeight: 64,
+
           px: 2,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+
+          borderBottom:
+            '1px solid rgba(255,255,255,0.06)',
+
           flexShrink: 0,
         }}
       >
+
         <Stack
           component={RouterLink}
           to="/admin/dashboard"
+
           direction="row"
+
           spacing={1.15}
+
           onClick={onClose}
-          sx={{ alignItems: 'center', minWidth: 0, textDecoration: 'none' }}
+
+          sx={{
+            alignItems: 'center',
+
+            minWidth: 0,
+
+            textDecoration: 'none',
+          }}
         >
+
+          {/* Logo */}
+
           <Box
             sx={{
               width: 34,
               height: 34,
+
               display: 'grid',
               placeItems: 'center',
+
               borderRadius: 1.15,
+
               bgcolor: '#FFFFFF',
-              boxShadow: '0 6px 16px rgba(0,0,0,0.22)',
+
+              boxShadow:
+                '0 6px 16px rgba(0,0,0,0.22)',
+
               flexShrink: 0,
             }}
           >
+
             <Box
               component="img"
+
               src={praksaMark}
+
               alt="Praksha Academy"
-              sx={{ width: 26, height: 26, objectFit: 'contain' }}
+
+              sx={{
+                width: 26,
+                height: 26,
+
+                objectFit: 'contain',
+              }}
             />
+
           </Box>
 
-          <Box sx={{ minWidth: 0 }}>
+
+          {/* Brand text */}
+
+          <Box
+            sx={{
+              minWidth: 0,
+            }}
+          >
+
             <Typography
               sx={{
                 color: '#FFFFFF',
+
                 fontSize: '0.92rem',
+
                 fontWeight: 800,
+
                 lineHeight: 1.1,
+
                 overflow: 'hidden',
+
                 textOverflow: 'ellipsis',
+
                 whiteSpace: 'nowrap',
               }}
             >
               Praksha
             </Typography>
+
+
             <Typography
               sx={{
-                color: 'rgba(255,255,255,0.60)',
+                color:
+                  'rgba(255,255,255,0.60)',
+
                 fontSize: '0.68rem',
+
                 fontWeight: 600,
+
                 lineHeight: 1.2,
               }}
             >
               Academy Admin
             </Typography>
+
           </Box>
+
         </Stack>
+
+
+        {/* Mobile close button */}
 
         {showCloseButton && (
           <IconButton
             onClick={onClose}
+
             aria-label="Close admin menu"
+
             size="small"
+
             sx={{
               color: '#FFFFFF',
+
               borderRadius: 1.25,
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.12)' },
+
+              '&:hover': {
+                bgcolor:
+                  'rgba(255,255,255,0.12)',
+              },
+
+              '&:focus-visible': {
+                outline:
+                  '2px solid #FFFFFF',
+
+                outlineOffset: '2px',
+              },
             }}
           >
             <FiX size={18} />
           </IconButton>
         )}
+
       </Stack>
 
-      {/* ── Navigation ───────────────────────────────────────── */}
+
+      {/* ─────────────────────────────────────────────────────
+          Navigation
+      ───────────────────────────────────────────────────── */}
+
       <Stack
         component="nav"
+
         aria-label="Admin navigation"
+
         spacing={1.35}
+
         sx={{
           flex: 1,
+
           overflowY: 'auto',
+
           px: 1.35,
           py: 2,
+
           scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(255,255,255,0.24) transparent',
-          '&::-webkit-scrollbar': { width: 5 },
+
+          scrollbarColor:
+            'rgba(255,255,255,0.24) transparent',
+
+          '&::-webkit-scrollbar': {
+            width: 5,
+          },
+
           '&::-webkit-scrollbar-thumb': {
-            bgcolor: 'rgba(255,255,255,0.22)',
+            bgcolor:
+              'rgba(255,255,255,0.22)',
+
             borderRadius: 999,
           },
         }}
       >
-        {adminNavGroups.map((group) => (
-          <Stack key={group.title} spacing={0.25}>
-            {/* Group label */}
+
+        {adminNavGroups.map(
+          (group) => (
             <Stack
-              direction="row"
-              sx={{
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                px: 1.15,
-                pt: 0.4,
-                pb: 0.5,
-              }}
+              key={group.title}
+              spacing={0.25}
             >
-              <Typography
+
+              {/* Group label */}
+
+              <Stack
+                direction="row"
+
                 sx={{
-                  color: 'rgba(255,255,255,0.50)',
-                  fontSize: '0.635rem',
-                  fontWeight: 800,
-                  letterSpacing: '0.09em',
-                  textTransform: 'uppercase',
+                  alignItems: 'center',
+
+                  justifyContent:
+                    'space-between',
+
+                  px: 1.15,
+
+                  pt: 0.4,
+                  pb: 0.5,
                 }}
               >
-                {group.title}
-              </Typography>
-              {group.items.length > 1 && (
-                <FiChevronDown
-                  size={11}
-                  color="rgba(255,255,255,0.40)"
-                  aria-hidden="true"
-                />
-              )}
-            </Stack>
 
-            {/* Items */}
-            {group.items.map((item) => (
-              <NavItem
-                key={item.path}
-                item={item}
-                pathname={pathname}
-                onNavigate={onClose}
-              />
-            ))}
-          </Stack>
-        ))}
+                <Typography
+                  sx={{
+                    color:
+                      'rgba(255,255,255,0.50)',
+
+                    fontSize: '0.635rem',
+
+                    fontWeight: 800,
+
+                    letterSpacing:
+                      '0.09em',
+
+                    textTransform:
+                      'uppercase',
+                  }}
+                >
+                  {group.title}
+                </Typography>
+
+
+                {group.items.length > 1 && (
+                  <FiChevronDown
+                    size={11}
+
+                    color=
+                      "rgba(255,255,255,0.40)"
+
+                    aria-hidden="true"
+                  />
+                )}
+
+              </Stack>
+
+
+              {/* Navigation items */}
+
+              {group.items.map(
+                (item) => (
+                  <NavItem
+                    key={item.path}
+
+                    item={item}
+
+                    pathname={pathname}
+
+                    onNavigate={onClose}
+                  />
+                )
+              )}
+
+            </Stack>
+          )
+        )}
+
       </Stack>
 
-      {/* ── Logout ───────────────────────────────────────────── */}
+
+      {/* ─────────────────────────────────────────────────────
+          Logout
+      ───────────────────────────────────────────────────── */}
+
       <Box
         sx={{
           px: 1.35,
+
           py: 1.5,
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+
+          borderTop:
+            '1px solid rgba(255,255,255,0.06)',
+
           flexShrink: 0,
         }}
       >
+
         <Box
           component="button"
+
           type="button"
+
           onClick={handleLogout}
+
+          aria-label="Logout from admin account"
+
           sx={{
             display: 'flex',
+
             alignItems: 'center',
+
             gap: 1.25,
+
             width: '100%',
+
             minHeight: 38,
+
             px: 1.15,
+
             py: 0.8,
+
             border: 'none',
+
             borderRadius: 1,
+
             bgcolor: 'transparent',
-            color: 'rgba(255,255,255,0.80)',
-            fontFamily: 'Inter, sans-serif',
+
+            color:
+              'rgba(255,255,255,0.80)',
+
+            fontFamily:
+              'Inter, sans-serif',
+
             fontWeight: 700,
+
             fontSize: '0.82rem',
+
             cursor: 'pointer',
+
             textAlign: 'left',
-            transition: 'background-color 150ms ease, color 150ms ease',
+
+            transition:
+              'background-color 150ms ease, color 150ms ease',
+
             '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.10)',
+              bgcolor:
+                'rgba(255,255,255,0.10)',
+
               color: '#FFFFFF',
+            },
+
+            '&:focus-visible': {
+              outline:
+                '2px solid #FFFFFF',
+
+              outlineOffset: '2px',
             },
           }}
         >
-          <FiLogOut size={16} aria-hidden="true" />
-          <span>Logout</span>
+
+          <FiLogOut
+            size={16}
+            aria-hidden="true"
+          />
+
+          <span>
+            Logout
+          </span>
+
         </Box>
+
       </Box>
+
     </Stack>
   )
 }
 
-// ─── Main component ──────────────────────────────────────────────────────────
 
-/**
- * AdminSidebar
- * Desktop: permanent sidebar (hidden on mobile).
- * Mobile: temporary Drawer triggered by TopNavbar hamburger.
- */
-function AdminSidebar({ mobileOpen = false, onClose = () => { } }) {
+// ─────────────────────────────────────────────────────────────
+// Main Admin Sidebar
+// ─────────────────────────────────────────────────────────────
+
+function AdminSidebar({
+  mobileOpen = false,
+  onClose = () => {},
+}) {
   return (
     <>
-      {/* Desktop permanent sidebar */}
+
+      {/* ─────────────────────────────────────────────────────
+          Desktop Sidebar
+      ───────────────────────────────────────────────────── */}
+
       <Box
         component="aside"
+
         sx={{
-          display: { xs: 'none', lg: 'block' },
-          width: ADMIN_SIDEBAR_WIDTH,
+          display: {
+            xs: 'none',
+            lg: 'block',
+          },
+
+          width:
+            ADMIN_SIDEBAR_WIDTH,
+
           flexShrink: 0,
+
           height: '100vh',
+
           position: 'sticky',
+
           top: 0,
         }}
       >
+
         <SidebarContent />
+
       </Box>
 
-      {/* Mobile drawer */}
+
+      {/* ─────────────────────────────────────────────────────
+          Mobile Sidebar
+      ───────────────────────────────────────────────────── */}
+
       <Drawer
         variant="temporary"
+
         open={mobileOpen}
+
         onClose={onClose}
-        ModalProps={{ keepMounted: true }}
+
+        ModalProps={{
+          keepMounted: true,
+        }}
+
         sx={{
-          display: { xs: 'block', lg: 'none' },
+          display: {
+            xs: 'block',
+            lg: 'none',
+          },
+
           '& .MuiDrawer-paper': {
             border: 0,
-            bgcolor: 'transparent',
-            width: ADMIN_SIDEBAR_WIDTH,
-            boxSizing: 'border-box',
+
+            bgcolor:
+              'transparent',
+
+            width:
+              ADMIN_SIDEBAR_WIDTH,
+
+            boxSizing:
+              'border-box',
           },
         }}
       >
-        <SidebarContent showCloseButton onClose={onClose} />
+
+        <SidebarContent
+          showCloseButton
+          onClose={onClose}
+        />
+
       </Drawer>
+
     </>
   )
 }
+
 
 export default AdminSidebar
