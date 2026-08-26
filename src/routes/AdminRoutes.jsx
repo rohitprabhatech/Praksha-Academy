@@ -14,6 +14,12 @@ import CreateBlog from '../pages/admin/Blog/CreateBlog'
 import EditBlog from '../pages/admin/Blog/EditBlog'
 import BlogDetails from '../pages/admin/Blog/BlogDetails'
 
+// ── Courses ──────────────────────────────────────────────────────────────────
+import CourseList from '../pages/admin/Courses/CourseList'
+import AddCourse from '../pages/admin/Courses/AddCourse'
+import EditCourse from '../pages/admin/Courses/EditCourse'
+import CourseDetails from '../pages/admin/Courses/CourseDetails'
+
 // ── Gallery ───────────────────────────────────────────────────────────────────
 import GalleryList from '../pages/admin/Gallery/GalleryList'
 import AddImage from '../pages/admin/Gallery/AddImage'
@@ -65,6 +71,12 @@ function AdminRoutes() {
         {/* ── Settings group ────────────────────────────────── */}
         <Route path="profile" element={<AdminProfile />} />
         <Route path="settings" element={<AdminSettings />} />
+
+        {/* ── Academic ──────────────────────────────────────── */}
+        <Route path="courses" element={<CourseList />} />
+        <Route path="courses/add" element={<AddCourse />} />
+        <Route path="courses/:id/edit" element={<EditCourse />} />
+        <Route path="courses/:id" element={<CourseDetails />} />
 
         {/* ── Content ───────────────────────────────────────── */}
         <Route path="blog" element={<BlogList />} />

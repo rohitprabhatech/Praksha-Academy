@@ -68,7 +68,7 @@ export const adminNavGroups = [
   items: [
    { label: 'Classes', path: '/admin/classes', icon: FiArchive, disabled: true },
    { label: 'Subjects', path: '/admin/subjects', icon: FiFileText, disabled: true },
-   { label: 'Courses', path: '/admin/courses', icon: FiBookOpen, disabled: true },
+   { label: 'Courses', path: '/admin/courses', icon: FiBookOpen },
   ],
  },
  {
