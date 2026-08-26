@@ -1,10 +1,23 @@
-import { Box, Stack, Typography, Link as MuiLink } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Typography,
+  Link as MuiLink,
+  Button,
+} from '@mui/material';
+
 import { motion } from 'framer-motion';
+
 import {
   Link as RouterLink,
   Navigate,
 } from 'react-router-dom';
-import { FiBookOpen, FiCheck } from 'react-icons/fi';
+
+import {
+  FiBookOpen,
+  FiCheck,
+  FiLock,
+} from 'react-icons/fi';
 
 import LoginForm from '../../components/auth/LoginForm';
 import { useAuth } from '../../context/AuthContext';
@@ -60,17 +73,249 @@ const Login = () => {
   if (isAuthenticated) {
     if (role === 'admin') {
       return (
-        <Navigate
-          to="/admin/dashboard"
-          replace
-        />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            px: { xs: 2, sm: 3 },
+            py: 4,
+
+            background:
+              'radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.12), transparent 35%),' +
+              'radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.10), transparent 35%),' +
+              '#F8FAFC',
+          }}
+        >
+          {/* Decorative glow */}
+          <Box
+            sx={{
+              position: 'absolute',
+              width: 420,
+              height: 420,
+              borderRadius: '50%',
+              background:
+                'rgba(37, 99, 235, 0.06)',
+              filter: 'blur(80px)',
+              top: -180,
+              right: -140,
+              pointerEvents: 'none',
+            }}
+          />
+
+          <Box
+            sx={{
+              position: 'absolute',
+              width: 360,
+              height: 360,
+              borderRadius: '50%',
+              background:
+                'rgba(14, 165, 233, 0.05)',
+              filter: 'blur(80px)',
+              bottom: -180,
+              left: -120,
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Main card */}
+          <Box
+            sx={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              maxWidth: 486,
+
+              bgcolor: '#FFFFFF',
+
+              borderRadius: '20px',
+
+              border: '1px solid #E2E8F0',
+
+              borderTop:
+                '3px solid #2563EB',
+
+              boxShadow:
+                '0 24px 60px rgba(15, 23, 42, 0.12)',
+
+              px: {
+                xs: 3,
+                sm: 4.5,
+              },
+
+              py: {
+                xs: 4,
+                sm: 4.5,
+              },
+
+              textAlign: 'center',
+            }}
+          >
+            {/* Dark security icon */}
+            <Box
+              sx={{
+                width: 58,
+                height: 58,
+                mx: 'auto',
+                mb: 2.25,
+
+                display: 'grid',
+                placeItems: 'center',
+
+                borderRadius: '16px',
+
+                bgcolor: '#172033',
+
+                color: '#FFFFFF',
+
+                boxShadow:
+                  '0 10px 24px rgba(15, 23, 42, 0.18)',
+              }}
+            >
+              <FiLock
+                size={25}
+                strokeWidth={1.8}
+              />
+            </Box>
+
+            {/* Label */}
+            <Typography
+              sx={{
+                color: '#2563EB',
+
+                fontSize: '0.7rem',
+
+                fontWeight: 800,
+
+                letterSpacing: '0.15em',
+
+                textTransform: 'uppercase',
+
+                mb: 1,
+              }}
+            >
+              Already signed in
+            </Typography>
+
+            {/* Heading */}
+            <Typography
+              component="h1"
+              sx={{
+                color: '#0F172A',
+
+                fontSize: {
+                  xs: '1.6rem',
+                  sm: '1.8rem',
+                },
+
+                fontWeight: 800,
+
+                letterSpacing: '-0.03em',
+
+                lineHeight: 1.2,
+              }}
+            >
+              You’re already signed in
+            </Typography>
+
+            {/* Description */}
+            <Typography
+              sx={{
+                mt: 1.35,
+
+                color: '#64748B',
+
+                fontSize: '0.9rem',
+
+                lineHeight: 1.65,
+
+                maxWidth: 390,
+
+                mx: 'auto',
+              }}
+            >
+              You are currently signed in as an administrator.
+              Use the Admin Access option in the footer to
+              access the administrator area.
+            </Typography>
+
+            {/* Divider */}
+            <Box
+              sx={{
+                height: '1px',
+
+                bgcolor: '#E2E8F0',
+
+                my: 3,
+              }}
+            />
+
+            {/* Home button */}
+            <Button
+              component={RouterLink}
+              to="/"
+              fullWidth
+              sx={{
+                minHeight: 50,
+
+                borderRadius: '10px',
+
+                bgcolor: '#2563EB',
+
+                color: '#FFFFFF',
+
+                fontSize: '0.92rem',
+
+                fontWeight: 700,
+
+                textTransform: 'none',
+
+                boxShadow:
+                  '0 8px 18px rgba(37, 99, 235, 0.18)',
+
+                transition:
+                  'all 0.2s ease',
+
+                '&:hover': {
+                  bgcolor: '#1D4ED8',
+
+                  boxShadow:
+                    '0 12px 24px rgba(37, 99, 235, 0.24)',
+
+                  transform:
+                    'translateY(-1px)',
+                },
+              }}
+            >
+              Go to home
+            </Button>
+          </Box>
+
+          {/* Brand */}
+          <Typography
+            sx={{
+              position: 'absolute',
+
+              bottom: 22,
+
+              color: '#94A3B8',
+
+              fontSize: '0.74rem',
+
+              fontWeight: 600,
+
+              letterSpacing: '0.01em',
+            }}
+          >
+            Praksha Academy
+          </Typography>
+        </Box>
       );
     }
 
-    /*
-     * Student is the current supported authenticated
-     * user flow for the normal login page.
-     */
     return (
       <Navigate
         to="/student/dashboard"
