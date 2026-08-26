@@ -1,20 +1,17 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-const RequireRole = ({ allowedRoles }) => {
-  const { user, loading } = useAuth()
-  const location = useLocation()
-
-  if (loading) {
-    return null
-  }
+// 1. Add "children" to the props here
+const RequireRole = ({ allowedRoles, children }) => {
+  const { isAuthenticated, role } = useAuth();
+  const location = useLocation();
 
   const roles = Array.isArray(allowedRoles)
     ? allowedRoles
     : [allowedRoles]
 
   // Not logged in
-  if (!user) {
+  if (!isAuthenticated) {
     const isAdminRoute =
       location.pathname.startsWith('/admin')
 
@@ -29,17 +26,13 @@ const RequireRole = ({ allowedRoles }) => {
     )
   }
 
-  // Logged in but wrong role
-  if (!roles.includes(user.role)) {
-    return (
-      <Navigate
-        to="/access-denied"
-        replace
-      />
-    )
+  // Role not allowed
+  if (!roles.includes(role)) {
+    return <Navigate to="/access-denied" replace />
   }
 
-  return <Outlet />
-}
+  // 2. If it has children, render them. Otherwise, act like a layout (Outlet)
+  return children ? children : <Outlet />;
+};
 
 export default RequireRole
