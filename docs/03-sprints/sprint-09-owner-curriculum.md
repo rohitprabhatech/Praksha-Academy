@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Gaurav Thorat  
 Branch: `feature/sprint-09-owner-curriculum`  
 Status: Not Started  
 Estimated Duration: 4–5 days
