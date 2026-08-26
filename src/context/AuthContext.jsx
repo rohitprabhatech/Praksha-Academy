@@ -6,8 +6,8 @@ const AUTH_STORAGE_KEY = "praksha_auth";
 
 const MOCK_USERS = [
   {
-    email: "student@praksha.com",
-    password: "student123",
+    email: "student@gmail.com",
+    password: "student@123",
     role: "student",
     name: "Student User",
   },
@@ -18,8 +18,8 @@ const MOCK_USERS = [
     name: "Teacher User",
   },
   {
-    email: "admin@praksha.academy",
-    password: "admin123",
+    email: "admin@gmail.com",
+    password: "admin@123",
     role: "admin",
     name: "Admin",
   },

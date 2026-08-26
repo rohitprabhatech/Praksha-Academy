@@ -3,43 +3,60 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  IconButton,
   InputAdornment,
   Stack,
   TextField,
-  Tooltip,
   Typography,
+  IconButton,
 } from '@mui/material'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+
+import {
+  Link as RouterLink,
+  useNavigate,
+} from 'react-router-dom'
+
 import {
   FiArrowRight,
   FiEye,
   FiEyeOff,
   FiLock,
   FiMail,
-  FiShield,
   FiAlertCircle,
   FiX,
 } from 'react-icons/fi'
+
 import { useEffect, useRef, useState } from 'react'
 
 import { useAuth } from '../../../context/AuthContext'
 import AdminSurface from '../../../components/admin/common/AdminSurface'
-import { adminIdentity } from '../../../constants/adminDashboard'
 import logoMark from '../../../assets/praksha-mark.png'
+
 
 function AdminLogin() {
   const navigate = useNavigate()
   const { login } = useAuth()
 
+  // =========================================================
+  // STATE
+  // =========================================================
+
   const [showPassword, setShowPassword] = useState(false)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(true)
+
+  const [rememberMe, setRememberMe] = useState(false)
+
   const [error, setError] = useState('')
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const errorTimerRef = useRef(null)
+
+
+  // =========================================================
+  // CLEANUP
+  // =========================================================
 
   useEffect(() => {
     return () => {
@@ -48,6 +65,11 @@ function AdminLogin() {
       }
     }
   }, [])
+
+
+  // =========================================================
+  // ERROR HANDLING
+  // =========================================================
 
   const showError = () => {
     setError('login-error')
@@ -62,6 +84,7 @@ function AdminLogin() {
     }, 3500)
   }
 
+
   const clearError = () => {
     setError('')
 
@@ -71,6 +94,11 @@ function AdminLogin() {
     }
   }
 
+
+  // =========================================================
+  // SUBMIT
+  // =========================================================
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -79,7 +107,7 @@ function AdminLogin() {
     const normalizedEmail = email.trim().toLowerCase()
     const trimmedPassword = password.trim()
 
-    // Frontend validation
+    // Basic validation
     if (!normalizedEmail || !trimmedPassword) {
       showError()
       return
@@ -97,7 +125,11 @@ function AdminLogin() {
 
       console.log('ADMIN LOGIN RESULT:', result)
 
-      if (!result.success || result.user?.role !== 'admin') {
+      // Only admin can enter admin dashboard
+      if (
+        !result.success ||
+        result.user?.role !== 'admin'
+      ) {
         showError()
         return
       }
@@ -113,149 +145,191 @@ function AdminLogin() {
     }
   }
 
+
+  // =========================================================
+  // UI
+  // =========================================================
+
   return (
     <Box
       sx={{
         minHeight: '100vh',
+
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        px: { xs: 1.5, sm: 2, md: 3 },
-        py: 4,
+
+        px: {
+          xs: 1.5,
+          sm: 2,
+          md: 3,
+        },
+
+        py: {
+          xs: 3,
+          sm: 4,
+        },
+
         bgcolor: 'background.default',
+
         backgroundImage: (theme) =>
           theme.palette.mode === 'dark'
             ? 'radial-gradient(circle at top, rgba(37,99,235,0.12), transparent 42%)'
             : 'radial-gradient(circle at top, rgba(37,99,235,0.07), transparent 42%)',
       }}
     >
+
       <AdminSurface
         sx={{
           width: '100%',
-          maxWidth: 450,
-          p: { xs: 2.5, sm: 4 },
-          borderRadius: 3,
+
+          maxWidth: 470,
+
+          p: {
+            xs: 2.75,
+            sm: 4,
+          },
+
+          borderRadius: '20px',
+
+          boxShadow:
+            '0 20px 50px rgba(15, 23, 42, 0.08)',
+
+          border: '1px solid #E2E8F0',
         }}
       >
-        <Stack spacing={3}>
 
-          {/* Brand */}
+        <Stack spacing={2.5}>
+
+
+          {/* =================================================
+              BRAND / HEADER
+          ================================================= */}
+
           <Stack
-            spacing={1.5}
+            spacing={1.25}
             sx={{
               alignItems: 'center',
               textAlign: 'center',
             }}
           >
+
+            {/* Logo */}
+
             <Box
               sx={{
-                width: 72,
-                height: 72,
+                width: 64,
+                height: 64,
+
                 display: 'grid',
                 placeItems: 'center',
-                borderRadius: 2.5,
-                bgcolor: 'background.paper',
-                border: '1px solid',
-                borderColor: 'divider',
-                boxShadow: '0 10px 28px rgba(15, 23, 42, 0.10)',
+
+                borderRadius: '18px',
+
+                bgcolor: '#FFFFFF',
+
+                border: '1px solid #E2E8F0',
+
+                boxShadow:
+                  '0 8px 22px rgba(15, 23, 42, 0.08)',
+
+                mb: 0.25,
               }}
             >
+
               <Box
                 component="img"
                 src={logoMark}
                 alt="Praksha Academy"
                 sx={{
-                  width: 50,
-                  height: 50,
+                  width: 45,
+                  height: 45,
                   objectFit: 'contain',
                 }}
               />
+
             </Box>
 
+
+            {/* Heading */}
+
             <Box>
+
               <Typography
+                component="h1"
                 sx={{
-                  color: 'text.primary',
-                  fontSize: { xs: '1.55rem', sm: '1.8rem' },
-                  fontWeight: 900,
+                  color: '#0F172A',
+
+                  fontSize: {
+                    xs: '1.55rem',
+                    sm: '1.75rem',
+                  },
+
+                  fontWeight: 800,
+
+                  letterSpacing: '-0.025em',
+
                   lineHeight: 1.2,
                 }}
               >
                 Admin Login
               </Typography>
 
+
               <Typography
-                color="text.secondary"
                 sx={{
-                  mt: 0.75,
-                  fontSize: '0.875rem',
-                  lineHeight: 1.6,
+                  mt: 0.65,
+
+                  color: '#64748B',
+
+                  fontSize: '0.88rem',
+
+                  lineHeight: 1.5,
                 }}
               >
-                Sign in to manage Praksha Academy operations.
+                Manage Praksha Academy operations securely.
               </Typography>
+
             </Box>
+
           </Stack>
 
-          {/* Security badge */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 0.75,
-              py: 0.8,
-              px: 1.5,
-              borderRadius: 1.5,
-              bgcolor: (theme) =>
-                theme.palette.mode === 'dark'
-                  ? 'rgba(37, 99, 235, 0.12)'
-                  : 'rgba(37, 99, 235, 0.06)',
-              color: 'primary.main',
-            }}
-          >
-            <FiShield size={15} />
 
-            <Typography
-              sx={{
-                fontSize: '0.76rem',
-                fontWeight: 800,
-              }}
-            >
-              Secure administrator access
-            </Typography>
-          </Box>
+          {/* =================================================
+              ERROR ALERT
+          ================================================= */}
 
-          {/* Login Error */}
           {error && (
             <Box
               role="alert"
               aria-live="assertive"
               sx={{
                 display: 'flex',
+
                 alignItems: 'center',
-                gap: 1.5,
 
-                px: 1.75,
-                py: 1.35,
+                gap: 1,
 
-                borderRadius: '12px',
+                px: 1.15,
+                py: 0.85,
 
-                bgcolor: '#FFFFFF',
-                border: '1px solid #E2E8F0',
-                borderLeft: '4px solid #EF4444',
+                minHeight: 44,
 
-                boxShadow:
-                  '0 10px 25px rgba(15, 23, 42, 0.08), 0 3px 8px rgba(15, 23, 42, 0.04)',
+                borderRadius: '10px',
+
+                bgcolor: '#FEF2F2',
+
+                border: '1px solid #FECACA',
 
                 animation:
-                  'adminLoginAlertEnter 280ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  'adminLoginAlertEnter 220ms ease-out',
 
                 '@keyframes adminLoginAlertEnter': {
                   from: {
                     opacity: 0,
-                    transform: 'translateY(-6px)',
+                    transform: 'translateY(-4px)',
                   },
+
                   to: {
                     opacity: 1,
                     transform: 'translateY(0)',
@@ -263,283 +337,595 @@ function AdminLogin() {
                 },
               }}
             >
-              {/* Icon */}
+
+              {/* Error icon */}
+
               <Box
                 sx={{
-                  width: 36,
-                  height: 36,
-                  minWidth: 36,
+                  width: 28,
+                  height: 28,
+
+                  minWidth: 28,
+
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius: '50%',
-                  bgcolor: '#FEF2F2',
+
+                  borderRadius: '7px',
+
+                  bgcolor: '#FEE2E2',
+
                   color: '#DC2626',
                 }}
               >
                 <FiAlertCircle
-                  size={19}
+                  size={16}
                   strokeWidth={2.2}
+                  aria-hidden="true"
                 />
               </Box>
 
-              {/* Message */}
-              <Box
+
+              {/* Error message */}
+
+              <Typography
                 sx={{
                   flex: 1,
-                  minWidth: 0,
+
+                  color: '#B91C1C',
+
+                  fontSize: '0.78rem',
+
+                  fontWeight: 600,
+
+                  lineHeight: 1.35,
                 }}
               >
-                <Typography
-                  sx={{
-                    color: '#172033',
-                    fontSize: '0.86rem',
-                    fontWeight: 700,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Sign in failed
-                </Typography>
+                Invalid administrator credentials.
+                Please try again.
+              </Typography>
 
-                <Typography
-                  sx={{
-                    color: '#64748B',
-                    fontSize: '0.78rem',
-                    lineHeight: 1.4,
-                    mt: 0.25,
-                  }}
-                >
-                  Check your credentials and try again.
-                </Typography>
-              </Box>
 
               {/* Close */}
+
               <IconButton
                 onClick={clearError}
                 size="small"
                 aria-label="Dismiss error message"
                 sx={{
-                  width: 28,
-                  height: 28,
+                  width: 26,
+                  height: 26,
+
                   flexShrink: 0,
-                  color: '#94A3B8',
+
+                  color: '#B91C1C',
 
                   '&:hover': {
-                    color: '#475569',
-                    bgcolor: '#F8FAFC',
+                    bgcolor: '#FEE2E2',
+                    color: '#991B1B',
+                  },
+
+                  '&:focus-visible': {
+                    outline: '2px solid #2563EB',
+                    outlineOffset: '2px',
                   },
                 }}
               >
-                <FiX size={16} />
+                <FiX size={15} />
               </IconButton>
+
             </Box>
           )}
 
-          {/* Login form */}
-          <Stack
+
+          {/* =================================================
+              FORM
+          ================================================= */}
+
+          <Box
             component="form"
-            spacing={2}
             onSubmit={handleSubmit}
+            noValidate
           >
-            {/* Email */}
-            <TextField
-              label="Administrator Email"
-              type="email"
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value)
-                if (error) clearError()
-              }}
-              placeholder={adminIdentity.email}
-              fullWidth
-              required
-              autoComplete="email"
-              disabled={isSubmitting}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FiMail size={18} />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                '& .MuiInputLabel-root': {
-                  fontWeight: 600,
-                },
 
-                '& .MuiInputBase-input': {
-                  fontWeight: 500,
-                },
-              }}
-            />
+            <Stack spacing={2.5}>
 
-            {/* Password */}
-            <TextField
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value)
-                if (error) clearError()
-              }}
-              placeholder="Enter password"
-              fullWidth
-              required
-              autoComplete="current-password"
-              disabled={isSubmitting}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FiLock size={18} />
-                  </InputAdornment>
-                ),
 
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title={
-                        showPassword
-                          ? 'Hide password'
-                          : 'Show password'
-                      }
-                      arrow
-                    >
-                      <IconButton
+              {/* =================================================
+                  EMAIL
+              ================================================= */}
+
+              <TextField
+                label="Administrator Email"
+                type="email"
+
+                value={email}
+
+                onChange={(event) => {
+                  setEmail(event.target.value)
+
+                  if (error) {
+                    clearError()
+                  }
+                }}
+
+                placeholder="admin@praksha.academy"
+
+                fullWidth
+
+                required
+
+                autoComplete="username"
+
+                disabled={isSubmitting}
+
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FiMail
+                        size={18}
+                        color="#64748B"
+                        aria-hidden="true"
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+
+                sx={{
+                  '& .MuiInputLabel-root': {
+                    fontWeight: 600,
+                  },
+
+                  '& .MuiInputBase-root': {
+                    borderRadius: '12px',
+
+                    backgroundColor: '#FFFFFF',
+
+                    transition:
+                      'box-shadow 0.2s ease, border-color 0.2s ease',
+                  },
+
+                  '& .MuiInputBase-input': {
+                    fontWeight: 500,
+                  },
+
+                  '& .MuiInputBase-root.Mui-focused': {
+                    boxShadow:
+                      '0 0 0 3px rgba(37, 99, 235, 0.10)',
+                  },
+                }}
+              />
+
+
+              {/* =================================================
+                  PASSWORD
+              ================================================= */}
+
+              <TextField
+                label="Password"
+                type={
+                  showPassword
+                    ? 'text'
+                    : 'password'
+                }
+
+                value={password}
+
+                onChange={(event) => {
+                  setPassword(event.target.value)
+
+                  if (error) {
+                    clearError()
+                  }
+                }}
+
+                placeholder="Enter administrator password"
+
+                fullWidth
+
+                required
+
+                autoComplete="current-password"
+
+                disabled={isSubmitting}
+
+                InputProps={{
+
+                  startAdornment: (
+                    <InputAdornment position="start">
+
+                      <FiLock
+                        size={18}
+                        color="#64748B"
+                        aria-hidden="true"
+                      />
+
+                    </InputAdornment>
+                  ),
+
+
+                  endAdornment: (
+                    <InputAdornment position="end">
+
+                      <Box
+                        component="button"
                         type="button"
+
                         onClick={() =>
-                          setShowPassword((value) => !value)
+                          setShowPassword(
+                            (value) => !value
+                          )
                         }
-                        edge="end"
+
+                        disabled={isSubmitting}
+
                         aria-label={
                           showPassword
                             ? 'Hide password'
                             : 'Show password'
                         }
+
+                        title={
+                          showPassword
+                            ? 'Hide password'
+                            : 'Show password'
+                        }
+
+                        sx={{
+                          display: 'inline-flex',
+
+                          alignItems: 'center',
+
+                          justifyContent: 'center',
+
+                          gap: 0.45,
+
+                          minWidth: 58,
+
+                          height: 32,
+
+                          px: 0.75,
+
+                          border: 'none',
+
+                          borderRadius: '7px',
+
+                          bgcolor: 'transparent',
+
+                          color: '#64748B',
+
+                          fontFamily: 'inherit',
+
+                          fontSize: '0.72rem',
+
+                          fontWeight: 700,
+
+                          cursor: isSubmitting
+                            ? 'default'
+                            : 'pointer',
+
+                          transition:
+                            'color 0.18s ease, background-color 0.18s ease',
+
+                          '&:hover': {
+                            color: '#2563EB',
+
+                            bgcolor:
+                              'rgba(37, 99, 235, 0.07)',
+                          },
+
+                          '&:focus-visible': {
+                            outline:
+                              '2px solid #2563EB',
+
+                            outlineOffset: '2px',
+                          },
+
+                          '&:disabled': {
+                            opacity: 0.5,
+
+                            cursor: 'default',
+                          },
+                        }}
                       >
+
                         {showPassword ? (
-                          <FiEyeOff size={18} />
+                          <FiEyeOff
+                            size={17}
+                            strokeWidth={2}
+                            aria-hidden="true"
+                          />
                         ) : (
-                          <FiEye size={18} />
+                          <FiEye
+                            size={17}
+                            strokeWidth={2}
+                            aria-hidden="true"
+                          />
                         )}
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                '& .MuiInputLabel-root': {
-                  fontWeight: 600,
-                },
 
-                '& .MuiInputBase-input': {
-                  fontWeight: 500,
-                },
-              }}
-            />
+                        <span>
+                          {showPassword
+                            ? 'Hide'
+                            : 'Show'}
+                        </span>
 
-            {/* Remember / Forgot */}
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={rememberMe}
-                    onChange={(event) =>
-                      setRememberMe(event.target.checked)
-                    }
-                    size="small"
-                    disabled={isSubmitting}
-                  />
-                }
-                label={
-                  <Typography
-                    sx={{
-                      color: 'text.primary',
-                      fontSize: '0.84rem',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Remember me
-                  </Typography>
-                }
+                      </Box>
+
+                    </InputAdornment>
+                  ),
+                }}
+
+                sx={{
+                  '& .MuiInputLabel-root': {
+                    fontWeight: 600,
+                  },
+
+                  '& .MuiInputBase-root': {
+                    borderRadius: '12px',
+
+                    backgroundColor: '#FFFFFF',
+
+                    transition:
+                      'box-shadow 0.2s ease, border-color 0.2s ease',
+                  },
+
+                  '& .MuiInputBase-input': {
+                    fontWeight: 500,
+
+                    letterSpacing:
+                      showPassword
+                        ? '0'
+                        : '0.02em',
+                  },
+
+                  '& .MuiInputBase-root.Mui-focused': {
+                    boxShadow:
+                      '0 0 0 3px rgba(37, 99, 235, 0.10)',
+                  },
+                }}
               />
 
-              <Typography
-                component={RouterLink}
-                to="/forgot-password"
+
+              {/* =================================================
+                  REMEMBER + FORGOT
+              ================================================= */}
+
+              <Box
                 sx={{
-                  color: 'primary.main',
-                  fontSize: '0.84rem',
-                  fontWeight: 800,
-                  textDecoration: 'none',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                }}
+              >
+                {/* Remember me */}
+
+                <FormControlLabel
+                  sx={{
+                    m: 0,
+                    flexShrink: 0,
+                  }}
+                  control={
+                    <Checkbox
+                      checked={rememberMe}
+                      onChange={(event) =>
+                        setRememberMe(event.target.checked)
+                      }
+                      size="small"
+                      disabled={isSubmitting}
+                      sx={{
+                        p: 0.5,
+
+                        color: '#94A3B8',
+
+                        '&.Mui-checked': {
+                          color: '#2563EB',
+                        },
+
+                        '&:focus-visible': {
+                          outline: '2px solid #2563EB',
+                          outlineOffset: '2px',
+                        },
+                      }}
+                    />
+                  }
+                  label={
+                    <Typography
+                      component="span"
+                      sx={{
+                        ml: 0.5,
+                        color: '#475569',
+                        fontSize: '0.84rem',
+                        fontWeight: 600,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      Remember me
+                    </Typography>
+                  }
+                />
+
+                {/* Forgot password */}
+
+                <Typography
+                  component={RouterLink}
+                  to="/forgot-password"
+                  sx={{
+                    color: '#2563EB',
+
+                    fontSize: '0.84rem',
+
+                    fontWeight: 700,
+
+                    textDecoration: 'none',
+
+                    whiteSpace: 'nowrap',
+
+                    ml: 'auto',
+
+                    transition: 'color 0.18s ease',
+
+                    '&:hover': {
+                      color: '#1D4ED8',
+                      textDecoration: 'underline',
+                    },
+
+                    '&:focus-visible': {
+                      outline: '2px solid #2563EB',
+                      outlineOffset: '3px',
+                      borderRadius: '3px',
+                    },
+                  }}
+                >
+                  Forgot password?
+                </Typography>
+              </Box>
+
+
+              {/* =================================================
+                  LOGIN BUTTON
+              ================================================= */}
+
+              <Button
+                type="submit"
+
+                fullWidth
+
+                disabled={isSubmitting}
+
+                endIcon={
+                  !isSubmitting && (
+                    <FiArrowRight
+                      size={18}
+                      aria-hidden="true"
+                    />
+                  )
+                }
+
+                sx={{
+                  minHeight: 52,
+
+                  borderRadius: '12px',
+
+                  bgcolor: '#2563EB',
+
+                  color: '#FFFFFF',
+
+                  fontWeight: 700,
+
+                  fontSize: '0.95rem',
+
+                  textTransform: 'none',
+
+                  boxShadow:
+                    '0 8px 18px rgba(37, 99, 235, 0.18)',
+
+                  transition:
+                    'background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
 
                   '&:hover': {
-                    textDecoration: 'underline',
+                    bgcolor: '#1D4ED8',
+
+                    boxShadow:
+                      '0 12px 24px rgba(37, 99, 235, 0.24)',
+
+                    transform:
+                      'translateY(-1px)',
+                  },
+
+                  '&:active': {
+                    transform:
+                      'translateY(0)',
+                  },
+
+                  '&.Mui-disabled': {
+                    bgcolor: '#93C5FD',
+
+                    color: '#FFFFFF',
+
+                    boxShadow: 'none',
+                  },
+
+                  '&:focus-visible': {
+                    outline:
+                      '2px solid #2563EB',
+
+                    outlineOffset: '3px',
                   },
                 }}
               >
-                Forgot password?
-              </Typography>
+                {isSubmitting
+                  ? 'Signing in...'
+                  : 'Login to Dashboard'}
+              </Button>
+
             </Stack>
 
-            {/* Submit */}
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              disabled={isSubmitting}
-              endIcon={
-                !isSubmitting && (
-                  <FiArrowRight size={18} />
-                )
-              }
-              sx={{
-                minHeight: 50,
-                borderRadius: 1.5,
-                fontWeight: 800,
-                textTransform: 'none',
-                fontSize: '0.95rem',
-                boxShadow: 'none',
+          </Box>
 
-                '&:hover': {
-                  boxShadow: 'none',
-                },
 
-                '&.Mui-disabled': {
-                  opacity: 0.7,
-                },
-              }}
-            >
-              {isSubmitting ? 'Signing in...' : 'Login to Dashboard'}
-            </Button>
-          </Stack>
+          {/* =================================================
+              SECURITY FOOTER
+          ================================================= */}
 
-          {/* Footer */}
           <Box
             sx={{
-              pt: 0.5,
+              width: '100%',
+
+              display: 'flex',
+
+              justifyContent: 'center',
+
+              alignItems: 'center',
+
               textAlign: 'center',
+
+              pt: 0.25,
             }}
           >
-            <Typography
-              color="text.secondary"
-              sx={{
-                fontSize: '0.75rem',
-                lineHeight: 1.5,
-              }}
+
+            <Stack
+              direction="row"
+
+              alignItems="center"
+
+              justifyContent="center"
+
+              spacing={0.6}
             >
-              Authorized administrators only.
-            </Typography>
+
+              <FiLock
+                size={12}
+                color="#94A3B8"
+                aria-hidden="true"
+              />
+
+              <Typography
+                component="span"
+                sx={{
+                  color: '#94A3B8',
+
+                  fontSize: '0.72rem',
+
+                  lineHeight: 1.5,
+
+                  fontWeight: 500,
+
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Authorized administrators only.
+              </Typography>
+
+            </Stack>
+
           </Box>
+
         </Stack>
+
       </AdminSurface>
+
     </Box>
   )
 }
