@@ -19,9 +19,21 @@ const EditTeacher = () => {
   if (!teacher) return <Typography sx={{ p: 4 }}>Teacher not found.</Typography>;
 
   return (
-    <Box sx={{ p: 4, maxWidth: '1000px', mx: 'auto' }}>
-      <Typography variant="h4" fontWeight="bold" mb={4}>Edit Teacher</Typography>
-      <TeacherForm initialData={teacher} onSubmit={handleSave} onCancel={() => navigate('/admin/teachers')} />
+    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1000, mx: 'auto' }}>
+      {/* Modern Header */}
+      <Box sx={{ mb: 4 }}>
+        <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
+          Admin <Box component="span" sx={{ mx: 0.5 }}>/</Box> Teachers <Box component="span" sx={{ mx: 0.5 }}>/</Box> <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Edit</Box>
+        </Typography>
+        <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B' }}>
+          Edit Teacher
+        </Typography>
+      </Box>
+
+      {/* Form Container */}
+      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '8px', p: 4 }}>
+        <TeacherForm initialData={teacher} onSubmit={handleSave} onCancel={() => navigate('/admin/teachers')} />
+      </Box>
     </Box>
   );
 };

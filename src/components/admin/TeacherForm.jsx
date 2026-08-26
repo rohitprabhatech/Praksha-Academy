@@ -9,6 +9,7 @@ const TeacherForm = ({ initialData = {}, onSubmit, onCancel }) => {
     qualification: '',
     experience: '',
     specialization: '',
+    subject: '',
     bio: '',
     status: 'Active',
     ...initialData
@@ -74,16 +75,61 @@ const TeacherForm = ({ initialData = {}, onSubmit, onCancel }) => {
             <Grid item xs={12} sm={4}>
               <TextField fullWidth label="Specialization" name="specialization" value={formData.specialization} onChange={handleChange} />
             </Grid>
+            <Grid item xs={12} md={6}>
+          <TextField
+            fullWidth
+            label="Subject"
+            name="subject"
+            variant="outlined"
+            value={formData.subject || ''}
+            onChange={handleChange}
+            placeholder="e.g. Mathematics, Physics"
+            required
+          />
+        </Grid>
             <Grid item xs={12}>
               <TextField fullWidth multiline rows={4} label="Bio" name="bio" value={formData.bio} onChange={handleChange} />
             </Grid>
           </Grid>
 
           {/* Actions */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
-            <Button variant="outlined" onClick={onCancel}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary">Save Teacher</Button>
-          </Box>
+          {/* Action Buttons */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 4, pt: 3, borderTop: '1px solid #E2E8F0' }}>
+        <Button
+          variant="outlined"
+          onClick={onCancel}
+          sx={{
+            borderRadius: '8px',
+            textTransform: 'none',
+            fontWeight: 600,
+            fontSize: '0.9rem',
+            px: 3,
+            py: 1.2,
+            borderColor: '#E2E8F0',
+            color: '#64748B',
+            '&:hover': { bgcolor: '#F8FAFC', borderColor: '#CBD5E1' }
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            bgcolor: '#2563EB',
+            borderRadius: '8px',
+            textTransform: 'none',
+            fontWeight: 600,
+            fontSize: '0.9rem',
+            px: 4,
+            py: 1.2,
+            boxShadow: 'none',
+            '&:hover': { bgcolor: '#1D4ED8', boxShadow: 'none' }
+          }}
+        >
+          Save Teacher
+        </Button>
+      </Box>
         </Stack>
       </form>
     </Paper>

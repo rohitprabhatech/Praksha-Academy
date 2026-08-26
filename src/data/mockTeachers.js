@@ -8,6 +8,7 @@ export const mockTeachers = [
     qualification: 'M.Sc. Mathematics, B.Ed',
     experience: '8 years',
     specialization: 'Advanced Mathematics',
+    subject:'Mathematics',
     bio: 'Ananya specializes in breaking down complex calculus and algebra concepts for Class 12 board preparation.',
     status: 'Active'
   },
@@ -20,6 +21,7 @@ export const mockTeachers = [
     qualification: 'M.A. English Literature',
     experience: '5 years',
     specialization: 'Spoken English & Grammar',
+    subject : 'Mathematics',
     bio: 'Rahul focuses on building communication confidence through daily spoken English exercises and shadowing techniques.',
     status: 'Active'
   },
@@ -32,6 +34,7 @@ export const mockTeachers = [
     qualification: 'B.Tech Computer Science',
     experience: '4 years',
     specialization: 'Python & Web Development',
+    subject:'CS fundamentals',
     bio: 'Priya brings project-based learning to life, transitioning students from tutorial watchers to independent developers.',
     status: 'Inactive'
   }
