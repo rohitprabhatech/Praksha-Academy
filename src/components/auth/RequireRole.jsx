@@ -1,7 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const RequireRole = ({ allowedRoles }) => {
+// 1. Add "children" to the props here
+const RequireRole = ({ allowedRoles, children }) => {
   const { isAuthenticated, role } = useAuth();
 
   if (!isAuthenticated) {
@@ -16,7 +17,8 @@ const RequireRole = ({ allowedRoles }) => {
     return <Navigate to="/access-denied" replace />;
   }
 
-  return <Outlet />;
+  // 2. If it has children, render them. Otherwise, act like a layout (Outlet)
+  return children ? children : <Outlet />;
 };
 
 export default RequireRole;
