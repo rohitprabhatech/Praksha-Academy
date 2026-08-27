@@ -55,6 +55,8 @@ import TeacherList from "../components/admin/Teachers/TeacherList";
 import AddTeacher from "../components/admin/Teachers/AddTeacher";
 import EditTeacher from "../components/admin/Teachers/EditTeacher";
 import TeacherDetails from "../components/admin/Teachers/TeacherDetails";
+
+import Curriculum from '../pages/admin/Curriculum/Curriculum';
 /**
  * AdminRoutes
  *
@@ -153,6 +155,11 @@ function AdminRoutes() {
           <Route
             path="courses/:id/edit"
             element={<EditCourse />}
+          />
+
+          <Route
+            path="courses/:id/curriculum"
+            element={<Curriculum />}
           />
 
           <Route
@@ -263,6 +270,6 @@ function AdminRoutes() {
       />
     </Routes>
   );
-}   
+}
 
 export default AdminRoutes;

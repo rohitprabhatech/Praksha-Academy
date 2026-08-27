@@ -1,12 +1,10 @@
 import { Box, Button, Grid, Stack, Typography, CircularProgress, Chip, Avatar, Divider } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FiEdit2, FiBookOpen, FiUser, FiClock, FiTag, FiDollarSign } from 'react-icons/fi';
-import { toast } from 'react-toastify';
+import { FiArrowLeft, FiEdit2, FiBookOpen, FiUser, FiClock, FiTag, FiDollarSign } from 'react-icons/fi';
 
 import PageHeader from '../../../components/admin/common/PageHeader';
 import AdminSurface from '../../../components/admin/common/AdminSurface';
-import NotFound from '../../NotFound';
 import { getCourseById, getCourseFormOptions } from '../../../services/courseService';
 
 const STATUS_COLORS = {
@@ -18,37 +16,40 @@ const STATUS_COLORS = {
 const CourseDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  
+
   const [course, setCourse] = useState(null);
   const [teacher, setTeacher] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchCourseData = async () => {
-      try {
-        setIsLoading(true);
-        const [courseData, options] = await Promise.all([
-          getCourseById(id),
-          getCourseFormOptions()
-        ]);
-        
-        setCourse(courseData);
-        
-        // Find teacher info
-        const assignedTeacher = options.teachers.find(t => t.id === courseData.teacherId);
-        setTeacher(assignedTeacher || { name: 'Unassigned', id: null });
-        
-      } catch (err) {
-        console.error('Failed to load course:', err);
-        setError('Course not found');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchCourseData();
+  const fetchCourseData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const [courseData, options] = await Promise.all([
+        getCourseById(id),
+        getCourseFormOptions()
+      ]);
+
+      setCourse(courseData);
+
+      // Find teacher info
+      const assignedTeacher = options.teachers.find(t => t.id === courseData.teacherId);
+      setTeacher(assignedTeacher || { name: 'Unassigned', id: null });
+
+    } catch (err) {
+      console.error('Failed to load course:', err);
+      setCourse(null);
+      setTeacher(null);
+      setError('Course not found');
+    } finally {
+      setIsLoading(false);
+    }
   }, [id]);
+
+  useEffect(() => {
+    fetchCourseData();
+  }, [fetchCourseData]);
 
   if (isLoading) {
     return (
@@ -62,7 +63,78 @@ const CourseDetails = () => {
   }
 
   if (error || !course) {
-    return <NotFound />;
+    return (
+      <Box>
+        <PageHeader
+          title="Course Details"
+          breadcrumbs={[
+            { label: 'Admin' },
+            {
+              label: 'Courses',
+              to: '/admin/courses',
+            },
+            { label: 'Details' },
+          ]}
+        />
+
+        <AdminSurface
+          sx={{
+            p: 5,
+            textAlign: 'center',
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              color: '#1E293B',
+              mb: 1,
+            }}
+          >
+            Unable to load course
+          </Typography>
+
+          <Typography
+            sx={{
+              color: '#64748B',
+              mb: 3,
+            }}
+          >
+            {error ||
+              'Something went wrong while loading the course.'}
+          </Typography>
+
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 1.5,
+            }}
+          >
+            <Button
+              variant="outlined"
+              onClick={fetchCourseData}
+            >
+              Retry
+            </Button>
+
+            <Button
+              variant="outlined"
+              onClick={() =>
+                navigate('/admin/courses')
+              }
+              startIcon={
+                <FiArrowLeft size={16} />
+              }
+            >
+              Back to Courses
+            </Button>
+          </Box>
+        </AdminSurface>
+      </Box>
+    );
   }
 
   return (
@@ -72,7 +144,7 @@ const CourseDetails = () => {
         subtitle="View course details and manage curriculum."
         breadcrumbs={[
           { label: 'Admin' },
-          { label: 'Courses', path: '/admin/courses' },
+          { label: 'Courses', to: '/admin/courses' },
           { label: 'Details' },
         ]}
         action={
@@ -88,9 +160,13 @@ const CourseDetails = () => {
             <Button
               variant="contained"
               startIcon={<FiBookOpen size={16} />}
-              disabled // Sprint 09 feature
-              title="Coming in Sprint 09"
-              sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}
+              onClick={() => navigate(`/admin/courses/${id}/curriculum`)}
+              sx={{
+                bgcolor: '#2563EB',
+                '&:hover': {
+                  bgcolor: '#1D4ED8',
+                },
+              }}
             >
               Manage Curriculum
             </Button>
@@ -102,89 +178,65 @@ const CourseDetails = () => {
         <Grid item xs={12} md={8}>
           <Stack spacing={3}>
             {/* Main Info */}
-            <AdminSurface sx={{ p: 4 }}>
-              <Stack direction="row" spacing={3} alignItems="flex-start" sx={{ mb: 4 }}>
-                <Avatar
-                  variant="rounded"
-                  src={course.thumbnail}
-                  sx={{ width: 80, height: 80, bgcolor: 'rgba(37,99,235,0.08)', borderRadius: 2, fontSize: '2rem', color: '#2563EB', fontWeight: 700 }}
-                >
-                  {course.name.charAt(0)}
-                </Avatar>
-                <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-                    <Typography variant="h5" sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#1E293B' }}>
-                      {course.name}
+            <AdminSurface
+              sx={{
+                p: 3,
+              }}
+            >
+              <Stack spacing={2.5}>
+                <Stack direction="row" spacing={2} alignItems="flex-start" justifyContent="space-between">
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E293B', mb: 0.5 }}>
+                      Course Information
                     </Typography>
-                    <Chip
-                      label={course.status}
-                      size="small"
-                      sx={{
-                        ...(STATUS_COLORS[course.status] ?? {}),
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 600,
-                        fontSize: '0.75rem',
-                      }}
-                    />
-                  </Stack>
-                  <Typography sx={{ color: '#64748B', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
-                    {course.description || 'No description provided.'}
-                  </Typography>
-                </Box>
-              </Stack>
-              
-              <Divider sx={{ mb: 4, borderColor: '#F1F5F9' }} />
-              
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={6}>
-                  <Stack spacing={3}>
-                    <Box>
-                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5, color: '#94A3B8' }}>
-                        <FiTag size={14} />
-                        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600 }}>Category</Typography>
-                      </Stack>
-                      <Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{course.category}</Typography>
-                    </Box>
-                    <Box>
-                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5, color: '#94A3B8' }}>
-                        <FiBookOpen size={14} />
-                        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600 }}>Course Type</Typography>
-                      </Stack>
-                      <Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{course.courseType || 'Not specified'}</Typography>
-                    </Box>
-                  </Stack>
-                </Grid>
-                
-                <Grid item xs={12} sm={6}>
-                  <Stack spacing={3}>
-                    <Box>
-                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5, color: '#94A3B8' }}>
-                        <FiClock size={14} />
-                        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600 }}>Duration</Typography>
-                      </Stack>
-                      <Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{course.duration || 'Not specified'}</Typography>
-                    </Box>
-                    <Box>
-                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5, color: '#94A3B8' }}>
-                        <FiDollarSign size={14} />
-                        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600 }}>Pricing</Typography>
-                      </Stack>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        {course.discountPrice && course.discountPrice < course.price ? (
-                          <>
-                            <Typography sx={{ color: '#1E293B', fontWeight: 600 }}>₹{course.discountPrice}</Typography>
-                            <Typography sx={{ textDecoration: 'line-through', color: '#94A3B8', fontSize: '0.875rem' }}>₹{course.price}</Typography>
-                          </>
-                        ) : (
-                          <Typography sx={{ color: '#1E293B', fontWeight: 600 }}>
-                            {course.price ? `₹${course.price}` : 'Free'}
+                    <Typography sx={{ color: '#64748B', fontSize: '0.9rem' }}>
+                      {course.description || 'No description available.'}
+                    </Typography>
+                  </Box>
+
+                  <Chip
+                    label={course.status}
+                    size="small"
+                    sx={{
+                      fontWeight: 700,
+                      flexShrink: 0,
+                      ...(STATUS_COLORS[course.status] ?? {}),
+                    }}
+                  />
+                </Stack>
+
+                <Divider />
+
+                <Grid container spacing={2}>
+                  {[
+                    { label: 'Category', value: course.category || '-', icon: <FiTag size={16} /> },
+                    { label: 'Duration', value: course.duration || '-', icon: <FiClock size={16} /> },
+                    { label: 'Type', value: course.courseType || '-', icon: <FiBookOpen size={16} /> },
+                    { label: 'Language', value: course.language || '-', icon: <FiUser size={16} /> },
+                    {
+                      label: 'Price',
+                      value: course.discountPrice && course.discountPrice < course.price
+                        ? `₹${course.discountPrice} (₹${course.price})`
+                        : `₹${course.price}`,
+                      icon: <FiDollarSign size={16} />,
+                    },
+                  ].map((item) => (
+                    <Grid item xs={12} sm={6} key={item.label}>
+                      <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                        <Box sx={{ color: '#2563EB', display: 'flex' }}>{item.icon}</Box>
+                        <Box>
+                          <Typography sx={{ color: '#94A3B8', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                            {item.label}
                           </Typography>
-                        )}
-                      </Stack>
-                    </Box>
-                  </Stack>
+                          <Typography sx={{ color: '#1E293B', fontWeight: 600 }}>
+                            {item.value}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
-              </Grid>
+              </Stack>
             </AdminSurface>
           </Stack>
         </Grid>
