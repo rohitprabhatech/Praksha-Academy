@@ -74,8 +74,8 @@ export const adminNavGroups = [
  {
   title: 'Learning',
   items: [
-   { label: 'Materials', path: '/admin/materials', icon: FiFileText, disabled: true },
-   { label: 'Live Classes', path: '/admin/live-classes', icon: FiCalendar, disabled: true },
+   { label: 'Materials', path: '/admin/materials', icon: FiFileText, disabled: false },
+   { label: 'Live Classes', path: '/admin/live-classes', icon: FiCalendar, disabled: false },
    { label: 'Assignments', path: '/admin/assignments', icon: FiArchive, disabled: true },
    { label: 'Exams', path: '/admin/exams', icon: FiFileText, disabled: true },
   ],

@@ -1,21 +1,50 @@
-import { Box, Typography, Chip } from '@mui/material'
-import { FiFileText } from 'react-icons/fi'
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+import MaterialForm from './MaterialForm';
+import { mockMaterials } from '../../../constants/mockSprint10';
 
-const EditMaterial.jsx.Replace('.jsx','') = () => (
-  <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
-    <Box sx={{ mb: 4 }}>
-      <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
-        Admin / <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Edit Material</Box>
-      </Typography>
-      <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B', mb: 0.5 }}>Edit Material</Typography>
-      <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>Edit an existing study material.</Typography>
-    </Box>
-    <Box sx={{ p: 8, textAlign: 'center', border: '2px dashed #E2E8F0', borderRadius: 3, bgcolor: '#F8FAFC' }}>
-      <FiFileText size={48} color="#CBD5E1" />
-      <Typography variant="h6" sx={{ mt: 2, color: '#64748B', fontWeight: 600 }}>Edit Material</Typography>
-      <Chip label="Coming Soon — Sprint 04" size="small" sx={{ mt: 1.5, bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 600 }} />
-    </Box>
-  </Box>
-)
+const EditMaterial = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-export default EditMaterial.jsx.Replace('.jsx','')
+  // Find the existing material to edit
+  const existingMaterial = mockMaterials.find((m) => m.id === id);
+
+  const handleSave = (data) => {
+    // database update
+    const index = mockMaterials.findIndex((m) => m.id === id);
+    if (index !== -1) {
+      mockMaterials[index] = { ...existingMaterial, ...data };
+    }
+    console.log('Updated material:', data);
+    alert('Material updated successfully!');
+    navigate('/admin/materials');
+  };
+
+  if (!existingMaterial) {
+    return <Typography sx={{ p: 4 }}>Material not found.</Typography>;
+  }
+
+  return (
+    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1000, mx: 'auto' }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
+          Admin <Box component="span" sx={{ mx: 0.5 }}>/</Box> Materials <Box component="span" sx={{ mx: 0.5 }}>/</Box> <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Edit</Box>
+        </Typography>
+        <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B', mb: 0.5 }}>
+          Edit Material
+        </Typography>
+        <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>
+          Update the details of this study material.
+        </Typography>
+      </Box>
+
+      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '8px', p: 4 }}>
+        <MaterialForm initialData={existingMaterial} onSubmit={handleSave} onCancel={() => navigate('/admin/materials')} />
+      </Box>
+    </Box>
+  );
+};
+
+export default EditMaterial;

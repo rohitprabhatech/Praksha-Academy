@@ -55,6 +55,17 @@ import TeacherList from "../pages/admin/Teachers/TeacherList";
 import AddTeacher from "../pages/admin/Teachers/AddTeacher";
 import EditTeacher from "../pages/admin/Teachers/EditTeacher";
 import TeacherDetails from "../pages/admin/Teachers/TeacherDetails";
+
+//Material routes
+
+import MaterialsList from '../pages/admin/Materials/MaterialsList';
+import AddMaterial from '../pages/admin/Materials/AddMaterial';
+import EditMaterial from '../pages/admin/Materials/EditMaterial';
+
+//Live classes route
+import LiveClassList from '../pages/admin/LiveClasses/LiveClassList';
+import EditLiveClass from '../pages/admin/LiveClasses/EditLiveClass';
+import ScheduleClass from '../pages/admin/LiveClasses/ScheduleClass';
 /**
  * AdminRoutes
  *
@@ -250,8 +261,19 @@ function AdminRoutes() {
             path="reports/performance"
             element={<PerformanceReports />}
           />
-        </Route>
+       
+
+        {/* ── Materials ───────────────────────────────────────── */}
+<Route path="materials"element={<MaterialsList />}/>
+<Route path="materials/add" element={<AddMaterial />}/>
+<Route path="materials/:id/edit" element={<EditMaterial />} />
+
+{/* ── Live Classes ────────────────────────────────────── */}
+<Route path="live-classes" element={<LiveClassList />} />
+<Route path="live-classes/schedule" element={<ScheduleClass />} />
+<Route path="live-classes/:id/edit" element={<EditLiveClass />} />
       </Route>
+       </Route>
 
       {/* ─────────────────────────────────────────────────────────────
           Unknown /admin/* route
