@@ -55,6 +55,25 @@ import TeacherList from "../pages/admin/Teachers/TeacherList";
 import AddTeacher from "../pages/admin/Teachers/AddTeacher";
 import EditTeacher from "../pages/admin/Teachers/EditTeacher";
 import TeacherDetails from "../pages/admin/Teachers/TeacherDetails";
+
+// ── Assignments ─────────────────────────────────────────────
+import AssignmentList from '../pages/admin/Assignments/AssignmentList';
+import CreateAssignment from '../pages/admin/Assignments/CreateAssignment';
+import AssignmentDetails from '../pages/admin/Assignments/AssignmentDetails';
+import AssignmentSubmissions from '../pages/admin/Assignments/AssignmentSubmissions';
+
+// ── Quizzes ─────────────────────────────────────────────
+import QuizList from '../pages/admin/Quizzes/QuizList';
+import CreateQuiz from '../pages/admin/Quizzes/CreateQuiz';
+import QuizQuestions from '../pages/admin/Quizzes/QuizQuestions';
+import QuizResults from '../pages/admin/Quizzes/QuizResults';
+
+// ── Exams ─────────────────────────────────────────────
+import ExamList from '../pages/admin/Exams/ExamList';
+import CreateExam from '../pages/admin/Exams/CreateExam';
+import ExamQuestions from '../pages/admin/Exams/ExamQuestions';
+import ExamResults from '../pages/admin/Exams/ExamResults';
+
 /**
  * AdminRoutes
  *
@@ -139,6 +158,70 @@ function AdminRoutes() {
             path="teachers/:id"
             element={<TeacherDetails />}
           />
+
+          {/* ── Assignments ─────────────────────────────────────────── */}
+          <Route
+            path="assignments"
+            element={<AssignmentList />}
+          />
+
+          <Route
+            path="assignments/create"
+            element={<CreateAssignment />}
+          />
+
+          <Route
+            path="assignments/:id"
+            element={<AssignmentDetails />}
+          />
+
+          <Route
+            path="assignments/:id/submissions"
+            element={<AssignmentSubmissions />}
+          />
+
+          {/* ── Quizzes ───────────────────────────────────────────── */}
+          <Route
+            path="quizzes"
+            element={<QuizList />}
+          />
+
+          <Route
+            path="quizzes/create"
+            element={<CreateQuiz />}
+          />
+
+          <Route
+            path="quizzes/:id/questions"
+            element={<QuizQuestions />}
+          />
+
+          <Route
+            path="quizzes/:id/results"
+            element={<QuizResults />}
+          />
+
+          {/* ── Exams ───────────────────────────────────────────── */}
+          <Route
+            path="exams"
+            element={<ExamList />}
+          />
+
+          <Route
+            path="exams/create"
+            element={<CreateExam />}
+          />
+
+          <Route
+            path="exams/:id/questions"
+            element={<ExamQuestions />}
+          />
+
+          <Route
+            path="exams/:id/results"
+            element={<ExamResults />}
+          />
+
           {/* ── Courses ───────────────────────────────────────────── */}
           <Route
             path="courses"
@@ -263,6 +346,6 @@ function AdminRoutes() {
       />
     </Routes>
   );
-}   
+}
 
 export default AdminRoutes;
