@@ -2,9 +2,9 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Renuka  
 Branch: `feature/sprint-10-owner-learning-operations`  
-Status: Not Started  
+Status: In Progress 
 Estimated Duration: 5 days
 
 ---
