@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { FaMapMarkedAlt, FaExternalLinkAlt } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Only renders once a real address + map URL exist in contactData.js.

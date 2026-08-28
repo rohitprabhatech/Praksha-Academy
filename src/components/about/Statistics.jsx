@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 /**
  * Animated stat counters. Reads from aboutData.stats, which starts empty —

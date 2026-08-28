@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import { FaChevronDown } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 /**
  * About-page FAQ accordion. Keyboard accessible via MUI Accordion

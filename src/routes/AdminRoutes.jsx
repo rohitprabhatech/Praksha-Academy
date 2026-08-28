@@ -51,10 +51,10 @@ import RevenueReports from '../pages/admin/Reports/RevenueReports';
 import PerformanceReports from '../pages/admin/Reports/PerformanceReports';
 
 //teacher routes
-import TeacherList from "../components/admin/Teachers/TeacherList";
-import AddTeacher from "../components/admin/Teachers/AddTeacher";
-import EditTeacher from "../components/admin/Teachers/EditTeacher";
-import TeacherDetails from "../components/admin/Teachers/TeacherDetails";
+import TeacherList from "../pages/admin/Teachers/TeacherList";
+import AddTeacher from "../pages/admin/Teachers/AddTeacher";
+import EditTeacher from "../pages/admin/Teachers/EditTeacher";
+import TeacherDetails from "../pages/admin/Teachers/TeacherDetails";
 /**
  * AdminRoutes
  *

@@ -1,7 +1,7 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { FaBullseye } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 const Mission = () => {
   return (

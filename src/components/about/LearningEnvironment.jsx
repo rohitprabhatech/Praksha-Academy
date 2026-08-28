@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { FaVideo, FaPencilRuler, FaUserFriends, FaChartLine } from "react-icons/fa";
 import { colors } from "../../theme/theme";
 import ImagePlaceholder from "../common/ImagePlaceholder";
-import mediaData from "../../data/mediaData";
+import mediaData from "../../constants/mediaData";
 
 // "What learning feels like here" — four concrete parts of taking a course,
 // not abstract values. Each pairs with an image slot in mediaData.js so

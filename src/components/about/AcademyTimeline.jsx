@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 /**
  * Academy history timeline. Reads from aboutData.timeline, which starts

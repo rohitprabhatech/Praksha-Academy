@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Paper, Stack, Avatar, Grid, Chip } from '@mui/material';
-import { mockTeachers } from '../../../data/mockTeachers';
+import { mockTeachers } from '../../../constants/mockTeachers';
 
 const TeacherDetails = () => {
   const { id } = useParams();

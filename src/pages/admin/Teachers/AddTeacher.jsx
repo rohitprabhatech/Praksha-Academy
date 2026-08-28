@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import TeacherForm from '../../../components/admin/TeacherForm';
-import { mockTeachers } from '../../../data/mockTeachers';
+import { mockTeachers } from '../../../constants/mockTeachers';
 
 const AddTeacher = () => {
   const navigate = useNavigate();

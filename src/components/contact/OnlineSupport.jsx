@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { FaLaptop } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Praksha Academy's physical-location status isn't confirmed

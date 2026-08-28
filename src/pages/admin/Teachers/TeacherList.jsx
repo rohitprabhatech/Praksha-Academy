@@ -20,7 +20,7 @@ import {
   Stack,
 } from '@mui/material';
 import { FiSearch, FiPlus, FiEye, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { mockTeachers } from '../../../data/mockTeachers';
+import { mockTeachers } from '../../../constants/mockTeachers';
 
 const TeacherList = () => {
   const navigate = useNavigate();

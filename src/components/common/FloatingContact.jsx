@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Tooltip, Zoom, useMediaQuery } from "@mui/material";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Sticky bottom-right instant-contact buttons — WhatsApp + Call.

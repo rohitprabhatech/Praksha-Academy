@@ -1,7 +1,7 @@
 import { Box, Typography, Stack } from "@mui/material";
 import { FaClock } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Reads contactData.workingHours, which is null until confirmed. Renders a

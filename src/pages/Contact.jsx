@@ -12,7 +12,7 @@ import SupportFlow from "../components/contact/SupportFlow";
 import ContactCTA from "../components/contact/ContactCTA";
 import FloatingContact from "../components/common/FloatingContact";
 import SectionHeading from "../components/common/SectionHeading";
-import contactData from "../data/contactData";
+import contactData from "../constants/contactData";
 import { colors } from "../theme/theme";
 import "../styles/about-contact.css";
 

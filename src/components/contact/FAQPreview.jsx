@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { FaChevronDown } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 const FAQPreview = () => {
   const [expanded, setExpanded] = useState(false);

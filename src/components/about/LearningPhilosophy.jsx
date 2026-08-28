@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { FaArrowRight, FaArrowDown } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 /**
  * Learning philosophy loop: Understand → Practice → Apply → Feedback →

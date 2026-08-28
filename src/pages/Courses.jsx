@@ -5,7 +5,7 @@ import CategoryFilter from '../components/courses/CategoryFilter'
 import CourseGrid from '../components/courses/CourseGrid'
 import CoursePagination from '../components/courses/CoursePagination'
 import SortSelect from '../components/courses/SortSelect'
-import courses from '../data/courses'
+import courses from '../constants/courses'
 import './Courses.css'
 
 const coursesPerPage = 6

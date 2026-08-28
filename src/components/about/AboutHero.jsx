@@ -4,8 +4,8 @@ import { FaArrowRight, FaPlayCircle, FaHeadset, FaBookOpen } from "react-icons/f
 import { colors } from "../../theme/theme";
 import VideoModal from "../common/VideoModal";
 import ImagePlaceholder from "../common/ImagePlaceholder";
-import aboutData from "../../data/aboutData";
-import mediaData from "../../data/mediaData";
+import aboutData from "../../constants/aboutData";
+import mediaData from "../../constants/mediaData";
 
 /**
  * Two-column hero: text + CTAs on the left, a large editorial image with a

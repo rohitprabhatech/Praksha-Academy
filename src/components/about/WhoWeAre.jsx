@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
-import mediaData from "../../data/mediaData";
+import aboutData from "../../constants/aboutData";
+import mediaData from "../../constants/mediaData";
 import ImagePlaceholder from "../common/ImagePlaceholder";
 
 /**

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, TextField, Button, Typography, Alert, MenuItem, CircularProgress } from "@mui/material";
 import { FaPaperPlane, FaBook } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 const initialForm = { name: "", email: "", phone: "", program: "", message: "" };
 
