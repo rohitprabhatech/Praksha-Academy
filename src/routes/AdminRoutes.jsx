@@ -42,6 +42,11 @@ import StudentReports from '../pages/admin/Reports/StudentReports'
 import CourseReports from '../pages/admin/Reports/CourseReports'
 import RevenueReports from '../pages/admin/Reports/RevenueReports'
 import PerformanceReports from '../pages/admin/Reports/PerformanceReports'
+import StudentList from '../pages/admin/Students/StudentList'
+import AddStudent from '../pages/admin/Students/AddStudent'
+import StudentDetails from '../pages/admin/Students/StudentDetails'
+import EditStudent from '../pages/admin/Students/EditStudent'
+import { StudentsProvider } from '../context/StudentsContext'
 
 /**
  * AdminRoutes
@@ -55,12 +60,18 @@ function AdminRoutes() {
       <Route path="login" element={<AdminLogin />} />
 
       {/* Protected shell — all pages inside AdminLayout */}
-      <Route element={<AdminLayout />}>
+      <Route element={<StudentsProvider><AdminLayout /></StudentsProvider>}>
         {/* Redirect /admin → /admin/dashboard */}
         <Route index element={<Navigate to="dashboard" replace />} />
 
         {/* ── Overview ──────────────────────────────────────── */}
         <Route path="dashboard" element={<Dashboard />} />
+
+        {/* Student Management */}
+        <Route path="students" element={<StudentList />} />
+        <Route path="students/add" element={<AddStudent />} />
+        <Route path="students/:id/edit" element={<EditStudent />} />
+        <Route path="students/:id" element={<StudentDetails />} />
 
         {/* ── Settings group ────────────────────────────────── */}
         <Route path="profile" element={<AdminProfile />} />

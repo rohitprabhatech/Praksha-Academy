@@ -1,0 +1,8 @@
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { FiPlus, FiRefreshCw, FiUsers } from 'react-icons/fi';
+
+export const StudentLoader = () => <Box sx={{ display: 'grid', placeItems: 'center', minHeight: 280 }}><Stack alignItems="center" spacing={1.5}><CircularProgress size={30} /><Typography sx={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Loading students...</Typography></Stack></Box>;
+
+export const StudentEmptyState = ({ filtered = false, onAdd, onClear }) => <Box sx={{ py: 7, px: 3, textAlign: 'center' }}><Stack alignItems="center" spacing={1.25}><Box sx={{ p: 1.5, borderRadius: '12px', bgcolor: 'rgba(37,99,235,.08)', color: '#2563EB' }}><FiUsers size={24} /></Box><Typography sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#1E293B' }}>{filtered ? 'No students match your search' : 'No Students Found'}</Typography><Typography sx={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '.9rem' }}>{filtered ? 'Try clearing your search or filters.' : 'Add your first student to begin managing enrolments.'}</Typography><Stack direction="row" spacing={1} sx={{ pt: 1 }}>{filtered && <Button onClick={onClear} startIcon={<FiRefreshCw />} variant="outlined">Clear filters</Button>}<Button onClick={onAdd} startIcon={<FiPlus />} variant="contained">Add Student</Button></Stack></Stack></Box>;
+
+export const StudentErrorState = ({ onRetry }) => <Box sx={{ py: 7, textAlign: 'center' }}><Typography sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#1E293B' }}>Unable to load students.</Typography><Button onClick={onRetry} sx={{ mt: 1.5 }} startIcon={<FiRefreshCw />} variant="outlined">Retry</Button></Box>;
