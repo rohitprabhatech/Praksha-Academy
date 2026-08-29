@@ -8,7 +8,7 @@ function NotFound() {
     <Typography variant="h3" gutterBottom>
      404 — Page not found
     </Typography>
-    <Typography paragraph>
+    <Typography sx={{ mb: 2 }}>
      The page you are looking for does not exist yet or has moved. Return to the home experience and continue exploring.
     </Typography>
     <Button component={Link} to="/" variant="contained" color="primary" size="large">

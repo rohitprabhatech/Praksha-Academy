@@ -1,74 +1,93 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { lazy } from 'react';
 import AdminLayout from '../layouts/AdminLayout';
 import NotFound from '../pages/NotFound';
 import RequireRole from '../components/auth/RequireRole';
 
 // ── Core pages ────────────────────────────────────────────────────────────────
-import AdminLogin from '../pages/admin/Login/AdminLogin';
-import Dashboard from '../pages/admin/Dashboard/Dashboard';
-import AdminProfile from '../pages/admin/Profile/AdminProfile';
-import AdminSettings from '../pages/admin/Settings/AdminSettings';
+const AdminLogin = lazy(() => import('../pages/admin/Login/AdminLogin'));
+const Dashboard = lazy(() => import('../pages/admin/Dashboard/Dashboard'));
+const AdminProfile = lazy(() => import('../pages/admin/Profile/AdminProfile'));
+const AdminSettings = lazy(() => import('../pages/admin/Settings/AdminSettings'));
 
 // ── Blog ─────────────────────────────────────────────────────────────────────
-import BlogList from '../pages/admin/Blog/BlogList';
-import CreateBlog from '../pages/admin/Blog/CreateBlog';
-import EditBlog from '../pages/admin/Blog/EditBlog';
-import BlogDetails from '../pages/admin/Blog/BlogDetails';
+const BlogList = lazy(() => import('../pages/admin/Blog/BlogList'));
+const CreateBlog = lazy(() => import('../pages/admin/Blog/CreateBlog'));
+const EditBlog = lazy(() => import('../pages/admin/Blog/EditBlog'));
+const BlogDetails = lazy(() => import('../pages/admin/Blog/BlogDetails'));
 
 // ── Courses ──────────────────────────────────────────────────────────────────
-import CourseList from '../pages/admin/Courses/CourseList'
-import AddCourse from '../pages/admin/Courses/AddCourse'
-import EditCourse from '../pages/admin/Courses/EditCourse'
-import CourseDetails from '../pages/admin/Courses/CourseDetails'
+const CourseList = lazy(() => import('../pages/admin/Courses/CourseList'));
+const AddCourse = lazy(() => import('../pages/admin/Courses/AddCourse'));
+const EditCourse = lazy(() => import('../pages/admin/Courses/EditCourse'));
+const CourseDetails = lazy(() => import('../pages/admin/Courses/CourseDetails'));
 
-import Curriculum from '../pages/admin/Curriculum/Curriculum'
+const Curriculum = lazy(() => import('../pages/admin/Curriculum/Curriculum'));
 
 
 // ── Gallery ───────────────────────────────────────────────────────────────────
-import GalleryList from '../pages/admin/Gallery/GalleryList';
-import AddImage from '../pages/admin/Gallery/AddImage';
-import AddVideo from '../pages/admin/Gallery/AddVideo';
+const GalleryList = lazy(() => import('../pages/admin/Gallery/GalleryList'));
+const AddImage = lazy(() => import('../pages/admin/Gallery/AddImage'));
+const AddVideo = lazy(() => import('../pages/admin/Gallery/AddVideo'));
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
-import FAQList from '../pages/admin/FAQ/FAQList';
-import AddFAQ from '../pages/admin/FAQ/AddFAQ';
-import EditFAQ from '../pages/admin/FAQ/EditFAQ';
+const FAQList = lazy(() => import('../pages/admin/FAQ/FAQList'));
+const AddFAQ = lazy(() => import('../pages/admin/FAQ/AddFAQ'));
+const EditFAQ = lazy(() => import('../pages/admin/FAQ/EditFAQ'));
 
 // ── Testimonials ──────────────────────────────────────────────────────────────
-import TestimonialsList from '../pages/admin/Testimonials/TestimonialsList';
-import AddTestimonial from '../pages/admin/Testimonials/AddTestimonial';
-import EditTestimonial from '../pages/admin/Testimonials/EditTestimonial';
+const TestimonialsList = lazy(() => import('../pages/admin/Testimonials/TestimonialsList'));
+const AddTestimonial = lazy(() => import('../pages/admin/Testimonials/AddTestimonial'));
+const EditTestimonial = lazy(() => import('../pages/admin/Testimonials/EditTestimonial'));
 
 // ── Notifications ─────────────────────────────────────────────────────────────
-import NotificationList from '../pages/admin/Notifications/NotificationList';
-import CreateNotification from '../pages/admin/Notifications/CreateNotification';
+const NotificationList = lazy(() => import('../pages/admin/Notifications/NotificationList'));
+const CreateNotification = lazy(() => import('../pages/admin/Notifications/CreateNotification'));
 
 // ── Contact Messages ──────────────────────────────────────────────────────────
-import ContactMessagesList from '../pages/admin/ContactMessages/ContactMessagesList';
-import MessageDetails from '../pages/admin/ContactMessages/MessageDetails';
+const ContactMessagesList = lazy(() => import('../pages/admin/ContactMessages/ContactMessagesList'));
+const MessageDetails = lazy(() => import('../pages/admin/ContactMessages/MessageDetails'));
 
 // ── Reports ───────────────────────────────────────────────────────────────────
-import StudentReports from '../pages/admin/Reports/StudentReports';
-import CourseReports from '../pages/admin/Reports/CourseReports';
-import RevenueReports from '../pages/admin/Reports/RevenueReports';
-import PerformanceReports from '../pages/admin/Reports/PerformanceReports';
+const StudentReports = lazy(() => import('../pages/admin/Reports/StudentReports'));
+const CourseReports = lazy(() => import('../pages/admin/Reports/CourseReports'));
+const RevenueReports = lazy(() => import('../pages/admin/Reports/RevenueReports'));
+const PerformanceReports = lazy(() => import('../pages/admin/Reports/PerformanceReports'));
 
 //teacher routes
-import TeacherList from "../pages/admin/Teachers/TeacherList";
-import AddTeacher from "../pages/admin/Teachers/AddTeacher";
-import EditTeacher from "../pages/admin/Teachers/EditTeacher";
-import TeacherDetails from "../pages/admin/Teachers/TeacherDetails";
+const TeacherList = lazy(() => import("../pages/admin/Teachers/TeacherList"));
+const AddTeacher = lazy(() => import("../pages/admin/Teachers/AddTeacher"));
+const EditTeacher = lazy(() => import("../pages/admin/Teachers/EditTeacher"));
+const TeacherDetails = lazy(() => import("../pages/admin/Teachers/TeacherDetails"));
 
 //Material routes
-
-import MaterialsList from '../pages/admin/Materials/MaterialsList';
-import AddMaterial from '../pages/admin/Materials/AddMaterial';
-import EditMaterial from '../pages/admin/Materials/EditMaterial';
+const MaterialsList = lazy(() => import('../pages/admin/Materials/MaterialsList'));
+const AddMaterial = lazy(() => import('../pages/admin/Materials/AddMaterial'));
+const EditMaterial = lazy(() => import('../pages/admin/Materials/EditMaterial'));
 
 //Live classes route
-import LiveClassList from '../pages/admin/LiveClasses/LiveClassList';
-import EditLiveClass from '../pages/admin/LiveClasses/EditLiveClass';
-import ScheduleClass from '../pages/admin/LiveClasses/ScheduleClass';
+const LiveClassList = lazy(() => import('../pages/admin/LiveClasses/LiveClassList'));
+const EditLiveClass = lazy(() => import('../pages/admin/LiveClasses/EditLiveClass'));
+const ScheduleClass = lazy(() => import('../pages/admin/LiveClasses/ScheduleClass'));
+
+// ── Assignments ─────────────────────────────────────────────
+const AssignmentList = lazy(() => import('../pages/admin/Assignments/AssignmentList'));
+const CreateAssignment = lazy(() => import('../pages/admin/Assignments/CreateAssignment'));
+const AssignmentDetails = lazy(() => import('../pages/admin/Assignments/AssignmentDetails'));
+const AssignmentSubmissions = lazy(() => import('../pages/admin/Assignments/AssignmentSubmissions'));
+
+// ── Quizzes ─────────────────────────────────────────────
+const QuizList = lazy(() => import('../pages/admin/Quizzes/QuizList'));
+const CreateQuiz = lazy(() => import('../pages/admin/Quizzes/CreateQuiz'));
+const QuizQuestions = lazy(() => import('../pages/admin/Quizzes/QuizQuestions'));
+const QuizResults = lazy(() => import('../pages/admin/Quizzes/QuizResults'));
+
+// ── Exams ─────────────────────────────────────────────
+const ExamList = lazy(() => import('../pages/admin/Exams/ExamList'));
+const CreateExam = lazy(() => import('../pages/admin/Exams/CreateExam'));
+const ExamQuestions = lazy(() => import('../pages/admin/Exams/ExamQuestions'));
+const ExamResults = lazy(() => import('../pages/admin/Exams/ExamResults'));
+
 /**
  * AdminRoutes
  *
@@ -153,6 +172,70 @@ function AdminRoutes() {
             path="teachers/:id"
             element={<TeacherDetails />}
           />
+
+          {/* ── Assignments ─────────────────────────────────────────── */}
+          <Route
+            path="assignments"
+            element={<AssignmentList />}
+          />
+
+          <Route
+            path="assignments/create"
+            element={<CreateAssignment />}
+          />
+
+          <Route
+            path="assignments/:id"
+            element={<AssignmentDetails />}
+          />
+
+          <Route
+            path="assignments/:id/submissions"
+            element={<AssignmentSubmissions />}
+          />
+
+          {/* ── Quizzes ───────────────────────────────────────────── */}
+          <Route
+            path="quizzes"
+            element={<QuizList />}
+          />
+
+          <Route
+            path="quizzes/create"
+            element={<CreateQuiz />}
+          />
+
+          <Route
+            path="quizzes/:id/questions"
+            element={<QuizQuestions />}
+          />
+
+          <Route
+            path="quizzes/:id/results"
+            element={<QuizResults />}
+          />
+
+          {/* ── Exams ───────────────────────────────────────────── */}
+          <Route
+            path="exams"
+            element={<ExamList />}
+          />
+
+          <Route
+            path="exams/create"
+            element={<CreateExam />}
+          />
+
+          <Route
+            path="exams/:id/questions"
+            element={<ExamQuestions />}
+          />
+
+          <Route
+            path="exams/:id/results"
+            element={<ExamResults />}
+          />
+
           {/* ── Courses ───────────────────────────────────────────── */}
           <Route
             path="courses"

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
+import PageLoader from '../components/common/PageLoader'
 import { Box } from '@mui/material'
 import AdminSidebar, { ADMIN_SIDEBAR_WIDTH } from '../components/admin/AdminSidebar'
 import TopNavbar from '../components/admin/TopNavbar'
@@ -46,7 +47,9 @@ const AdminLayout = () => {
             py: { xs: 3, md: 4 },
           }}
         >
-          <Outlet />
+          <Suspense fallback={<PageLoader minHeight={300} label="Loading page..." />}>
+            <Outlet />
+          </Suspense>
         </Box>
       </Box>
     </Box>

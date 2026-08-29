@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import PageLoader from '../components/common/PageLoader';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { FiMenu } from 'react-icons/fi';
 import Sidebar, { SIDEBAR_WIDTH } from '../components/student/Sidebar';
@@ -76,7 +77,9 @@ const StudentLayout = () => {
             py: { xs: 3, md: 4 },
           }}
         >
-          <Outlet />
+          <Suspense fallback={<PageLoader minHeight={300} label="Loading page..." />}>
+            <Outlet />
+          </Suspense>
         </Box>
       </Box>
     </Box>

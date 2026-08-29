@@ -1,54 +1,56 @@
 import { Routes, Route } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import PageLoader from '../components/common/PageLoader'
 import MainLayout from '../layouts/MainLayout'
 
-import Home from '../pages/Home'
-import Courses from '../pages/Courses'
-import CourseDetails from '../pages/CourseDetails'
-import Programs from '../pages/Programs'
-import About from '../pages/About'
-import Blog from '../pages/Blog'
-import Contact from '../pages/Contact'
-import NotFound from '../pages/NotFound'
+// =========================================================
+// LAZY-LOADED PUBLIC / MARKETING PAGES
+// =========================================================
+const Home = lazy(() => import('../pages/Home'))
+const Courses = lazy(() => import('../pages/Courses'))
+const CourseDetails = lazy(() => import('../pages/CourseDetails'))
+const Programs = lazy(() => import('../pages/Programs'))
+const About = lazy(() => import('../pages/About'))
+const Blog = lazy(() => import('../pages/Blog'))
+const Contact = lazy(() => import('../pages/Contact'))
+const NotFound = lazy(() => import('../pages/NotFound'))
 
 // =========================================================
-// AUTH
+// LAZY-LOADED AUTH
 // =========================================================
-
-import Login from '../pages/auth/Login'
-import Signup from '../pages/auth/Register'
-import ForgotPassword from '../pages/auth/ForgotPassword'
-import VerifyOtp from '../pages/auth/VerifyOtp'
-import AccessDenied from '../pages/auth/AccessDenied'
+const Login = lazy(() => import('../pages/auth/Login'))
+const Signup = lazy(() => import('../pages/auth/Register'))
+const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'))
+const VerifyOtp = lazy(() => import('../pages/auth/VerifyOtp'))
+const AccessDenied = lazy(() => import('../pages/auth/AccessDenied'))
 
 // =========================================================
-// AUTH GUARDS
+// AUTH GUARDS (Statically imported to avoid route check delays)
 // =========================================================
-
 import RequireAuth from '../components/auth/RequireAuth'
 import RequireRole from '../components/auth/RequireRole'
 
 // =========================================================
-// STUDENT
+// LAZY-LOADED STUDENT
 // =========================================================
-
 import StudentLayout from '../layouts/StudentLayout'
-import StudentDashboard from '../pages/student/Dashboard'
-import MyCourses from '../pages/student/MyCourses'
-import Wishlist from '../pages/student/Wishlist'
-import Certificates from '../pages/student/Certificates'
-import StudentNotifications from '../pages/student/Notifications'
-import StudentProfile from '../pages/student/Profile'
+const StudentDashboard = lazy(() => import('../pages/student/Dashboard'))
+const MyCourses = lazy(() => import('../pages/student/MyCourses'))
+const Wishlist = lazy(() => import('../pages/student/Wishlist'))
+const Certificates = lazy(() => import('../pages/student/Certificates'))
+const StudentNotifications = lazy(() => import('../pages/student/Notifications'))
+const StudentProfile = lazy(() => import('../pages/student/Profile'))
 
 // =========================================================
-// ADMIN
+// LAZY-LOADED ADMIN ROUTES
 // =========================================================
-
-import AdminRoutes from './AdminRoutes'
+const AdminRoutes = lazy(() => import('./AdminRoutes'))
 
 
 function AppRoutes() {
   return (
-    <Routes>
+    <Suspense fallback={<PageLoader minHeight="100vh" label="Loading page..." />}>
+      <Routes>
 
       {/* =========================================================
           PUBLIC / MARKETING
@@ -235,7 +237,8 @@ function AppRoutes() {
         element={<NotFound />}
       />
 
-    </Routes>
+      </Routes>
+    </Suspense>
   )
 }
 

@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
+  Alert,
   Box,
   Button,
   Chip,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -16,88 +19,101 @@ import {
   FiPlus,
   FiTrash2,
 } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
 
 import PageHeader from '../../../components/admin/common/PageHeader'
 import DataTable from '../../../components/admin/common/DataTable'
 import {
-  deleteExam,
-  getExams,
+  deleteQuiz,
+  getQuizzes,
 } from '../../../services/assessmentService'
-import { getCourses } from '../../../services/courseService'
 
-const ExamList = () => {
+const QuizList = () => {
   const navigate = useNavigate()
 
-  const [exams, setExams] = useState([])
-  const [courses, setCourses] = useState([])
-  const [courseFilter, setCourseFilter] = useState('')
-  const [statusFilter, setStatusFilter] = useState('')
+  const [quizzes, setQuizzes] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [courseFilter, setCourseFilter] = useState('all')
+  const [statusFilter, setStatusFilter] = useState('all')
 
-  const loadExams = async () => {
+  const loadQuizzes = async () => {
     try {
       setLoading(true)
       setError('')
 
-      const [examData, courseData] = await Promise.all([
-        getExams(),
-        getCourses(),
-      ])
-
-      setExams(examData)
-      setCourses(courseData)
+      const result = await getQuizzes()
+      setQuizzes(result)
     } catch (err) {
-      setError(err.message || 'Failed to load exams.')
+      setError(err.message || 'Failed to load quizzes.')
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    loadExams()
+    loadQuizzes()
   }, [])
 
-  const filteredExams = useMemo(() => {
-    return exams.filter((exam) => {
+  const courses = useMemo(() => {
+    const uniqueCourses = quizzes.reduce((acc, quiz) => {
+      if (
+        quiz.courseId &&
+        !acc.some((course) => course.id === quiz.courseId)
+      ) {
+        acc.push({
+          id: quiz.courseId,
+          name: quiz.courseName || 'Unknown Course',
+        })
+      }
+
+      return acc
+    }, [])
+
+    return uniqueCourses
+  }, [quizzes])
+
+  const filteredQuizzes = useMemo(() => {
+    return quizzes.filter((quiz) => {
       const courseMatch =
-        !courseFilter || exam.courseId === courseFilter
+        courseFilter === 'all' || quiz.courseId === courseFilter
 
       const statusMatch =
-        !statusFilter || exam.status === statusFilter
+        statusFilter === 'all' ||
+        quiz.status?.toLowerCase() === statusFilter.toLowerCase()
 
       return courseMatch && statusMatch
     })
-  }, [exams, courseFilter, statusFilter])
+  }, [quizzes, courseFilter, statusFilter])
 
-  const handleDelete = async (id, title) => {
+  const handleDelete = async (quiz) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${title}"?`
+      `Are you sure you want to delete "${quiz.title}"?`
     )
 
     if (!confirmed) return
 
     try {
-      await deleteExam(id)
-      await loadExams()
+      await deleteQuiz(quiz.id)
+      setQuizzes((current) =>
+        current.filter((item) => item.id !== quiz.id)
+      )
     } catch (err) {
-      setError(err.message || 'Failed to delete exam.')
+      setError(err.message || 'Failed to delete quiz.')
     }
   }
 
   const columns = [
     {
       id: 'title',
-      label: 'Exam',
+      label: 'Quiz',
       minWidth: 240,
       render: (value, row) => (
         <Box>
           <Typography
             sx={{
-              fontWeight: 700,
+              fontWeight: 600,
               color: '#1E293B',
-              fontSize: '0.875rem',
+              mb: 0.25,
             }}
           >
             {value}
@@ -105,13 +121,12 @@ const ExamList = () => {
 
           <Typography
             sx={{
-              color: '#94A3B8',
               fontSize: '0.75rem',
-              mt: 0.35,
+              color: '#94A3B8',
             }}
           >
             {row.questionCount || 0} question
-            {row.questionCount !== 1 ? 's' : ''}
+            {row.questionCount === 1 ? '' : 's'}
           </Typography>
         </Box>
       ),
@@ -130,7 +145,7 @@ const ExamList = () => {
     {
       id: 'duration',
       label: 'Duration',
-      minWidth: 120,
+      minWidth: 110,
       render: (value) => (value ? `${value} min` : '—'),
     },
     {
@@ -139,11 +154,10 @@ const ExamList = () => {
       minWidth: 120,
       render: (value) => (
         <Chip
-          label={value}
+          label={value || 'Draft'}
           size="small"
           sx={{
-            fontWeight: 700,
-            fontSize: '0.75rem',
+            fontWeight: 600,
             bgcolor:
               value === 'Published'
                 ? '#ECFDF5'
@@ -159,21 +173,21 @@ const ExamList = () => {
     {
       id: 'actions',
       label: 'Actions',
-      minWidth: 230,
+      minWidth: 180,
       render: (_, row) => (
         <Stack direction="row" spacing={1}>
           <Button
             size="small"
             variant="outlined"
-            startIcon={<FiFileText size={14} />}
+            startIcon={<FiFileText size={15} />}
             onClick={() =>
-              navigate(`/admin/exams/${row.id}/questions`)
+              navigate(`/admin/quizzes/${row.id}/questions`)
             }
             sx={{
               textTransform: 'none',
-              fontWeight: 700,
-              borderRadius: '10px',
-              minWidth: 105,
+              borderRadius: 1.5,
+              fontWeight: 600,
+              whiteSpace: 'nowrap',
             }}
           >
             Questions
@@ -182,15 +196,15 @@ const ExamList = () => {
           <Button
             size="small"
             variant="outlined"
-            startIcon={<FiEye size={14} />}
+            startIcon={<FiEye size={15} />}
             onClick={() =>
-              navigate(`/admin/exams/${row.id}/results`)
+              navigate(`/admin/quizzes/${row.id}/results`)
             }
             sx={{
               textTransform: 'none',
-              fontWeight: 700,
-              borderRadius: '10px',
-              minWidth: 85,
+              borderRadius: 1.5,
+              fontWeight: 600,
+              whiteSpace: 'nowrap',
             }}
           >
             Results
@@ -199,13 +213,15 @@ const ExamList = () => {
           <Button
             size="small"
             color="error"
-            onClick={() =>
-              handleDelete(row.id, row.title)
-            }
+            onClick={() => handleDelete(row)}
             sx={{
               minWidth: 36,
-              borderRadius: '10px',
+              width: 36,
+              height: 36,
+              borderRadius: 1.5,
+              p: 0,
             }}
+            aria-label={`Delete ${row.title}`}
           >
             <FiTrash2 size={16} />
           </Button>
@@ -214,115 +230,123 @@ const ExamList = () => {
     },
   ]
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          minHeight: '60vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <Box
       sx={{
         p: { xs: 2, md: 4 },
-        maxWidth: 1250,
+        maxWidth: 1200,
         mx: 'auto',
       }}
     >
       <PageHeader
-        title="Exams"
-        subtitle="Create and manage exams for your courses."
+        title="Quizzes"
+        subtitle="Create and manage quizzes for your courses."
         breadcrumbs={[
-          { label: 'Admin', to: '/admin' },
-          { label: 'Exams' },
+          { label: 'Admin' },
+          { label: 'Quizzes' },
         ]}
         action={
           <Button
+            component={RouterLink}
+            to="/admin/quizzes/create"
             variant="contained"
             startIcon={<FiPlus />}
-            onClick={() => navigate('/admin/exams/create')}
             sx={{
               textTransform: 'none',
-              fontWeight: 700,
-              borderRadius: '10px',
+              fontWeight: 600,
+              borderRadius: 2,
               px: 2.5,
-              py: 1.2,
-              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
             }}
           >
-            Create Exam
+            Create Quiz
           </Button>
         }
       />
 
       {error && (
-        <Box
-          sx={{
-            mb: 2,
-            p: 2,
-            borderRadius: 2,
-            bgcolor: '#FEF2F2',
-            color: '#DC2626',
-          }}
+        <Alert
+          severity="error"
+          sx={{ mb: 3 }}
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={loadQuizzes}
+            >
+              Retry
+            </Button>
+          }
         >
           {error}
-        </Box>
+        </Alert>
       )}
 
+      {/* Filters */}
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
         spacing={2}
-        sx={{ mb: 2 }}
+        sx={{ mb: 2.5 }}
       >
-        <FormControl size="small" sx={{ minWidth: 220 }}>
+        <FormControl size="small" sx={{ minWidth: { sm: 210 } }}>
           <InputLabel>Course</InputLabel>
+
           <Select
             value={courseFilter}
             label="Course"
-            onChange={(e) => setCourseFilter(e.target.value)}
+            onChange={(event) =>
+              setCourseFilter(event.target.value)
+            }
           >
-            <MenuItem value="">All Courses</MenuItem>
+            <MenuItem value="all">All Courses</MenuItem>
 
             {courses.map((course) => (
-              <MenuItem
-                key={course.id}
-                value={course.id}
-              >
+              <MenuItem key={course.id} value={course.id}>
                 {course.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
 
-        <FormControl size="small" sx={{ minWidth: 180 }}>
+        <FormControl size="small" sx={{ minWidth: { sm: 160 } }}>
           <InputLabel>Status</InputLabel>
+
           <Select
             value={statusFilter}
             label="Status"
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(event) =>
+              setStatusFilter(event.target.value)
+            }
           >
-            <MenuItem value="">All Status</MenuItem>
+            <MenuItem value="all">All Status</MenuItem>
+            <MenuItem value="Published">Published</MenuItem>
             <MenuItem value="Draft">Draft</MenuItem>
-            <MenuItem value="Published">
-              Published
-            </MenuItem>
           </Select>
         </FormControl>
       </Stack>
 
-      {loading ? (
-        <Box
-          sx={{
-            p: 6,
-            textAlign: 'center',
-            color: '#64748B',
-          }}
-        >
-          Loading exams...
-        </Box>
-      ) : (
-        <DataTable
-          columns={columns}
-          rows={filteredExams}
-          searchKey="title"
-          emptyText="No exams found."
-        />
-      )}
+      <DataTable
+        columns={columns}
+        rows={filteredQuizzes}
+        searchKey="title"
+        emptyText="No quizzes found."
+      />
     </Box>
   )
 }
 
-export default ExamList
+export default QuizList
