@@ -3,12 +3,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import AppRoutes from './routes/AppRoutes'
-import getTheme from './constants/theme'
+import getTheme from './theme/theme'
 import { ThemeModeProvider, useThemeMode } from './context/ThemeModeContext'
 import { AuthProvider } from './context/AuthContext'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
 import './index.css'
 
@@ -29,22 +28,12 @@ function ThemedApp() {
           hideProgressBar={false}
           newestOnTop
           closeOnClick
+          pauseOnFocusLoss
+          draggable
           pauseOnHover
-          toastClassName="premium-toast"
-          bodyClassName="premium-toast-body"
+          theme={mode}
         />
       </BrowserRouter>
-      <ToastContainer
-        position="top-right"
-        autoClose={3500}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={mode}
-      />
     </ThemeProvider>
   )
 }

@@ -14,7 +14,7 @@ import InstructorSection from '../components/courses/InstructorSection'
 import LearningOutcomes from '../components/courses/LearningOutcomes'
 import RelatedCourses from '../components/courses/RelatedCourses'
 import ReviewsSection from '../components/courses/ReviewsSection'
-import courses from '../data/courses'
+import courses from '../constants/courses'
 import './CourseDetails.css'
 
 function formatPrice(price) {

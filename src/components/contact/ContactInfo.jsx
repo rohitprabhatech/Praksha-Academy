@@ -1,7 +1,7 @@
 import { Box, Typography, Stack, IconButton } from "@mui/material";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaInstagram, FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 const socialIcons = {
   instagram: FaInstagram,

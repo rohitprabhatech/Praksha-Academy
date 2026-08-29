@@ -10,7 +10,7 @@ import {
   FiUser,
   FiUsers,
 } from 'react-icons/fi'
-import courses from '../data/courses'
+import courses from '../constants/courses'
 import { testimonialData } from '../constants/siteData'
 import './Home.css'
 import heroLearning from '../assets/hero-learning.jpg'

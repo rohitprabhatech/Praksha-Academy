@@ -16,7 +16,7 @@ import AboutFAQ from "../components/about/AboutFAQ";
 import CTASection from "../components/about/CTASection";
 import FloatingContact from "../components/common/FloatingContact";
 import SectionHeading from "../components/common/SectionHeading";
-import aboutData from "../data/aboutData";
+import aboutData from "../constants/aboutData";
 import { colors } from "../theme/theme";
 import "../styles/about-contact.css";
 

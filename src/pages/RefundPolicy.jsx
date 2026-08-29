@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Container } from '@mui/material';
-import legalData from '../data/legalData';
+import legalData from '../constants/legalData';
 
 const RefundPolicy = () => {
   const { lastUpdated, sections } = legalData.refundPolicy;

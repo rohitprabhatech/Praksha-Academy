@@ -1,7 +1,7 @@
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { FaComments } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Conversion section for students who haven't picked a program yet.

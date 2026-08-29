@@ -4,7 +4,7 @@
 
 Developer:Gaurav thorat  
 Branch: `feature/sprint-02-authentication`  
-Status: Not Started  
+Status: Done 
 Estimated Duration:2 days
 
 ---

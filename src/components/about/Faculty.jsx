@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 /**
  * Faculty section. Reads from aboutData.faculty — starts empty on purpose.

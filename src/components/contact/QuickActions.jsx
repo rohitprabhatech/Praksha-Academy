@@ -1,7 +1,7 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { FaPhoneAlt, FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import contactData from "../../data/contactData";
+import contactData from "../../constants/contactData";
 
 /**
  * Immediately-actionable contact cards. Each card only renders if the

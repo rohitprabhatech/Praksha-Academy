@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Gaurav   
 Branch: `feature/sprint-11-owner-assessments`  
 Status: Not Started  
 Estimated Duration: 5 days

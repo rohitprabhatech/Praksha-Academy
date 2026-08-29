@@ -1,7 +1,7 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { FaHandHoldingHeart, FaBalanceScale, FaChartLine, FaUsers } from "react-icons/fa";
 import { colors } from "../../theme/theme";
-import aboutData from "../../data/aboutData";
+import aboutData from "../../constants/aboutData";
 
 const icons = [FaHandHoldingHeart, FaBalanceScale, FaChartLine, FaUsers];
 

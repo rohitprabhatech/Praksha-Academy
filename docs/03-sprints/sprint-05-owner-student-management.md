@@ -46,6 +46,7 @@ Confirmed: Owner manages students. Manual enrollment (Sprint 12) and teacher “
 
 ### Student List `/admin/students`
 
+
 #### Page Purpose
 Find and manage all students.
 
