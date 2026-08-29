@@ -21,6 +21,9 @@ import AddCourse from '../pages/admin/Courses/AddCourse'
 import EditCourse from '../pages/admin/Courses/EditCourse'
 import CourseDetails from '../pages/admin/Courses/CourseDetails'
 
+import Curriculum from '../pages/admin/Curriculum/Curriculum'
+
+
 // ── Gallery ───────────────────────────────────────────────────────────────────
 import GalleryList from '../pages/admin/Gallery/GalleryList';
 import AddImage from '../pages/admin/Gallery/AddImage';
@@ -171,6 +174,11 @@ function AdminRoutes() {
             element={<CourseDetails />}
           />
 
+          <Route
+            path="courses/:id/curriculum"
+            element={<Curriculum />}
+          />
+
           {/* ── Gallery ───────────────────────────────────────────── */}
           <Route
             path="gallery"
@@ -285,6 +293,6 @@ function AdminRoutes() {
       />
     </Routes>
   );
-}   
+}
 
 export default AdminRoutes;

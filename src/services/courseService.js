@@ -66,6 +66,36 @@ const initialCourses = [
 
 let courses = [...initialCourses]
 
+
+// ─────────────────────────────────────────────────────────────────
+// Curriculum Storage
+// ─────────────────────────────────────────────────────────────────
+
+const CURRICULUM_STORAGE_KEY = 'praksha_academy_curriculums'
+
+let curriculums = {}
+
+try {
+  const savedCurriculums = localStorage.getItem(CURRICULUM_STORAGE_KEY)
+
+  if (savedCurriculums) {
+    curriculums = JSON.parse(savedCurriculums)
+  }
+} catch (error) {
+  console.error('Failed to load curriculum:', error)
+}
+
+const saveCurriculums = () => {
+  try {
+    localStorage.setItem(
+      CURRICULUM_STORAGE_KEY,
+      JSON.stringify(curriculums)
+    )
+  } catch (error) {
+    console.error('Failed to save curriculum:', error)
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────
@@ -83,7 +113,7 @@ const generateId = () => Math.random().toString(36).substring(2, 9)
  */
 export async function getCourses() {
   await delay(800)
-  
+
   // Return courses with teacher object populated for the list view
   return courses.map(course => ({
     ...course,
@@ -110,7 +140,7 @@ export async function getCourseById(id) {
  */
 export async function createCourse(data) {
   await delay(1000)
-  
+
   // Basic validation check
   if (!data.name || !data.teacherId || !data.status) {
     throw new Error('Missing required fields')
@@ -121,7 +151,7 @@ export async function createCourse(data) {
     id: generateId(),
     createdAt: new Date().toISOString(),
   }
-  
+
   courses = [newCourse, ...courses]
   return newCourse
 }
@@ -159,4 +189,37 @@ export async function getCourseFormOptions() {
     classes: mockClasses,
     subjects: mockSubjects,
   }
+}
+
+/**
+ * Get curriculum for a course
+ */
+export async function getCurriculum(courseId) {
+  await delay(600)
+
+  const course = courses.find((course) => course.id === courseId)
+
+  if (!course) {
+    throw new Error('Course not found')
+  }
+
+  return curriculums[courseId] || []
+}
+
+/**
+ * Save curriculum for a course
+ */
+export async function saveCurriculum(courseId, modules) {
+  await delay(800)
+
+  const course = courses.find((course) => course.id === courseId)
+
+  if (!course) {
+    throw new Error('Course not found')
+  }
+
+  curriculums[courseId] = modules
+  saveCurriculums()
+
+  return modules
 }

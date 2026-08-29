@@ -18,7 +18,7 @@ const STATUS_COLORS = {
 const CourseDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  
+
   const [course, setCourse] = useState(null);
   const [teacher, setTeacher] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,13 +32,13 @@ const CourseDetails = () => {
           getCourseById(id),
           getCourseFormOptions()
         ]);
-        
+
         setCourse(courseData);
-        
+
         // Find teacher info
         const assignedTeacher = options.teachers.find(t => t.id === courseData.teacherId);
         setTeacher(assignedTeacher || { name: 'Unassigned', id: null });
-        
+
       } catch (err) {
         console.error('Failed to load course:', err);
         setError('Course not found');
@@ -46,7 +46,7 @@ const CourseDetails = () => {
         setIsLoading(false);
       }
     };
-    
+
     fetchCourseData();
   }, [id]);
 
@@ -88,9 +88,13 @@ const CourseDetails = () => {
             <Button
               variant="contained"
               startIcon={<FiBookOpen size={16} />}
-              disabled // Sprint 09 feature
-              title="Coming in Sprint 09"
-              sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}
+              onClick={() => navigate(`/admin/courses/${id}/curriculum`)}
+              sx={{
+                bgcolor: '#2563EB',
+                '&:hover': {
+                  bgcolor: '#1D4ED8',
+                },
+              }}
             >
               Manage Curriculum
             </Button>
@@ -132,9 +136,9 @@ const CourseDetails = () => {
                   </Typography>
                 </Box>
               </Stack>
-              
+
               <Divider sx={{ mb: 4, borderColor: '#F1F5F9' }} />
-              
+
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
                   <Stack spacing={3}>
@@ -154,7 +158,7 @@ const CourseDetails = () => {
                     </Box>
                   </Stack>
                 </Grid>
-                
+
                 <Grid item xs={12} sm={6}>
                   <Stack spacing={3}>
                     <Box>

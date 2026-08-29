@@ -55,8 +55,14 @@ const PageHeader = ({ title, subtitle, breadcrumbs = [], action }) => (
     )}
 
     {/* Title row */}
-    <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={2}>
-      <Box>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      spacing={2}
+      sx={{ flexWrap: 'wrap' }}
+    >
+      <Box sx={{ minWidth: 0, flex: 1 }}>
         <Typography
           component="h1"
           sx={{
