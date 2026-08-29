@@ -59,7 +59,7 @@ export const adminNavGroups = [
     {
         title: 'Users',
         items: [
-            { label: 'Students', path: '/admin/students', icon: FiUsers, disabled: true },
+            { label: 'Students', path: '/admin/students', icon: FiUsers },
             { label: 'Teachers', path: '/admin/teachers', icon: FiUser },
         ],
     },

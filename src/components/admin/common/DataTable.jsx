@@ -24,7 +24,14 @@ import { FiSearch } from 'react-icons/fi';
  *  searchKey {string} — field to search against (default: 'title')
  *  emptyText {string} — text when no results
  */
-const DataTable = ({ columns = [], rows = [], searchKey = 'title', emptyText = 'No records found.' }) => {
+const DataTable = ({
+  columns = [],
+  rows = [],
+  searchKey = 'title',
+  searchPlaceholder,
+  emptyText = 'No records found.',
+  toolbarAction,
+}) => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -51,7 +58,7 @@ const DataTable = ({ columns = [], rows = [], searchKey = 'title', emptyText = '
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }} justifyContent="space-between">
           <TextField
             size="small"
-            placeholder={`Search by ${searchKey}…`}
+            placeholder={searchPlaceholder || `Search by ${searchKey}...`}
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(0); }}
             InputProps={{
@@ -73,19 +80,32 @@ const DataTable = ({ columns = [], rows = [], searchKey = 'title', emptyText = '
               },
             }}
           />
-          <Chip
-            label={`${filtered.length} result${filtered.length !== 1 ? 's' : ''}`}
-            size="small"
+          <Stack
+            direction="row"
+            spacing={1.25}
+            alignItems="center"
+            justifyContent={{ xs: 'space-between', sm: 'flex-end' }}
             sx={{
-              bgcolor: 'rgba(37, 99, 235, 0.08)',
-              color: '#2563EB',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 600,
-              fontSize: '0.75rem',
-              height: 26,
-              alignSelf: { xs: 'flex-start', sm: 'center' },
+              alignSelf: { xs: 'stretch', sm: 'center' },
+              flexWrap: 'wrap',
             }}
-          />
+          >
+            {toolbarAction}
+
+            <Chip
+              label={`${filtered.length} result${filtered.length !== 1 ? 's' : ''}`}
+              size="small"
+              sx={{
+                bgcolor: 'rgba(37, 99, 235, 0.08)',
+                color: '#2563EB',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                fontSize: '0.75rem',
+                height: 26,
+                alignSelf: { xs: 'flex-start', sm: 'center' },
+              }}
+            />
+          </Stack>
         </Stack>
       </Box>
 

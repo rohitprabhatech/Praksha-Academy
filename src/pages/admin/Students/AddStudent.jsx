@@ -1,21 +1,122 @@
-import { Box, Typography, Chip } from '@mui/material'
-import { FiUserPlus } from 'react-icons/fi'
+import { Box, Button, Stack, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { FiArrowLeft, FiUserPlus } from 'react-icons/fi'
+import StudentForm from '../../../components/admin/students/StudentForm'
+import PageHeader from '../../../components/admin/common/PageHeader'
+import AdminSurface from '../../../components/admin/common/AdminSurface'
+import { createStudent } from '../../../services/studentService'
+import { useState } from 'react'
 
-const AddStudent.jsx.Replace('.jsx','') = () => (
-  <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
-    <Box sx={{ mb: 4 }}>
-      <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
-        Admin / <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Add Student</Box>
-      </Typography>
-      <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B', mb: 0.5 }}>Add Student</Typography>
-      <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>Add a new student to the academy.</Typography>
-    </Box>
-    <Box sx={{ p: 8, textAlign: 'center', border: '2px dashed #E2E8F0', borderRadius: 3, bgcolor: '#F8FAFC' }}>
-      <FiUserPlus size={48} color="#CBD5E1" />
-      <Typography variant="h6" sx={{ mt: 2, color: '#64748B', fontWeight: 600 }}>Add Student</Typography>
-      <Chip label="Coming Soon — Sprint 02" size="small" sx={{ mt: 1.5, bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 600 }} />
-    </Box>
-  </Box>
-)
+const AddStudent = () => {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-export default AddStudent.jsx.Replace('.jsx','')
+  const handleSubmit = async (studentData) => {
+    try {
+      setLoading(true)
+      setError('')
+
+      await createStudent(studentData)
+
+      navigate('/admin/students')
+    } catch (err) {
+      console.error(err)
+      setError('Unable to create student. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Box
+      sx={{
+        p: { xs: 2, md: 4 },
+        maxWidth: 1200,
+        mx: 'auto',
+      }}
+    >
+      <PageHeader
+        title="Add Student"
+        subtitle="Create a new student profile."
+        action={
+          <Button
+            variant="outlined"
+            startIcon={<FiArrowLeft size={16} />}
+            onClick={() => navigate('/admin/students')}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '8px',
+              px: 2.5,
+              py: 1.05,
+              fontWeight: 700,
+              borderColor: '#E2E8F0',
+              color: '#64748B',
+              bgcolor: '#FFFFFF',
+              '&:hover': {
+                borderColor: '#CBD5E1',
+                bgcolor: '#F8FAFC',
+              },
+            }}
+          >
+            Back
+          </Button>
+        }
+      />
+
+      <Box sx={{ mt: 3 }}>
+        <AdminSurface sx={{ p: { xs: 2.25, md: 3 } }}>
+          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
+            <Box
+              sx={{
+                width: 42,
+                height: 42,
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#EFF6FF',
+                color: '#2563EB',
+                flexShrink: 0,
+              }}
+            >
+              <FiUserPlus size={21} />
+            </Box>
+
+            <Box>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                  color: '#1E293B',
+                  lineHeight: 1.2,
+                }}
+              >
+                Student Information
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: '#64748B',
+                  fontSize: '0.875rem',
+                  mt: 0.25,
+                }}
+              >
+                Enter the basic account and contact details.
+              </Typography>
+            </Box>
+          </Stack>
+
+          <StudentForm
+            onSubmit={handleSubmit}
+            onCancel={() => navigate('/admin/students')}
+            loading={loading}
+            error={error}
+          />
+        </AdminSurface>
+      </Box>
+    </Box>
+  )
+}
+
+export default AddStudent

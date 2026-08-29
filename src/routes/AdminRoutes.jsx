@@ -60,6 +60,12 @@ const AddTeacher = lazy(() => import("../pages/admin/Teachers/AddTeacher"));
 const EditTeacher = lazy(() => import("../pages/admin/Teachers/EditTeacher"));
 const TeacherDetails = lazy(() => import("../pages/admin/Teachers/TeacherDetails"));
 
+// ── Students ─────────────────────────────────────────────
+const StudentList = lazy(() => import('../pages/admin/Students/StudentList'));
+const AddStudent = lazy(() => import('../pages/admin/Students/AddStudent'));
+const EditStudent = lazy(() => import('../pages/admin/Students/EditStudent'));
+const StudentDetails = lazy(() => import('../pages/admin/Students/StudentDetails'));
+
 //Material routes
 const MaterialsList = lazy(() => import('../pages/admin/Materials/MaterialsList'));
 const AddMaterial = lazy(() => import('../pages/admin/Materials/AddMaterial'));
@@ -171,6 +177,27 @@ function AdminRoutes() {
           <Route
             path="teachers/:id"
             element={<TeacherDetails />}
+          />
+
+          {/* ── Students ─────────────────────────────────────────── */}
+          <Route
+            path="students"
+            element={<StudentList />}
+          />
+
+          <Route
+            path="students/add"
+            element={<AddStudent />}
+          />
+
+          <Route
+            path="students/:id/edit"
+            element={<EditStudent />}
+          />
+
+          <Route
+            path="students/:id"
+            element={<StudentDetails />}
           />
 
           {/* ── Assignments ─────────────────────────────────────────── */}
@@ -352,19 +379,19 @@ function AdminRoutes() {
             path="reports/performance"
             element={<PerformanceReports />}
           />
-       
 
-        {/* ── Materials ───────────────────────────────────────── */}
-<Route path="materials"element={<MaterialsList />}/>
-<Route path="materials/add" element={<AddMaterial />}/>
-<Route path="materials/:id/edit" element={<EditMaterial />} />
 
-{/* ── Live Classes ────────────────────────────────────── */}
-<Route path="live-classes" element={<LiveClassList />} />
-<Route path="live-classes/schedule" element={<ScheduleClass />} />
-<Route path="live-classes/:id/edit" element={<EditLiveClass />} />
+          {/* ── Materials ───────────────────────────────────────── */}
+          <Route path="materials" element={<MaterialsList />} />
+          <Route path="materials/add" element={<AddMaterial />} />
+          <Route path="materials/:id/edit" element={<EditMaterial />} />
+
+          {/* ── Live Classes ────────────────────────────────────── */}
+          <Route path="live-classes" element={<LiveClassList />} />
+          <Route path="live-classes/schedule" element={<ScheduleClass />} />
+          <Route path="live-classes/:id/edit" element={<EditLiveClass />} />
+        </Route>
       </Route>
-       </Route>
 
       {/* ─────────────────────────────────────────────────────────────
           Unknown /admin/* route
