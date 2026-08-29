@@ -60,6 +60,21 @@ const AddTeacher = lazy(() => import("../pages/admin/Teachers/AddTeacher"));
 const EditTeacher = lazy(() => import("../pages/admin/Teachers/EditTeacher"));
 const TeacherDetails = lazy(() => import("../pages/admin/Teachers/TeacherDetails"));
 
+// ── Classes ─────────────────────────────────────────────
+const ClassList = lazy(() => import('../pages/admin/Classes/ClassList'));
+const AddClass = lazy(() => import('../pages/admin/Classes/AddClass'));
+const EditClass = lazy(() => import('../pages/admin/Classes/EditClass'));
+
+// ── Subjects ─────────────────────────────────────────────
+const SubjectList = lazy(() => import('../pages/admin/Subjects/SubjectList'));
+const AddSubject = lazy(() => import('../pages/admin/Subjects/AddSubject'));
+const EditSubject = lazy(() => import('../pages/admin/Subjects/EditSubject'));
+
+// ── Batches ─────────────────────────────────────────────
+const BatchList = lazy(() => import('../pages/admin/Batches/BatchList'));
+const AddBatch = lazy(() => import('../pages/admin/Batches/AddBatch'));
+const EditBatch = lazy(() => import('../pages/admin/Batches/EditBatch'));
+
 //Material routes
 const MaterialsList = lazy(() => import('../pages/admin/Materials/MaterialsList'));
 const AddMaterial = lazy(() => import('../pages/admin/Materials/AddMaterial'));
@@ -171,6 +186,52 @@ function AdminRoutes() {
           <Route
             path="teachers/:id"
             element={<TeacherDetails />}
+          />
+
+          {/* ── Classes ───────────────────────────────────────────── */}
+          <Route
+            path="classes"
+            element={<ClassList />}
+          />
+
+          <Route
+            path="classes/add"
+            element={<AddClass />}
+          />
+
+          <Route
+            path="classes/:id/edit"
+            element={<EditClass />}
+          />
+
+          {/* ── Subjects ──────────────────────────────────────────── */}
+          <Route
+            path="subjects"
+            element={<SubjectList />}
+          />
+          <Route
+            path="subjects/add"
+            element={<AddSubject />}
+          />
+          <Route
+            path="subjects/:id/edit"
+            element={<EditSubject />}
+          />
+
+          {/* ── Batches ───────────────────────────────────────────── */}
+          <Route
+            path="batches"
+            element={<BatchList />}
+          />
+
+          <Route
+            path="batches/add"
+            element={<AddBatch />}
+          />
+
+          <Route
+            path="batches/:id/edit"
+            element={<EditBatch />}
           />
 
           {/* ── Assignments ─────────────────────────────────────────── */}
@@ -352,19 +413,19 @@ function AdminRoutes() {
             path="reports/performance"
             element={<PerformanceReports />}
           />
-       
 
-        {/* ── Materials ───────────────────────────────────────── */}
-<Route path="materials"element={<MaterialsList />}/>
-<Route path="materials/add" element={<AddMaterial />}/>
-<Route path="materials/:id/edit" element={<EditMaterial />} />
 
-{/* ── Live Classes ────────────────────────────────────── */}
-<Route path="live-classes" element={<LiveClassList />} />
-<Route path="live-classes/schedule" element={<ScheduleClass />} />
-<Route path="live-classes/:id/edit" element={<EditLiveClass />} />
+          {/* ── Materials ───────────────────────────────────────── */}
+          <Route path="materials" element={<MaterialsList />} />
+          <Route path="materials/add" element={<AddMaterial />} />
+          <Route path="materials/:id/edit" element={<EditMaterial />} />
+
+          {/* ── Live Classes ────────────────────────────────────── */}
+          <Route path="live-classes" element={<LiveClassList />} />
+          <Route path="live-classes/schedule" element={<ScheduleClass />} />
+          <Route path="live-classes/:id/edit" element={<EditLiveClass />} />
+        </Route>
       </Route>
-       </Route>
 
       {/* ─────────────────────────────────────────────────────────────
           Unknown /admin/* route
