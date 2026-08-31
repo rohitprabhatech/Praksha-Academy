@@ -92,22 +92,27 @@ export const adminNavGroups = [
     {
         title: 'Content',
         items: [
-            { label: 'Blog', path: '/admin/blog', icon: FiFileText, disabled: true },
-            { label: 'Gallery', path: '/admin/gallery', icon: FiImage, disabled: true },
-            { label: 'FAQ', path: '/admin/faq', icon: FiMessageCircle, disabled: true },
-            { label: 'Testimonials', path: '/admin/testimonials', icon: FiUserPlus, disabled: true },
+            { label: 'Blog', path: '/admin/blog', icon: FiFileText },
+            { label: 'Gallery', path: '/admin/gallery', icon: FiImage },
+            { label: 'FAQ', path: '/admin/faq', icon: FiMessageCircle },
+            { label: 'Testimonials', path: '/admin/testimonials', icon: FiUserPlus },
         ],
     },
     {
         title: 'Communication',
         items: [
-            { label: 'Notifications', path: '/admin/notifications', icon: FiMessageCircle, disabled: true },
-            { label: 'Contact Messages', path: '/admin/contact-messages', icon: FiMessageCircle, disabled: true },
+            { label: 'Notifications', path: '/admin/notifications', icon: FiMessageCircle },
+            { label: 'Contact Messages', path: '/admin/contact-messages', icon: FiMessageCircle },
         ],
     },
     {
         title: 'Reports',
-        items: [{ label: 'Reports', path: '/admin/reports', icon: FiTrendingUp, disabled: true }],
+        items: [
+            { label: 'Students', path: '/admin/reports/students', icon: FiUsers },
+            { label: 'Courses', path: '/admin/reports/courses', icon: FiBookOpen },
+            { label: 'Revenue', path: '/admin/reports/revenue', icon: FiTrendingUp },
+            { label: 'Performance', path: '/admin/reports/performance', icon: FiActivity },
+        ],
     },
     {
         title: 'Settings',
