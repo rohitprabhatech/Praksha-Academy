@@ -66,8 +66,9 @@ export const adminNavGroups = [
     {
         title: 'Academic',
         items: [
-            { label: 'Classes', path: '/admin/classes', icon: FiArchive, disabled: true },
-            { label: 'Subjects', path: '/admin/subjects', icon: FiFileText, disabled: true },
+            { label: 'Classes', path: '/admin/classes', icon: FiArchive },
+            { label: 'Subjects', path: '/admin/subjects', icon: FiFileText },
+             { label: 'Batches', path: '/admin/batches', icon: FiUsers },
             { label: 'Courses', path: '/admin/courses', icon: FiBookOpen },
         ],
     },

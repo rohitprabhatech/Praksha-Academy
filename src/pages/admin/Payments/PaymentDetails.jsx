@@ -1,7 +1,7 @@
 import { Box, Typography, Chip } from '@mui/material'
 import { FiCreditCard } from 'react-icons/fi'
 
-const PaymentDetails.jsx.Replace('.jsx','') = () => (
+const PaymentDetails = () => (
   <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
     <Box sx={{ mb: 4 }}>
       <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
@@ -18,4 +18,4 @@ const PaymentDetails.jsx.Replace('.jsx','') = () => (
   </Box>
 )
 
-export default PaymentDetails.jsx.Replace('.jsx','')
+export default PaymentDetails

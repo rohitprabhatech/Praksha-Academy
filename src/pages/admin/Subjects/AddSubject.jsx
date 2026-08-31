@@ -1,21 +1,113 @@
-import { Box, Typography, Chip } from '@mui/material'
-import { FiFileText } from 'react-icons/fi'
+import { useState } from 'react'
+import { Box, Button } from '@mui/material'
+import { FiArrowLeft } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
-const AddSubject.jsx.Replace('.jsx','') = () => (
-  <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
-    <Box sx={{ mb: 4 }}>
-      <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
-        Admin / <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Add Subject</Box>
-      </Typography>
-      <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B', mb: 0.5 }}>Add Subject</Typography>
-      <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>Create a new subject.</Typography>
-    </Box>
-    <Box sx={{ p: 8, textAlign: 'center', border: '2px dashed #E2E8F0', borderRadius: 3, bgcolor: '#F8FAFC' }}>
-      <FiFileText size={48} color="#CBD5E1" />
-      <Typography variant="h6" sx={{ mt: 2, color: '#64748B', fontWeight: 600 }}>Add Subject</Typography>
-      <Chip label="Coming Soon — Sprint 03" size="small" sx={{ mt: 1.5, bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 600 }} />
-    </Box>
-  </Box>
-)
+import PageHeader from '../../../components/admin/common/PageHeader'
+import AdminSurface from '../../../components/admin/common/AdminSurface'
+import NameStatusForm from '../../../components/admin/academic/NameStatusForm'
 
-export default AddSubject.jsx.Replace('.jsx','')
+import { createSubject } from '../../../services/subjectService'
+
+const AddSubject = () => {
+  const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (data) => {
+    try {
+      setLoading(true)
+      setError('')
+
+      await createSubject(data)
+
+      navigate('/admin/subjects')
+    } catch (err) {
+      console.error(err)
+
+      setError(
+        err.message ||
+          'Unable to create subject. Please try again.'
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleErrorClear = () => {
+    setError('')
+  }
+
+  return (
+    <Box
+      sx={{
+        p: { xs: 2, md: 4 },
+        maxWidth: 1200,
+        mx: 'auto',
+      }}
+    >
+      <PageHeader
+        title="Add Subject"
+        subtitle="Create a new academic subject."
+        breadcrumbs={[
+          {
+            label: 'Admin',
+            to: '/admin/dashboard',
+          },
+          {
+            label: 'Subjects',
+            to: '/admin/subjects',
+          },
+          {
+            label: 'Add',
+          },
+        ]}
+        action={
+          <Button
+            variant="outlined"
+            startIcon={<FiArrowLeft size={16} />}
+            onClick={() => navigate('/admin/subjects')}
+            sx={{
+              textTransform: 'none',
+              fontWeight: 600,
+              borderRadius: '9px',
+              px: 2.5,
+              py: 1,
+              borderColor: '#E2E8F0',
+              color: '#64748B',
+              bgcolor: '#FFFFFF',
+              '&:hover': {
+                borderColor: '#CBD5E1',
+                bgcolor: '#F8FAFC',
+              },
+            }}
+          >
+            Back
+          </Button>
+        }
+      />
+
+      <AdminSurface
+        sx={{
+          p: {
+            xs: 2,
+            sm: 3,
+            md: 4,
+          },
+        }}
+      >
+        <NameStatusForm
+          onSubmit={handleSubmit}
+          onCancel={() => navigate('/admin/subjects')}
+          onChange={handleErrorClear}
+          loading={loading}
+          error={error}
+          submitLabel="Save Subject"
+        />
+      </AdminSurface>
+    </Box>
+  )
+}
+
+export default AddSubject

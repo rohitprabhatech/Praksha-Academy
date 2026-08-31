@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Ganesh Sudruk
 Branch: `feature/sprint-15-teacher-course-operations`  
 Status: Not Started  
 Estimated Duration: 5 days

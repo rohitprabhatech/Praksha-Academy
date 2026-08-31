@@ -2,9 +2,9 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Renuka  
 Branch: `feature/sprint-12-owner-sales-and-records`  
-Status: Not Started  
+Status: In Progress  
 Estimated Duration: 5 days
 
 ---
