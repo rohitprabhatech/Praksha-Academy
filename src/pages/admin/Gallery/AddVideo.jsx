@@ -1,131 +1,702 @@
-import { useNavigate } from 'react-router-dom';
-import { Box, Stack, Button, TextField, Typography, Chip } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { FiLink, FiX, FiSave } from 'react-icons/fi';
-import { toast } from 'react-toastify';
-import PageHeader from '../../../components/admin/common/PageHeader';
+import { useNavigate } from 'react-router-dom'
+import {
+  Box,
+  Stack,
+  Button,
+  TextField,
+  Typography,
+  Chip,
+} from '@mui/material'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import {
+  FiLink,
+  FiX,
+  FiSave,
+} from 'react-icons/fi'
+import { toast } from 'react-toastify'
+
+import PageHeader from '../../../components/admin/common/PageHeader'
+import { createGalleryItem } from '../../../services/galleryService'
 
 const fieldSx = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: '10px', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem',
-    '& fieldset': { borderColor: '#E2E8F0' }, '&:hover fieldset': { borderColor: '#CBD5E1' },
-    '&.Mui-focused fieldset': { borderColor: '#2563EB', borderWidth: 1.5 },
-  },
-  '& .MuiInputLabel-root': { fontFamily: 'Inter, sans-serif', fontSize: '0.9rem' },
-};
+    borderRadius: '10px',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.9rem',
+    backgroundColor: '#FFFFFF',
 
-const isYouTube = (url) => url.includes('youtube.com') || url.includes('youtu.be');
-const toEmbed = (url) => {
-  const match = url.match(/(?:v=|youtu\.be\/)([^&?]+)/);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
-};
+    '& fieldset': {
+      borderColor: '#E2E8F0',
+    },
+
+    '&:hover fieldset': {
+      borderColor: '#CBD5E1',
+    },
+
+    '&.Mui-focused fieldset': {
+      borderColor: '#2563EB',
+      borderWidth: 1.5,
+    },
+  },
+
+  '& .MuiInputLabel-root': {
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.9rem',
+  },
+
+  '& .MuiFormHelperText-root': {
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.75rem',
+  },
+}
+
+// =========================================================
+// YOUTUBE HELPERS
+// =========================================================
+
+const isYouTube = (url = '') =>
+  url.includes('youtube.com') ||
+  url.includes('youtu.be')
+
+const toEmbed = (url = '') => {
+  const match = url.match(
+    /(?:v=|youtu\.be\/|youtube\.com\/embed\/)([^&?]+)/
+  )
+
+  return match
+    ? `https://www.youtube.com/embed/${match[1]}`
+    : url
+}
+
+// =========================================================
+// ADD VIDEO
+// =========================================================
 
 const AddVideo = () => {
-  const navigate = useNavigate();
-  const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState([]);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const navigate = useNavigate()
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
-    defaultValues: { title: '', description: '', videoUrl: '' },
-  });
+  const [tagInput, setTagInput] = useState('')
+  const [tags, setTags] = useState([])
+  const [saving, setSaving] = useState(false)
 
-  const watchedUrl = watch('videoUrl');
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      videoUrl: '',
+    },
+  })
+
+  const watchedUrl = watch('videoUrl')
+
+  // =======================================================
+  // ADD TAG
+  // =======================================================
 
   const addTag = () => {
-    const t = tagInput.trim();
-    if (t && !tags.includes(t)) setTags((p) => [...p, t]);
-    setTagInput('');
-  };
+    const tag = tagInput.trim()
 
-  const onSubmit = (data) => {
-    console.log('Video payload:', { ...data, tags });
-    toast.success('Video added to gallery!');
-    navigate('/admin/gallery');
-  };
+    if (!tag) {
+      return
+    }
+
+    if (!tags.includes(tag)) {
+      setTags((previous) => [
+        ...previous,
+        tag,
+      ])
+    }
+
+    setTagInput('')
+  }
+
+  // =======================================================
+  // REMOVE TAG
+  // =======================================================
+
+  const removeTag = (tagToRemove) => {
+    setTags((previous) =>
+      previous.filter(
+        (tag) => tag !== tagToRemove
+      )
+    )
+  }
+
+  // =======================================================
+  // SUBMIT
+  // =======================================================
+
+  const onSubmit = async (data) => {
+    try {
+      setSaving(true)
+
+      const videoUrl = data.videoUrl.trim()
+
+      await createGalleryItem({
+        type: 'video',
+        title: data.title,
+        description:
+          data.description?.trim() || '',
+        url: toEmbed(videoUrl),
+        tags,
+        date: new Date()
+          .toISOString()
+          .slice(0, 10),
+      })
+
+      toast.success(
+        'Video added to gallery!'
+      )
+
+      navigate('/admin/gallery')
+    } catch (error) {
+      console.error(
+        'Failed to add video:',
+        error
+      )
+
+      toast.error(
+        error.message ||
+          'Unable to add video.'
+      )
+    } finally {
+      setSaving(false)
+    }
+  }
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
+
+      {/* =====================================================
+          PAGE HEADER
+      ===================================================== */}
+
       <PageHeader
         title="Add Video"
         subtitle="Add a YouTube, Vimeo, or direct video link to the gallery."
-        breadcrumbs={[{ label: 'Admin' }, { label: 'Gallery', to: '/admin/gallery' }, { label: 'Add Video' }]}
+        breadcrumbs={[
+          {
+            label: 'Admin',
+          },
+          {
+            label: 'Gallery',
+            to: '/admin/gallery',
+          },
+          {
+            label: 'Add Video',
+          },
+        ]}
       />
 
-      <Box sx={{ maxWidth: 640 }}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      {/* =====================================================
+          MAIN CONTENT
+      ===================================================== */}
+
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 1000,
+          mx: 'auto',
+          px: {
+            xs: 0,
+            sm: 1,
+            md: 2,
+          },
+          pb: 5,
+        }}
+      >
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
+
           <Stack spacing={3}>
-            <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '16px', p: 3 }}>
-              <Typography sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.9375rem', color: '#1E293B', mb: 2 }}>Video Details</Typography>
+
+            {/* =================================================
+                VIDEO DETAILS
+            ================================================= */}
+
+            <Box
+              sx={{
+                bgcolor: '#FFFFFF',
+                border:
+                  '1px solid #E2E8F0',
+                borderRadius: '16px',
+                p: {
+                  xs: 2.5,
+                  sm: 3,
+                  md: 3.5,
+                },
+              }}
+            >
+
+              <Stack
+                spacing={0.5}
+                sx={{ mb: 3 }}
+              >
+                <Typography
+                  sx={{
+                    fontFamily:
+                      'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    color: '#1E293B',
+                  }}
+                >
+                  Video Details
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontFamily:
+                      'Inter, sans-serif',
+                    fontSize: '0.8rem',
+                    color: '#94A3B8',
+                  }}
+                >
+                  Add the basic information
+                  for your gallery video.
+                </Typography>
+              </Stack>
+
               <Stack spacing={2.5}>
-                <TextField label="Title *" fullWidth {...register('title', { required: 'Title is required' })} error={!!errors.title} helperText={errors.title?.message} sx={fieldSx} />
-                <TextField label="Description" fullWidth multiline rows={3} {...register('description')} sx={fieldSx} />
+
+                {/* TITLE */}
+
+                <TextField
+                  label="Title *"
+                  fullWidth
+                  {...register('title', {
+                    required:
+                      'Title is required',
+                  })}
+                  error={!!errors.title}
+                  helperText={
+                    errors.title?.message
+                  }
+                  disabled={saving}
+                  sx={fieldSx}
+                />
+
+                {/* DESCRIPTION */}
+
+                <TextField
+                  label="Description"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  {...register(
+                    'description'
+                  )}
+                  helperText="Optional short description for the video."
+                  disabled={saving}
+                  sx={fieldSx}
+                />
+
+                {/* VIDEO URL */}
+
                 <TextField
                   label="Video URL *"
                   fullWidth
                   placeholder="https://www.youtube.com/watch?v=..."
-                  {...register('videoUrl', { required: 'Video URL is required' })}
+                  {...register('videoUrl', {
+                    required:
+                      'Video URL is required',
+                  })}
                   error={!!errors.videoUrl}
-                  helperText={errors.videoUrl?.message ?? 'Supports YouTube, Vimeo, or direct .mp4 links.'}
-                  InputProps={{ startAdornment: <FiLink size={16} color="#94A3B8" style={{ marginRight: 8 }} /> }}
+                  helperText={
+                    errors.videoUrl?.message ??
+                    'Supports YouTube, Vimeo, or direct .mp4 links.'
+                  }
+                  disabled={saving}
+                  InputProps={{
+                    startAdornment: (
+                      <FiLink
+                        size={16}
+                        color="#94A3B8"
+                        style={{
+                          marginRight: 8,
+                          flexShrink: 0,
+                        }}
+                      />
+                    ),
+                  }}
                   sx={fieldSx}
                 />
-              </Stack>
-            </Box>
 
-            {/* Embed preview */}
-            {watchedUrl && isYouTube(watchedUrl) && (
-              <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '16px', p: 3 }}>
-                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.9375rem', color: '#1E293B', mb: 2 }}>Preview</Typography>
-                <Box
-                  component="iframe"
-                  src={toEmbed(watchedUrl)}
-                  title="Video preview"
-                  frameBorder="0"
-                  allowFullScreen
-                  sx={{ width: '100%', height: 200, borderRadius: '10px', border: 'none' }}
-                />
-              </Box>
-            )}
+                {/* =================================================
+                    TAGS
+                ================================================= */}
 
-            {/* Tags */}
-            <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '16px', p: 3 }}>
-              <Typography sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.9375rem', color: '#1E293B', mb: 2 }}>Tags</Typography>
-              <Stack direction="row" spacing={1}>
-                <TextField size="small" placeholder="Add tag…" value={tagInput} onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } }} sx={{ ...fieldSx, flex: 1 }} />
-                <Button variant="outlined" size="small" onClick={addTag}
-                  sx={{ borderRadius: '10px', borderColor: '#E2E8F0', color: '#64748B', fontFamily: 'Inter, sans-serif', '&:hover': { borderColor: '#2563EB', color: '#2563EB' } }}>
-                  Add
-                </Button>
-              </Stack>
-              {tags.length > 0 && (
-                <Stack direction="row" flexWrap="wrap" gap={0.75} sx={{ mt: 1.5 }}>
-                  {tags.map((t) => (
-                    <Chip key={t} label={t} size="small" onDelete={() => setTags(p => p.filter(x => x !== t))} deleteIcon={<FiX size={12} />}
-                      sx={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', bgcolor: 'rgba(139,92,246,0.08)', color: '#7C3AED', fontWeight: 600 }}
+                <Box>
+
+                  <Typography
+                    sx={{
+                      fontFamily:
+                        'Inter, sans-serif',
+                      fontWeight: 600,
+                      fontSize:
+                        '0.875rem',
+                      color: '#334155',
+                      mb: 1,
+                    }}
+                  >
+                    Tags
+                  </Typography>
+
+                  <Stack
+                    direction={{
+                      xs: 'column',
+                      sm: 'row',
+                    }}
+                    spacing={1}
+                  >
+
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="Add tag..."
+                      value={tagInput}
+                      onChange={(event) =>
+                        setTagInput(
+                          event.target.value
+                        )
+                      }
+                      onKeyDown={(event) => {
+                        if (
+                          event.key ===
+                          'Enter'
+                        ) {
+                          event.preventDefault()
+                          addTag()
+                        }
+                      }}
+                      disabled={saving}
+                      sx={fieldSx}
                     />
-                  ))}
-                </Stack>
-              )}
+
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      size="small"
+                      onClick={addTag}
+                      disabled={saving}
+                      sx={{
+                        minWidth: {
+                          xs: '100%',
+                          sm: 80,
+                        },
+
+                        height: 40,
+
+                        borderRadius:
+                          '10px',
+
+                        borderColor:
+                          '#E2E8F0',
+
+                        color:
+                          '#64748B',
+
+                        fontFamily:
+                          'Inter, sans-serif',
+
+                        fontWeight: 600,
+
+                        textTransform:
+                          'none',
+
+                        '&:hover': {
+                          borderColor:
+                            '#2563EB',
+                          color:
+                            '#2563EB',
+                          bgcolor:
+                            '#F8FAFC',
+                        },
+                      }}
+                    >
+                      Add
+                    </Button>
+
+                  </Stack>
+
+                  {/* TAG LIST */}
+
+                  {tags.length > 0 && (
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={0.75}
+                      sx={{
+                        mt: 1.5,
+                      }}
+                    >
+                      {tags.map((tag) => (
+                        <Chip
+                          key={tag}
+                          label={tag}
+                          size="small"
+                          onDelete={() =>
+                            removeTag(
+                              tag
+                            )
+                          }
+                          deleteIcon={
+                            <FiX
+                              size={12}
+                            />
+                          }
+                          sx={{
+                            fontFamily:
+                              'Inter, sans-serif',
+
+                            fontSize:
+                              '0.75rem',
+
+                            bgcolor:
+                              'rgba(124,58,237,0.08)',
+
+                            color:
+                              '#7C3AED',
+
+                            fontWeight: 600,
+
+                            borderRadius:
+                              '7px',
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  )}
+
+                </Box>
+
+              </Stack>
             </Box>
 
-            <Stack direction="row" spacing={2}>
-              <Button variant="outlined" onClick={() => navigate('/admin/gallery')}
-                sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, borderRadius: '10px', borderColor: '#E2E8F0', color: '#64748B' }}>
+            {/* =================================================
+                VIDEO PREVIEW
+            ================================================= */}
+
+            {watchedUrl &&
+              isYouTube(
+                watchedUrl
+              ) && (
+                <Box
+                  sx={{
+                    bgcolor:
+                      '#FFFFFF',
+
+                    border:
+                      '1px solid #E2E8F0',
+
+                    borderRadius:
+                      '16px',
+
+                    p: {
+                      xs: 2.5,
+                      sm: 3,
+                      md: 3.5,
+                    },
+                  }}
+                >
+
+                  <Stack
+                    spacing={0.5}
+                    sx={{
+                      mb: 2.5,
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontFamily:
+                          'Inter, sans-serif',
+                        fontWeight: 700,
+                        fontSize:
+                          '1rem',
+                        color:
+                          '#1E293B',
+                      }}
+                    >
+                      Video Preview
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        fontFamily:
+                          'Inter, sans-serif',
+                        fontSize:
+                          '0.8rem',
+                        color:
+                          '#94A3B8',
+                      }}
+                    >
+                      Preview the YouTube
+                      video before saving.
+                    </Typography>
+                  </Stack>
+
+                  <Box
+                    sx={{
+                      width: '100%',
+                      aspectRatio:
+                        '16 / 9',
+                      maxHeight: 480,
+                      bgcolor:
+                        '#0F172A',
+                      borderRadius:
+                        '12px',
+                      overflow:
+                        'hidden',
+                    }}
+                  >
+                    <Box
+                      component="iframe"
+                      src={toEmbed(
+                        watchedUrl
+                      )}
+                      title="Video preview"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        display:
+                          'block',
+                        border: 'none',
+                      }}
+                    />
+                  </Box>
+
+                </Box>
+              )}
+
+            {/* =================================================
+                ACTIONS
+            ================================================= */}
+
+            <Stack
+              direction={{
+                xs: 'column-reverse',
+                sm: 'row',
+              }}
+              spacing={1.5}
+              justifyContent="flex-end"
+              sx={{
+                pt: 0.5,
+              }}
+            >
+
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={() =>
+                  navigate(
+                    '/admin/gallery'
+                  )
+                }
+                disabled={saving}
+                sx={{
+                  minWidth: 110,
+                  height: 44,
+
+                  fontFamily:
+                    'Inter, sans-serif',
+
+                  fontWeight: 600,
+
+                  borderRadius:
+                    '10px',
+
+                  borderColor:
+                    '#E2E8F0',
+
+                  color:
+                    '#64748B',
+
+                  textTransform:
+                    'none',
+
+                  '&:hover': {
+                    borderColor:
+                      '#CBD5E1',
+
+                    bgcolor:
+                      '#F8FAFC',
+                  },
+                }}
+              >
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" startIcon={<FiSave size={15} />}
-                sx={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, borderRadius: '10px', bgcolor: '#2563EB', boxShadow: 'none', '&:hover': { bgcolor: '#1D4ED8', boxShadow: 'none' } }}>
-                Save Video
+
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={
+                  <FiSave size={15} />
+                }
+                disabled={saving}
+                sx={{
+                  minWidth: 145,
+                  height: 44,
+
+                  fontFamily:
+                    'Inter, sans-serif',
+
+                  fontWeight: 600,
+
+                  borderRadius:
+                    '10px',
+
+                  bgcolor:
+                    '#2563EB',
+
+                  boxShadow:
+                    'none',
+
+                  textTransform:
+                    'none',
+
+                  '&:hover': {
+                    bgcolor:
+                      '#1D4ED8',
+
+                    boxShadow:
+                      'none',
+                  },
+
+                  '&.Mui-disabled': {
+                    bgcolor:
+                      '#93C5FD',
+
+                    color:
+                      '#FFFFFF',
+                  },
+                }}
+              >
+                {saving
+                  ? 'Saving...'
+                  : 'Save Video'}
               </Button>
+
             </Stack>
+
           </Stack>
+
         </form>
+
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default AddVideo;
+export default AddVideo

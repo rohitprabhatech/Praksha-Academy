@@ -12,6 +12,7 @@ const CourseDetails = lazy(() => import('../pages/CourseDetails'))
 const Programs = lazy(() => import('../pages/Programs'))
 const About = lazy(() => import('../pages/About'))
 const Blog = lazy(() => import('../pages/Blog'))
+const BlogDetail = lazy(() => import('../pages/BlogDetail'))
 const Contact = lazy(() => import('../pages/Contact'))
 const NotFound = lazy(() => import('../pages/NotFound'))
 
@@ -52,87 +53,92 @@ function AppRoutes() {
     <Suspense fallback={<PageLoader minHeight="100vh" label="Loading page..." />}>
       <Routes>
 
-      {/* =========================================================
+        {/* =========================================================
           PUBLIC / MARKETING
       ========================================================= */}
 
-      <Route element={<MainLayout />}>
+        <Route element={<MainLayout />}>
 
-        <Route
-          path="/"
-          element={<Home />}
-        />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-        <Route
-          path="/courses"
-          element={<Courses />}
-        />
+          <Route
+            path="/courses"
+            element={<Courses />}
+          />
 
-        <Route
-          path="/courses/:slug"
-          element={<CourseDetails />}
-        />
+          <Route
+            path="/courses/:slug"
+            element={<CourseDetails />}
+          />
 
-        <Route
-          path="/programs"
-          element={<Programs />}
-        />
+          <Route
+            path="/programs"
+            element={<Programs />}
+          />
 
-        <Route
-          path="/blog"
-          element={<Blog />}
-        />
+          <Route
+            path="/blog"
+            element={<Blog />}
+          />
 
-        <Route
-          path="/about"
-          element={<About />}
-        />
+          <Route
+            path="/blog/:id"
+            element={<BlogDetail />}
+          />
 
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
+          <Route
+            path="/about"
+            element={<About />}
+          />
 
-      </Route>
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
+
+        </Route>
 
 
-      {/* =========================================================
+        {/* =========================================================
           AUTH
       ========================================================= */}
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-      <Route
-        path="/register"
-        element={<Signup />}
-      />
+        <Route
+          path="/register"
+          element={<Signup />}
+        />
 
-      <Route
-        path="/forgot-password"
-        element={<ForgotPassword />}
-      />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
 
-      <Route
-        path="/verify-otp"
-        element={<VerifyOtp />}
-      />
+        <Route
+          path="/verify-otp"
+          element={<VerifyOtp />}
+        />
 
 
-      {/* =========================================================
+        {/* =========================================================
           ACCESS DENIED
           Used when an authenticated user has the wrong role.
       ========================================================= */}
 
-      <Route
-        path="/access-denied"
-        element={<AccessDenied />}
-      />
+        <Route
+          path="/access-denied"
+          element={<AccessDenied />}
+        />
 
 
-      {/* =========================================================
+        {/* =========================================================
           STUDENT ROUTES
           
           IMPORTANT:
@@ -147,66 +153,66 @@ function AppRoutes() {
           from opening the student dashboard.
       ========================================================= */}
 
-      <Route element={<RequireAuth />}>
+        <Route element={<RequireAuth />}>
 
-        <Route
-          element={
-            <RequireRole allowedRoles="student" />
-          }
-        >
+          <Route
+            element={
+              <RequireRole allowedRoles="student" />
+            }
+          >
 
-          <Route element={<StudentLayout />}>
+            <Route element={<StudentLayout />}>
 
-            {/* Student Dashboard */}
+              {/* Student Dashboard */}
 
-            <Route
-              path="/student/dashboard"
-              element={<StudentDashboard />}
-            />
+              <Route
+                path="/student/dashboard"
+                element={<StudentDashboard />}
+              />
 
-            {/* My Courses */}
+              {/* My Courses */}
 
-            <Route
-              path="/student/courses"
-              element={<MyCourses />}
-            />
+              <Route
+                path="/student/courses"
+                element={<MyCourses />}
+              />
 
-            {/* Wishlist */}
+              {/* Wishlist */}
 
-            <Route
-              path="/student/wishlist"
-              element={<Wishlist />}
-            />
+              <Route
+                path="/student/wishlist"
+                element={<Wishlist />}
+              />
 
-            {/* Certificates */}
+              {/* Certificates */}
 
-            <Route
-              path="/student/certificates"
-              element={<Certificates />}
-            />
+              <Route
+                path="/student/certificates"
+                element={<Certificates />}
+              />
 
-            {/* Notifications */}
+              {/* Notifications */}
 
-            <Route
-              path="/student/notifications"
-              element={<StudentNotifications />}
-            />
+              <Route
+                path="/student/notifications"
+                element={<StudentNotifications />}
+              />
 
-            {/* Profile */}
+              {/* Profile */}
 
-            <Route
-              path="/student/profile"
-              element={<StudentProfile />}
-            />
+              <Route
+                path="/student/profile"
+                element={<StudentProfile />}
+              />
+
+            </Route>
 
           </Route>
 
         </Route>
 
-      </Route>
 
-
-      {/* =========================================================
+        {/* =========================================================
           ADMIN ROUTES
           
           All /admin/* routes are handled by AdminRoutes.
@@ -222,20 +228,20 @@ function AppRoutes() {
           Admin   → /admin/dashboard → Admin Dashboard
       ========================================================= */}
 
-      <Route
-        path="/admin/*"
-        element={<AdminRoutes />}
-      />
+        <Route
+          path="/admin/*"
+          element={<AdminRoutes />}
+        />
 
 
-      {/* =========================================================
+        {/* =========================================================
           404
       ========================================================= */}
 
-      <Route
-        path="*"
-        element={<NotFound />}
-      />
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
 
       </Routes>
     </Suspense>
