@@ -28,8 +28,8 @@ function SidebarContent({ onClose, showCloseButton = false }) {
   const { logout } = useAuth()
 
   const handleLogout = () => {
-    // Clear authentication from both localStorage and sessionStorage
-    logout()
+    // Clear admin authentication state
+    logout('admin')
 
     // Close mobile drawer if open
     if (onClose) {

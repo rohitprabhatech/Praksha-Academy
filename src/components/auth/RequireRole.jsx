@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const RequireRole = ({ allowedRoles }) => {
-  const { user, loading } = useAuth()
+  const { getRoleUser, loading } = useAuth()
   const location = useLocation()
 
   if (loading) {
@@ -13,10 +13,28 @@ const RequireRole = ({ allowedRoles }) => {
     ? allowedRoles
     : [allowedRoles]
 
-  // Not logged in
-  if (!user) {
+  // Find if any allowed role has an active session
+  const activeUser = roles
+    .map((role) => getRoleUser(role))
+    .find((u) => Boolean(u))
+
+  if (!activeUser) {
+    // If user is authenticated with another role, redirect to access-denied
+    const { isAuthenticated } = useAuth();
+    if (isAuthenticated) {
+      return (
+        <Navigate
+          to="/access-denied"
+          replace
+          state={{
+            from: location.pathname,
+          }}
+        />
+      );
+    }
+
     const isAdminRoute =
-      location.pathname.startsWith('/admin')
+      location.pathname.startsWith('/admin') || roles.includes('admin');
 
     return (
       <Navigate
@@ -26,17 +44,7 @@ const RequireRole = ({ allowedRoles }) => {
           from: location.pathname,
         }}
       />
-    )
-  }
-
-  // Logged in but wrong role
-  if (!roles.includes(user.role)) {
-    return (
-      <Navigate
-        to="/access-denied"
-        replace
-      />
-    )
+    );
   }
 
   return <Outlet />

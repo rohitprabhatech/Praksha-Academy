@@ -48,35 +48,21 @@ const cardEntrance = {
 const currentYear = new Date().getFullYear();
 
 const Login = () => {
-  const { isAuthenticated, role } = useAuth();
+  const { isStudentAuthenticated, isTeacherAuthenticated, isAdminAuthenticated } = useAuth();
 
   /*
-   * If the user is already authenticated, don't show the
-   * login form again.
-   *
-   * This is especially important for Remember Me:
-   * localStorage restores the user when the browser is reopened.
+   * If any user role is already authenticated, redirect to their dashboard.
    */
-  if (isAuthenticated) {
-    if (role === 'admin') {
-      return (
-        <Navigate
-          to="/admin/dashboard"
-          replace
-        />
-      );
-    }
+  if (isTeacherAuthenticated) {
+    return <Navigate to="/teacher/dashboard" replace />;
+  }
 
-    /*
-     * Student is the current supported authenticated
-     * user flow for the normal login page.
-     */
-    return (
-      <Navigate
-        to="/student/dashboard"
-        replace
-      />
-    );
+  if (isStudentAuthenticated) {
+    return <Navigate to="/student/dashboard" replace />;
+  }
+
+  if (isAdminAuthenticated) {
+    return <Navigate to="/admin/dashboard" replace />;
   }
 
   return (

@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Gaurav
 Branch: `feature/sprint-13-owner-content-reports`  
 Status: Not Started  
 Estimated Duration: 4–5 days

@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Aditya Wakchare  
+Developer: Ganesh sudruk
 Branch: `feature/sprint-14-teacher-dashboard`  
 Status: Not Started  
 Estimated Duration: 5 days

@@ -12,15 +12,25 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiLogOut, FiSettings, FiUser } from 'react-icons/fi'
 import { adminIdentity } from '../../constants/adminDashboard'
+import { useAuth } from '../../context/AuthContext'
+import { toast } from 'react-toastify'
 
 function ProfileMenu() {
  const [anchorEl, setAnchorEl] = useState(null)
  const navigate = useNavigate()
+ const { logout } = useAuth()
  const open = Boolean(anchorEl)
 
  const goTo = (path) => {
   setAnchorEl(null)
   navigate(path)
+ }
+
+ const handleLogout = () => {
+  setAnchorEl(null)
+  logout('admin')
+  toast.success('Logged out successfully')
+  navigate('/admin/login', { replace: true })
  }
 
  return (
@@ -88,7 +98,7 @@ function ProfileMenu() {
      Settings
     </MenuItem>
     <Divider />
-    <MenuItem onClick={() => goTo('/admin/login')} sx={{ color: 'error.main' }}>
+    <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
      <ListItemIcon sx={{ color: 'error.main' }}>
       <FiLogOut size={18} />
      </ListItemIcon>

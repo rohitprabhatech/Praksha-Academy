@@ -2,13 +2,22 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const RequireAuth = ({ loginPath = "/login" }) => {
-  const { isAuthenticated } = useAuth();
+  const { isStudentAuthenticated, isAdminAuthenticated, isTeacherAuthenticated } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  const isAdminRoute = location.pathname.startsWith("/admin") || loginPath.startsWith("/admin");
+  const isTeacherRoute = location.pathname.startsWith("/teacher");
+
+  const isAuth = isAdminRoute
+    ? isAdminAuthenticated
+    : isTeacherRoute
+    ? isTeacherAuthenticated
+    : isStudentAuthenticated;
+
+  if (!isAuth) {
     return (
       <Navigate
-        to={loginPath}
+        to={isAdminRoute ? "/admin/login" : loginPath}
         replace
         state={{ from: location.pathname }}
       />

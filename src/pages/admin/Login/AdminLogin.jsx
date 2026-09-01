@@ -12,6 +12,7 @@ import {
 
 import {
   Link as RouterLink,
+  Navigate,
   useNavigate,
 } from 'react-router-dom'
 
@@ -34,7 +35,7 @@ import logoMark from '../../../assets/praksha-mark.png'
 
 function AdminLogin() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, isAdminAuthenticated } = useAuth()
 
   // =========================================================
   // STATE
@@ -65,6 +66,15 @@ function AdminLogin() {
       }
     }
   }, [])
+
+  if (isAdminAuthenticated) {
+    return (
+      <Navigate
+        to="/admin/dashboard"
+        replace
+      />
+    )
+  }
 
 
   // =========================================================

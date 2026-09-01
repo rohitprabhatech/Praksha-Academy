@@ -284,7 +284,6 @@ const LoginForm = () => {
         email: formData.email,
         password: formData.password,
         rememberMe: formData.rememberMe,
-        allowedRole: 'student',
       });
 
       console.log('LOGIN RESULT:', result);

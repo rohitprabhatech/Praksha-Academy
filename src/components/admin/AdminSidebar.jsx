@@ -259,10 +259,8 @@ function SidebarContent({
   // ───────────────────────────────────────────────────────────
 
   const handleLogout = () => {
-    // Clear authentication state.
-    // This clears both localStorage and sessionStorage
-    // according to AuthContext implementation.
-    logout()
+    // Clear admin authentication state.
+    logout('admin')
 
 
     // Close mobile sidebar if open.

@@ -43,6 +43,25 @@ const StudentNotifications = lazy(() => import('../pages/student/Notifications')
 const StudentProfile = lazy(() => import('../pages/student/Profile'))
 
 // =========================================================
+// LAZY-LOADED TEACHER
+// =========================================================
+import TeacherLayout from '../layouts/TeacherLayout'
+const TeacherDashboard = lazy(() => import('../pages/teacher/Dashboard'))
+const TeacherCourses = lazy(() => import('../pages/teacher/Courses'))
+const TeacherStudents = lazy(() => import('../pages/teacher/Students'))
+const TeacherBatches = lazy(() => import('../pages/teacher/Batches'))
+const TeacherClasses = lazy(() => import('../pages/teacher/Classes'))
+const TeacherAssignments = lazy(() => import('../pages/teacher/Assignments'))
+const TeacherQuizzes = lazy(() => import('../pages/teacher/Quizzes'))
+const TeacherExams = lazy(() => import('../pages/teacher/Exams'))
+const TeacherMarks = lazy(() => import('../pages/teacher/Marks'))
+const TeacherAttendance = lazy(() => import('../pages/teacher/Attendance'))
+const TeacherMaterials = lazy(() => import('../pages/teacher/Materials'))
+const TeacherNotifications = lazy(() => import('../pages/teacher/Notifications'))
+const TeacherProfile = lazy(() => import('../pages/teacher/Profile'))
+const TeacherSettings = lazy(() => import('../pages/teacher/Settings'))
+
+// =========================================================
 // LAZY-LOADED ADMIN ROUTES
 // =========================================================
 const AdminRoutes = lazy(() => import('./AdminRoutes'))
@@ -203,6 +222,101 @@ function AppRoutes() {
               <Route
                 path="/student/profile"
                 element={<StudentProfile />}
+              />
+
+            </Route>
+
+          </Route>
+
+        </Route>
+
+
+        {/* =========================================================
+          TEACHER ROUTES
+          
+          Requires BOTH:
+          1. User logged in
+          2. User role === "teacher"
+      ========================================================= */}
+
+        <Route element={<RequireAuth />}>
+
+          <Route
+            element={
+              <RequireRole allowedRoles="teacher" />
+            }
+          >
+
+            <Route element={<TeacherLayout />}>
+
+              <Route
+                path="/teacher/dashboard"
+                element={<TeacherDashboard />}
+              />
+
+              <Route
+                path="/teacher/courses"
+                element={<TeacherCourses />}
+              />
+
+              <Route
+                path="/teacher/students"
+                element={<TeacherStudents />}
+              />
+
+              <Route
+                path="/teacher/batches"
+                element={<TeacherBatches />}
+              />
+
+              <Route
+                path="/teacher/classes"
+                element={<TeacherClasses />}
+              />
+
+              <Route
+                path="/teacher/assignments"
+                element={<TeacherAssignments />}
+              />
+
+              <Route
+                path="/teacher/quizzes"
+                element={<TeacherQuizzes />}
+              />
+
+              <Route
+                path="/teacher/exams"
+                element={<TeacherExams />}
+              />
+
+              <Route
+                path="/teacher/marks"
+                element={<TeacherMarks />}
+              />
+
+              <Route
+                path="/teacher/attendance"
+                element={<TeacherAttendance />}
+              />
+
+              <Route
+                path="/teacher/materials"
+                element={<TeacherMaterials />}
+              />
+
+              <Route
+                path="/teacher/notifications"
+                element={<TeacherNotifications />}
+              />
+
+              <Route
+                path="/teacher/profile"
+                element={<TeacherProfile />}
+              />
+
+              <Route
+                path="/teacher/settings"
+                element={<TeacherSettings />}
               />
 
             </Route>

@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 const AuthContext = createContext(null);
 
-const AUTH_STORAGE_KEY = "praksha_auth";
+const getStorageKey = (role) => `praksha_${role}_auth`;
 
 const MOCK_USERS = [
   {
@@ -25,18 +25,34 @@ const MOCK_USERS = [
   },
 ];
 
-const getStoredAuth = () => {
+const getStoredRoleAuth = (role) => {
   try {
-    const rememberedUser = localStorage.getItem(AUTH_STORAGE_KEY);
+    const key = getStorageKey(role);
+    const rememberedUser = localStorage.getItem(key);
 
     if (rememberedUser) {
-      return JSON.parse(rememberedUser);
+      const parsed = JSON.parse(rememberedUser);
+      if (parsed?.role === role) return parsed;
     }
 
-    const sessionUser = sessionStorage.getItem(AUTH_STORAGE_KEY);
+    const sessionUser = sessionStorage.getItem(key);
 
     if (sessionUser) {
-      return JSON.parse(sessionUser);
+      const parsed = JSON.parse(sessionUser);
+      if (parsed?.role === role) return parsed;
+    }
+
+    // Fallback: Check legacy storage key if it matches role
+    const legacyRemembered = localStorage.getItem("praksha_auth");
+    if (legacyRemembered) {
+      const parsed = JSON.parse(legacyRemembered);
+      if (parsed?.role === role) return parsed;
+    }
+
+    const legacySession = sessionStorage.getItem("praksha_auth");
+    if (legacySession) {
+      const parsed = JSON.parse(legacySession);
+      if (parsed?.role === role) return parsed;
     }
 
     return null;
@@ -46,7 +62,11 @@ const getStoredAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(getStoredAuth);
+  const [sessions, setSessions] = useState(() => ({
+    admin: getStoredRoleAuth("admin"),
+    student: getStoredRoleAuth("student"),
+    teacher: getStoredRoleAuth("teacher"),
+  }));
 
   const login = async ({
     email,
@@ -81,23 +101,32 @@ export const AuthProvider = ({ children }) => {
       };
     }
 
+    const userRole = matchedUser.role;
     const authenticatedUser = {
       name: matchedUser.name,
       email: matchedUser.email,
-      role: matchedUser.role,
+      role: userRole,
     };
 
-    setUser(authenticatedUser);
+    setSessions((prev) => ({
+      ...prev,
+      [userRole]: authenticatedUser,
+    }));
 
+    const key = getStorageKey(userRole);
     const serializedUser = JSON.stringify(authenticatedUser);
 
     if (rememberMe) {
-      localStorage.setItem(AUTH_STORAGE_KEY, serializedUser);
-      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+      localStorage.setItem(key, serializedUser);
+      sessionStorage.removeItem(key);
     } else {
-      sessionStorage.setItem(AUTH_STORAGE_KEY, serializedUser);
-      localStorage.removeItem(AUTH_STORAGE_KEY);
+      sessionStorage.setItem(key, serializedUser);
+      localStorage.removeItem(key);
     }
+
+    // Clean up legacy storage key
+    localStorage.removeItem("praksha_auth");
+    sessionStorage.removeItem("praksha_auth");
 
     return {
       success: true,
@@ -105,21 +134,60 @@ export const AuthProvider = ({ children }) => {
     };
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+  const logout = (targetRole = null) => {
+    if (targetRole && (targetRole === "admin" || targetRole === "student" || targetRole === "teacher")) {
+      setSessions((prev) => ({
+        ...prev,
+        [targetRole]: null,
+      }));
+
+      const key = getStorageKey(targetRole);
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    } else {
+      // Clear all sessions if no specific role is specified
+      setSessions({
+        admin: null,
+        student: null,
+        teacher: null,
+      });
+
+      ["admin", "student", "teacher"].forEach((role) => {
+        const key = getStorageKey(role);
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      });
+
+      localStorage.removeItem("praksha_auth");
+      sessionStorage.removeItem("praksha_auth");
+    }
   };
+
+  const adminUser = sessions.admin;
+  const studentUser = sessions.student;
+  const teacherUser = sessions.teacher;
+
+  // For backward compatibility: generic active user (student takes priority for public/student components)
+  const user = studentUser || adminUser || teacherUser || null;
 
   const value = useMemo(
     () => ({
       user,
+      sessions,
+      adminUser,
+      studentUser,
+      teacherUser,
       isAuthenticated: Boolean(user),
+      isAdminAuthenticated: Boolean(adminUser),
+      isStudentAuthenticated: Boolean(studentUser),
+      isTeacherAuthenticated: Boolean(teacherUser),
       role: user?.role ?? null,
+      getRoleUser: (role) => sessions[role] || null,
+      isRoleAuthenticated: (role) => Boolean(sessions[role]),
       login,
       logout,
     }),
-    [user]
+    [sessions, adminUser, studentUser, teacherUser, user]
   );
 
   return (
