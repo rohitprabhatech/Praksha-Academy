@@ -2,7 +2,7 @@
 
 ## 1. Sprint Owner
 
-Developer: Unassigned  
+Developer: Aditya Kshirsagar 
 Branch: `feature/sprint-16-teacher-assessments`  
 Status: Not Started  
 Estimated Duration: 5 days
