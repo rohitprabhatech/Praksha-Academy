@@ -75,8 +75,8 @@ export const adminNavGroups = [
     {
         title: 'Learning',
         items: [
-            { label: 'Materials', path: '/admin/materials', icon: FiFileText, disabled: true },
-            { label: 'Live Classes', path: '/admin/live-classes', icon: FiCalendar, disabled: true },
+            { label: 'Materials', path: '/admin/materials', icon: FiFileText },
+            { label: 'Live Classes', path: '/admin/live-classes', icon: FiCalendar},
             { label: 'Assignments', path: '/admin/assignments', icon: FiArchive },
             { label: 'Quizzes', path: '/admin/quizzes', icon: FiFileText },
             { label: 'Exams', path: '/admin/exams', icon: FiFileText },
@@ -85,9 +85,9 @@ export const adminNavGroups = [
     {
         title: 'Sales',
         items: [
-            { label: 'Enrollments', path: '/admin/enrollments', icon: FiActivity, disabled: true },
-            { label: 'Payments', path: '/admin/payments', icon: FiCreditCard, disabled: true },
-            { label: 'Coupons', path: '/admin/coupons', icon: FiArchive, disabled: true },
+            { label: 'Enrollments', path: '/admin/enrollments', icon: FiActivity },
+            { label: 'Payments', path: '/admin/payments', icon: FiCreditCard},
+            { label: 'Coupons', path: '/admin/coupons', icon: FiArchive},
         ],
     },
     {

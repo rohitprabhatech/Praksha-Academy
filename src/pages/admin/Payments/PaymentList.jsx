@@ -1,21 +1,53 @@
-import { Box, Typography, Chip } from '@mui/material'
-import { FiCreditCard } from 'react-icons/fi'
+import React, { useState } from 'react';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Typography, TablePagination } from '@mui/material';
+import { FiCreditCard } from 'react-icons/fi';
+import PageHeader from '../../../components/common/PageHeader';
+import { mockPayments } from '../../../constants/mockSprint12';
 
-const PaymentList = () => (
-  <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
-    <Box sx={{ mb: 4 }}>
-      <Typography sx={{ color: '#64748B', fontSize: '0.875rem', mb: 1 }}>
-        Admin / <Box component="span" sx={{ color: '#2563EB', fontWeight: 500 }}>Payments</Box>
-      </Typography>
-      <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E293B', mb: 0.5 }}>Payments</Typography>
-      <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>View all payment transactions.</Typography>
-    </Box>
-    <Box sx={{ p: 8, textAlign: 'center', border: '2px dashed #E2E8F0', borderRadius: 3, bgcolor: '#F8FAFC' }}>
-      <FiCreditCard size={48} color="#CBD5E1" />
-      <Typography variant="h6" sx={{ mt: 2, color: '#64748B', fontWeight: 600 }}>Payments</Typography>
-      <Chip label="Coming Soon — Sprint 05" size="small" sx={{ mt: 1.5, bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 600 }} />
-    </Box>
-  </Box>
-)
+const PaymentList = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-export default PaymentList
+  const getStatusColor = (status) => {
+    if (status === 'Success') return { bgcolor: '#e6f4ea', color: '#1e8e3e' };
+    if (status === 'Failed') return { bgcolor: '#FEF2F2', color: '#EF4444' };
+    return { bgcolor: '#FEF3C7', color: '#D97706' }; // Pending
+  };
+
+  return (
+    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto' }}>
+      <PageHeader moduleName="Sales" title="Payments" subtitle="Review student transaction records." />
+
+      <Paper elevation={0} sx={{ border: '1px solid #E2E8F0', borderRadius: 2, overflow: 'hidden' }}>
+        <TableContainer>
+          <Table sx={{ minWidth: 800 }}>
+            <TableHead sx={{ bgcolor: '#F8FAFC' }}>
+              <TableRow>
+                <TableCell sx={{ color: '#64748B', fontWeight: 700 }}>DATE</TableCell>
+                <TableCell sx={{ color: '#64748B', fontWeight: 700 }}>STUDENT</TableCell>
+                <TableCell sx={{ color: '#64748B', fontWeight: 700 }}>COURSE / PRODUCT</TableCell>
+                <TableCell sx={{ color: '#64748B', fontWeight: 700 }}>AMOUNT</TableCell>
+                <TableCell sx={{ color: '#64748B', fontWeight: 700 }}>STATUS</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {mockPayments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                <TableRow key={row.id} hover>
+                  <TableCell sx={{ color: '#475569' }}>{row.date}</TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: '#1E293B' }}>{row.studentName}</TableCell>
+                  <TableCell sx={{ color: '#475569' }}>{row.courseName}</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#1E293B' }}>₹{row.amount}</TableCell>
+                  <TableCell>
+                    <Chip label={row.status} size="small" sx={{ ...getStatusColor(row.status), fontWeight: 600, borderRadius: '6px' }} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination rowsPerPageOptions={[10, 25]} component="div" count={mockPayments.length} rowsPerPage={rowsPerPage} page={page} onPageChange={(e, newPage) => setPage(newPage)} onRowsPerPageChange={(e) => { setRowsPerPage(parseInt(e.target.value, 10)); setPage(0); }} />
+      </Paper>
+    </Box>
+  );
+};
+export default PaymentList;

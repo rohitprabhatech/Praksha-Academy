@@ -109,6 +109,13 @@ const CreateExam = lazy(() => import('../pages/admin/Exams/CreateExam'));
 const ExamQuestions = lazy(() => import('../pages/admin/Exams/ExamQuestions'));
 const ExamResults = lazy(() => import('../pages/admin/Exams/ExamResults'));
 
+//sales and records routes
+import EnrollmentList from '../pages/admin/Enrollments/EnrollmentList';
+import ManualEnrollment from '../pages/admin/Enrollments/ManualEnrollment';
+import PaymentList from '../pages/admin/Payments/PaymentList';
+import CreateCoupons from '../pages/admin/Coupons/CreateCoupon';
+import CouponList from '../pages/admin/Coupons/CouponList';
+
 /**
  * AdminRoutes
  *
@@ -451,6 +458,15 @@ function AdminRoutes() {
           <Route path="live-classes" element={<LiveClassList />} />
           <Route path="live-classes/schedule" element={<ScheduleClass />} />
           <Route path="live-classes/:id/edit" element={<EditLiveClass />} />
+
+          {/* ── Sprint 12: Sales & Records ──────────────────────── */}
+          <Route path="enrollments" element={<EnrollmentList />} />
+          <Route path="enrollments/manual" element={<ManualEnrollment />} />
+          
+          <Route path="payments" element={<PaymentList />} />
+          
+          <Route path="coupons" element={<CouponList />} />
+          <Route path="coupons/create" element={<CreateCoupons />} />
         </Route>
       </Route>
 
